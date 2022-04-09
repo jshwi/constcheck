@@ -1,0 +1,503 @@
+"""
+tests._test
+===========
+"""
+# pylint: disable=too-many-arguments,protected-access
+import sys
+import typing as t
+
+import pytest
+from pathlib3x import Path
+
+# noinspection PyProtectedMember
+import constcheck._objects
+
+from ._strings import (
+    ALPHA,
+    CONST,
+    LEN_2,
+    LEN_3,
+    LEN_4,
+    LEN_5,
+    LEN_6,
+    MULTILINE,
+    PACKAGE,
+    PLUS,
+    QUOTES,
+    VERSION,
+)
+from ._utils import (
+    IndexFileType,
+    MockMainType,
+    MockTemplate,
+    NameConflictError,
+    NoColorCapsys,
+    display,
+    header,
+    register_template,
+    templates,
+)
+
+
+@pytest.mark.parametrize(
+    "_,path,kwargs,template,__,expected",
+    templates,
+    ids=(i[0] for i in templates),
+)
+def test_single_file(
+    main: MockMainType,
+    index_file: IndexFileType,
+    _: str,
+    path: Path,
+    kwargs: t.Dict[str, t.Any],
+    template: str,
+    __: str,
+    expected: str,
+) -> None:
+    """Test results when one file exists.
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    :param kwargs: Parameters for ``constcheck.main``.
+    :param template: Content to write to file.
+    :param expected: Expected result from test.
+    """
+    index_file(Path.cwd() / path, template)
+    assert main(**kwargs)[0] == expected
+
+
+@pytest.mark.parametrize(
+    "_,__,kwargs,template,single_expected,____",
+    templates,
+    ids=(i[0] for i in templates),
+)
+def test_parse_str(
+    main: MockMainType,
+    _: str,
+    __: Path,
+    kwargs: t.Dict[str, t.Any],
+    template: str,
+    single_expected: str,
+    ____: str,
+) -> None:
+    """Test results when one file exists.
+
+    :param main: Patch package entry point.
+    :param kwargs: Parameters for ``constcheck.main``.
+    :param template: Content to write to file.
+    :param single_expected: Expected result from test.
+    """
+    assert main(string=template, **kwargs)[0] == single_expected
+
+
+@pytest.mark.parametrize(
+    "kwargs,expected",
+    [
+        (
+            {},
+            header()
+            + display(
+                (3, LEN_3[0]),
+                (3, LEN_3[4]),
+                (3, MULTILINE),
+                (3, PLUS[1]),
+                (3, LEN_6[3]),
+                (3, LEN_3[1]),
+                (7, LEN_4[0]),
+                (8, QUOTES[2]),
+                (16, LEN_5[0]),
+            )
+            + header(index=17)
+            + display((3, PLUS[1]))
+            + header(index=0)
+            + display((3, LEN_5[0]))
+            + header(index=3)
+            + display((3, LEN_4[0]), (4, LEN_5[0]))
+            + header(index=4)
+            + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
+            + header(index=5)
+            + display((5, QUOTES[2]))
+            + header(index=6)
+            + display((3, QUOTES[2]))
+            + header(index=9, newline=True)
+            + header(index=1)
+            + display((3, LEN_3[1]))
+            + header(index=2)
+            + display((3, LEN_3[4]))
+            + header(index=12, newline=True)
+            + header(index=10, newline=True)
+            + header(index=11, newline=True)
+            + header(index=8)
+            + display((3, MULTILINE))
+            + header(index=15, newline=True)
+            + header(index=16, newline=True)
+            + header(index=14, newline=True)
+            + header(index=19)
+            + display((3, LEN_6[3]))
+            + header(index=18, newline=True)
+            + header(index=7)
+            + display((4, LEN_5[0]))
+            + header(index=13, newline=True),
+        ),
+        (
+            dict(filter=True),
+            (
+                header()
+                + display(
+                    (3, LEN_3[0]),
+                    (3, LEN_3[4]),
+                    (3, MULTILINE),
+                    (3, PLUS[1]),
+                    (3, LEN_6[3]),
+                    (3, LEN_3[1]),
+                    (7, LEN_4[0]),
+                    (8, QUOTES[2]),
+                    (16, LEN_5[0]),
+                )
+                + header(index=17)
+                + display((3, PLUS[1]))
+                + header(index=0)
+                + display((3, LEN_5[0]))
+                + header(index=3)
+                + display((3, LEN_4[0]), (4, LEN_5[0]))
+                + header(index=4)
+                + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
+                + header(index=5)
+                + display((5, QUOTES[2]))
+                + header(index=6)
+                + display((3, QUOTES[2]))
+                + header(index=1)
+                + display((3, LEN_3[1]))
+                + header(index=2)
+                + display((3, LEN_3[4]))
+                + header(index=8)
+                + display((3, MULTILINE))
+                + header(index=19)
+                + display((3, LEN_6[3]))
+                + header(index=7)
+                + display((4, LEN_5[0]))
+            ),
+        ),
+    ],
+    ids=["no-args", "filter"],
+)
+def test_multiple_files_single_packages(
+    main: MockMainType,
+    index_file: IndexFileType,
+    kwargs: t.Dict[str, t.Any],
+    expected: str,
+) -> None:
+    """Test results when multiple files exist.
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    :param kwargs: Parameters for ``constcheck.main``.
+    :param expected: Expected result from test.
+    """
+    for _, path, _, content, _, _ in templates:
+        index_file(Path.cwd() / path, content)
+
+    assert main(**kwargs)[0] == expected
+
+
+@pytest.mark.parametrize(
+    "kwargs,expected",
+    [
+        (
+            {},
+            header()
+            + display(
+                (3, LEN_3[0]),
+                (3, LEN_3[4]),
+                (3, MULTILINE),
+                (3, PLUS[1]),
+                (3, LEN_6[3]),
+                (3, LEN_3[1]),
+                (7, LEN_4[0]),
+                (8, QUOTES[2]),
+                (16, LEN_5[0]),
+            )
+            + header(prefix=PACKAGE[0])
+            + display((3, QUOTES[2]), (3, LEN_4[0]), (7, LEN_5[0]))
+            + header(prefix=PACKAGE[0], index=0)
+            + display((3, LEN_5[0]))
+            + header(prefix=PACKAGE[0], index=3)
+            + display((3, LEN_4[0]), (4, LEN_5[0]))
+            + header(prefix=PACKAGE[0], index=6)
+            + display((3, QUOTES[2]))
+            + header(prefix=PACKAGE[0], index=9, newline=True)
+            + header(prefix=PACKAGE[0], index=12, newline=True)
+            + header(prefix=PACKAGE[0], index=15, newline=True)
+            + header(prefix=PACKAGE[0], index=18, newline=True)
+            + header(prefix=PACKAGE[1])
+            + display(
+                (3, LEN_3[0]),
+                (3, LEN_6[3]),
+                (3, LEN_3[1]),
+                (4, LEN_4[0]),
+                (9, LEN_5[0]),
+            )
+            + header(prefix=PACKAGE[1], index=4)
+            + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
+            + header(prefix=PACKAGE[1], index=1)
+            + display((3, LEN_3[1]))
+            + header(prefix=PACKAGE[1], index=10, newline=True)
+            + header(prefix=PACKAGE[1], index=16, newline=True)
+            + header(prefix=PACKAGE[1], index=19)
+            + display((3, LEN_6[3]))
+            + header(prefix=PACKAGE[1], index=7)
+            + display((4, LEN_5[0]))
+            + header(prefix=PACKAGE[1], index=13, newline=True)
+            + header(prefix=PACKAGE[2])
+            + display(
+                (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
+            )
+            + header(prefix=PACKAGE[2], index=17)
+            + display((3, PLUS[1]))
+            + header(prefix=PACKAGE[2], index=5)
+            + display((5, QUOTES[2]))
+            + header(prefix=PACKAGE[2], index=2)
+            + display((3, LEN_3[4]))
+            + header(prefix=PACKAGE[2], index=11, newline=True)
+            + header(prefix=PACKAGE[2], index=8)
+            + display((3, MULTILINE))
+            + header(prefix=PACKAGE[2], index=14, newline=True),
+        ),
+        (
+            dict(path=PACKAGE[0]),
+            header(prefix=PACKAGE[0])
+            + display((3, QUOTES[2]), (3, LEN_4[0]), (7, LEN_5[0]))
+            + header(prefix=PACKAGE[0], index=0)
+            + display((3, LEN_5[0]))
+            + header(prefix=PACKAGE[0], index=3)
+            + display((3, LEN_4[0]), (4, LEN_5[0]))
+            + header(prefix=PACKAGE[0], index=6)
+            + display((3, QUOTES[2]))
+            + header(prefix=PACKAGE[0], index=9, newline=True)
+            + header(prefix=PACKAGE[0], index=12, newline=True)
+            + header(prefix=PACKAGE[0], index=15, newline=True)
+            + header(prefix=PACKAGE[0], index=18, newline=True),
+        ),
+        (
+            dict(path=PACKAGE[1]),
+            header(prefix=PACKAGE[1])
+            + display(
+                (3, LEN_3[0]),
+                (3, LEN_6[3]),
+                (3, LEN_3[1]),
+                (4, LEN_4[0]),
+                (9, LEN_5[0]),
+            )
+            + header(prefix=PACKAGE[1], index=4)
+            + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
+            + header(prefix=PACKAGE[1], index=1)
+            + display((3, LEN_3[1]))
+            + header(prefix=PACKAGE[1], index=10, newline=True)
+            + header(prefix=PACKAGE[1], index=16, newline=True)
+            + header(prefix=PACKAGE[1], index=19)
+            + display((3, LEN_6[3]))
+            + header(prefix=PACKAGE[1], index=7)
+            + display((4, LEN_5[0]))
+            + header(prefix=PACKAGE[1], index=13, newline=True),
+        ),
+        (
+            dict(path=PACKAGE[2]),
+            header(prefix=PACKAGE[2])
+            + display(
+                (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
+            )
+            + header(prefix=PACKAGE[2], index=17)
+            + display((3, PLUS[1]))
+            + header(prefix=PACKAGE[2], index=5)
+            + display((5, QUOTES[2]))
+            + header(prefix=PACKAGE[2], index=2)
+            + display((3, LEN_3[4]))
+            + header(prefix=PACKAGE[2], index=11, newline=True)
+            + header(prefix=PACKAGE[2], index=8)
+            + display((3, MULTILINE))
+            + header(prefix=PACKAGE[2], index=14, newline=True),
+        ),
+    ],
+    ids=["no-args", PACKAGE[0], PACKAGE[1], PACKAGE[2]],
+)
+def test_multiple_files_multiple_packages(
+    main: MockMainType,
+    index_file: IndexFileType,
+    kwargs: t.Dict[str, t.Any],
+    expected: str,
+) -> None:
+    """Test results when multiple files exist.
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    :param kwargs: Parameters for ``constcheck.main``.
+    :param expected: Expected result from test.
+    """
+    package_no = 0
+    for _, path, _, content, _, _ in templates:
+        index_file(Path.cwd() / PACKAGE[package_no] / path, content)
+        package_no += 1
+        if package_no > 2:
+            package_no = 0
+
+    assert main(**kwargs)[0] == expected
+
+
+def test_print_version(
+    monkeypatch: pytest.MonkeyPatch, nocolorcapsys: NoColorCapsys
+) -> None:
+    """Test printing of version on commandline.
+
+    :param monkeypatch: Mock patch environment and attributes.
+    :param nocolorcapsys: Capture system output while stripping ANSI
+        color codes.
+    """
+    monkeypatch.setattr("constcheck._objects.__version__", VERSION)
+    with pytest.raises(SystemExit):
+        sys.argv.append("--version")
+        constcheck.main()
+
+    out = nocolorcapsys.readouterr()[0].strip()
+    assert out == VERSION
+
+
+def test_dequote() -> None:
+    """Test removing quotes from str."""
+    assert constcheck._objects.TokenText(LEN_3[0]).dequote() == LEN_3[0]
+    assert constcheck._objects.TokenText(f'"{LEN_3[0]}"').dequote() == LEN_3[0]
+    assert constcheck._objects.TokenText(f"'{LEN_3[0]}'").dequote() == LEN_3[0]
+    assert (
+        constcheck._objects.TokenText(f'"""{LEN_3[0]}"""').dequote()
+        == LEN_3[0]
+    )
+    assert (
+        constcheck._objects.TokenText(f"'''{LEN_3[0]}'''").dequote()
+        == LEN_3[0]
+    )
+
+
+def test_name_conflict_error(
+    monkeypatch: pytest.MonkeyPatch, mock_template: t.Type[MockTemplate]
+) -> None:
+    """Test name conflict for registered templates.
+
+    :param monkeypatch: Mock patch environment and attributes.
+    """
+    monkeypatch.setattr("tests._utils.templates", [])
+    register_template(mock_template)
+    with pytest.raises(NameConflictError) as err:
+        register_template(mock_template)
+
+    assert str(err.value) == (
+        "registered name conflict at MockTemplate: 'mock-template'"
+    )
+
+
+@pytest.mark.parametrize(
+    "count,length,expected",
+    [
+        (3, 3, display((3, LEN_3[3]))),
+        (3, 2, display((3, LEN_2[3]), (3, LEN_3[3]))),
+        (3, 1, display((3, ALPHA[3]), (3, LEN_2[3]), (3, LEN_3[3]))),
+        (2, 3, display((2, LEN_3[2]), (3, LEN_3[3]))),
+        (
+            2,
+            2,
+            display(
+                (2, LEN_2[2]), (2, LEN_3[2]), (3, LEN_2[3]), (3, LEN_3[3])
+            ),
+        ),
+        (
+            2,
+            1,
+            display(
+                (2, ALPHA[2]),
+                (2, LEN_2[2]),
+                (2, LEN_3[2]),
+                (3, ALPHA[3]),
+                (3, LEN_2[3]),
+                (3, LEN_3[3]),
+            ),
+        ),
+        (1, 3, display((1, LEN_3[1]), (2, LEN_3[2]), (3, LEN_3[3]))),
+        (
+            1,
+            2,
+            display(
+                (1, LEN_2[1]),
+                (1, LEN_3[1]),
+                (2, LEN_2[2]),
+                (2, LEN_3[2]),
+                (3, LEN_2[3]),
+                (3, LEN_3[3]),
+            ),
+        ),
+        (
+            1,
+            1,
+            display(
+                (1, ALPHA[1]),
+                (1, LEN_2[1]),
+                (1, LEN_3[1]),
+                (2, ALPHA[2]),
+                (2, LEN_2[2]),
+                (2, LEN_3[2]),
+                (3, ALPHA[3]),
+                (3, LEN_2[3]),
+                (3, LEN_3[3]),
+            ),
+        ),
+    ],
+    ids=["3-3", "3-2", "3-1", "2-3", "2-2", "2-1", "1-3", "1-2", "1-1"],
+)
+def test_len_and_count(
+    main: MockMainType,
+    index_file: IndexFileType,
+    count: int,
+    length: int,
+    expected: str,
+) -> None:
+    """Test using ``-c/--count`` and ``-l/--len``
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    :param count: Minimum number of repeat strings.
+    :param length: Minimum length of repeat strings.
+    :param expected: Expected result.
+    """
+    template = (
+        f'{CONST[0]} = "{ALPHA[1]}"\n'
+        f'{CONST[1]} = "{LEN_2[1]}"\n'
+        f'{CONST[2]} = "{LEN_3[1]}"\n'
+        f'{CONST[3]} = "{ALPHA[2]}"\n'
+        f'{CONST[4]} = "{ALPHA[2]}"\n'
+        f'{CONST[5]} = "{LEN_2[2]}"\n'
+        f'{CONST[6]} = "{LEN_2[2]}"\n'
+        f'{CONST[7]} = "{LEN_3[2]}"\n'
+        f'{CONST[8]} = "{LEN_3[2]}"\n'
+        f'{CONST[9]} = "{ALPHA[3]}"\n'
+        f'{CONST[10]} = "{ALPHA[3]}"\n'
+        f'{CONST[11]} = "{ALPHA[3]}"\n'
+        f'{CONST[12]} = "{LEN_2[3]}"\n'
+        f'{CONST[13]} = "{LEN_2[3]}"\n'
+        f'{CONST[14]} = "{LEN_2[3]}"\n'
+        f'{CONST[15]} = "{LEN_3[3]}"\n'
+        f'{CONST[16]} = "{LEN_3[3]}"\n'
+        f'{CONST[17]} = "{LEN_3[3]}"\n'
+    )
+    index_file(Path.cwd() / f"{count}-{length}.py", template)
+    assert expected in main(count=count, len=length)[0]
+
+
+def test_no_color(capsys: pytest.CaptureFixture) -> None:
+    """Test output with color and output when using ``-n/--no-color``.
+
+    :param capsys: Capture and return stdout and stderr stream.
+    """
+    _, _, _, template, single_expected, _ = templates[0]
+    constcheck.main(string=template)
+    assert capsys.readouterr()[0] == (
+        f"\x1b[33m3\x1b[0;0m   \x1b[36m|\x1b[0;0m {LEN_5[0]}\n\n"
+    )
+    constcheck.main(string=template, no_color=True)
+    assert capsys.readouterr()[0] == single_expected

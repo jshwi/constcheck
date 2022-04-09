@@ -1,0 +1,49 @@
+{
+  "name": "constcheck",
+  "version": "0.0.0",
+  "description": "Intuitive Git for Python",
+  "private": true,
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "toml:sort": "poetry run toml-sort pyproject.toml --in-place --all",
+    "audit": "poetry run pyaud audit && npm run toml:sort",
+    "bump:major": "poetry run bump2version major",
+    "bump:minor": "poetry run bump2version minor",
+    "bump:patch": "poetry run bump2version patch",
+    "clean": "poetry run pyaud clean",
+    "format": "npm-run-all format:*",
+    "format:misc": "prettier -w .",
+    "format:py": "npm-run-all format:py:*",
+    "format:py:code": "poetry run pyaud format",
+    "format:py:docs": "poetry run pyaud format-docs",
+    "format:py:str": "poetry run pyaud format-str",
+    "lint": "poetry run pyaud lint",
+    "test": "poetry run pyaud tests",
+    "types": "poetry run pyaud typecheck"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jshwi/constcheck.git"
+  },
+  "keywords": [
+    "python3.8",
+    "git",
+    "commandline",
+    "wrapper",
+    "script",
+    "tree"
+  ],
+  "author": "Stephen Whitlock",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jshwi/constcheck/issues"
+  },
+  "homepage": "https://jshwi.github.io/constcheck/",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1"
+  }
+}
