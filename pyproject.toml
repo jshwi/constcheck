@@ -30,7 +30,7 @@ description = "Check Python files for repeat use of strings"
 license = "MIT"
 name = "constcheck"
 readme = "README.rst"
-version = "0.0.0"
+version = "0.1.0"
 
 [tool.poetry.dependencies]
 lsfiles = "^0.1.1"
