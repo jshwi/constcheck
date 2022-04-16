@@ -7,15 +7,14 @@ Strings used for testing.
 Contains constants and registered abstract base classes containing file
 templates and expected results.
 """
-import string as _string
-import typing as _t
+from templatest import BaseTemplate as _BaseTemplate
+from templatest import templates as _templates
+from templatest.utils import ALPHA as _ALPHA
+from templatest.utils import RandStrLenSeq as _RandStrLenSeq
+from templatest.utils import VarSeq as _VarSeq
 
-from ._utils import RandStrLenSeq as _RandStrLenSeq
-from ._utils import TemplateExpected as _TemplateExpected
 from ._utils import TemplateNoneExpected as _TemplateNoneExpected
-from ._utils import VarSeq as _VarSeq
 from ._utils import display as _display
-from ._utils import register_template as _register_template
 
 #: Dirnames
 PACKAGE = _VarSeq("package")
@@ -24,7 +23,6 @@ PACKAGE = _VarSeq("package")
 CONST = _VarSeq("CONST")
 
 #: Strings by length
-ALPHA = tuple(_string.ascii_uppercase)
 LEN_2 = _RandStrLenSeq(2)
 LEN_3 = _RandStrLenSeq(3)
 LEN_4 = _RandStrLenSeq(4)
@@ -45,14 +43,14 @@ PLUS = (
 VERSION = "1.0.0"
 
 
-@_register_template
-class _Basic3Reps(_TemplateExpected):
+@_templates.register
+class _Basic3Reps(_BaseTemplate):
     """Test file with 3 repeat strings."""
 
     @property
     def template(self) -> str:
         return f"""
-{CONST[0]} = "{ALPHA[0]}"
+{CONST[0]} = "{_ALPHA[0]}"
 {CONST[1]} = "{LEN_6[0]}"
 {CONST[2]} = "{LEN_2[0]}"
 {CONST[3]} = "{LEN_2[0]}"
@@ -62,12 +60,12 @@ class _Basic3Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, LEN_5[0]))
 
 
-@_register_template
-class _Brackets3Reps(_TemplateExpected):
+@_templates.register
+class _Brackets3Reps(_BaseTemplate):
     """Test file with 3 repeat strings in indented parentheses."""
 
     @property
@@ -77,12 +75,12 @@ class _Brackets3Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, LEN_3[1]))
 
 
-@_register_template
-class _BracketsAssigned3Reps(_TemplateExpected):
+@_templates.register
+class _BracketsAssigned3Reps(_BaseTemplate):
     """Test file with 3 repeat strings in assigned parentheses."""
 
     @property
@@ -92,18 +90,18 @@ class _BracketsAssigned3Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, LEN_3[4]))
 
 
-@_register_template
-class _Basic3to4Reps(_TemplateExpected):
+@_templates.register
+class _Basic3to4Reps(_BaseTemplate):
     """Test file with 3 and 4 repeat strings."""
 
     @property
     def template(self) -> str:
         return f"""
-{CONST[0]} = "{ALPHA[0]}"
+{CONST[0]} = "{_ALPHA[0]}"
 {CONST[1]} = "{LEN_6[0]}"
 {CONST[2]} = "{LEN_2[0]}"
 {CONST[3]} = "{LEN_2[0]}"
@@ -117,18 +115,18 @@ class _Basic3to4Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, LEN_4[0]), (4, LEN_5[0]))
 
 
-@_register_template
-class _Basic3to5Reps(_TemplateExpected):
+@_templates.register
+class _Basic3to5Reps(_BaseTemplate):
     """Test file with 3, 4, and 5 repeat strings."""
 
     @property
     def template(self) -> str:
         return f"""
-{CONST[0]} = "{ALPHA[0]}"
+{CONST[0]} = "{_ALPHA[0]}"
 {CONST[1]} = "{LEN_6[0]}"
 {CONST[2]} = "{LEN_2[0]}"
 {CONST[3]} = "{LEN_2[0]}"
@@ -147,18 +145,18 @@ class _Basic3to5Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
 
 
-@_register_template
-class _BasicQuotes3to5Reps(_TemplateExpected):
+@_templates.register
+class _BasicQuotes3Reps(_BaseTemplate):
     """Test file with 3 single, 4 double, and 5 triple quotes."""
 
     @property
     def template(self) -> str:
         return f"""
-{CONST[0]} = "{ALPHA[0]}"
+{CONST[0]} = "{_ALPHA[0]}"
 {CONST[1]} = "{LEN_6[0]}"
 {CONST[2]} = "{LEN_2[0]}"
 {CONST[3]} = "{LEN_2[0]}"
@@ -177,22 +175,18 @@ class _BasicQuotes3to5Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
-        return _display((3, "'"), (4, '"'), (5, QUOTES[2]))
-
-    @property
-    def kwargs(self) -> _t.Dict[str, _t.Any]:
-        return dict(len=1)
+    def expected(self) -> str:
+        return _display((5, QUOTES[2]))
 
 
-@_register_template
-class _BasicQuotesMix3to5Reps(_TemplateExpected):
+@_templates.register
+class _BasicQuotesMix3Reps(_BaseTemplate):
     """Test file with 3 triple, 4 single, and 5 double quotes."""
 
     @property
     def template(self) -> str:
         return f"""
-{CONST[0]} = "{ALPHA[0]}"
+{CONST[0]} = "{_ALPHA[0]}"
 {CONST[1]} = "{LEN_6[0]}"
 {CONST[2]} = "{LEN_2[0]}"
 {CONST[3]} = "{LEN_2[0]}"
@@ -211,22 +205,18 @@ class _BasicQuotesMix3to5Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
-        return _display((3, QUOTES[2]), (4, "'"), (5, '"'))
-
-    @property
-    def kwargs(self) -> _t.Dict[str, _t.Any]:
-        return dict(len=1)
+    def expected(self) -> str:
+        return _display((3, QUOTES[2]))
 
 
-@_register_template
-class _TripleQuote4Reps(_TemplateExpected):
+@_templates.register
+class _TripleQuote4Reps(_BaseTemplate):
     """Test file with 3 repeat triple quotes."""
 
     @property
     def template(self) -> str:
         return f"""
-{CONST[0]} = "{ALPHA[0]}"
+{CONST[0]} = "{_ALPHA[0]}"
 {CONST[1]} = "{LEN_6[0]}"
 {CONST[2]} = "{LEN_2[0]}"
 {CONST[3]} = "{LEN_2[0]}"
@@ -237,12 +227,12 @@ class _TripleQuote4Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((4, LEN_5[0]))
 
 
-@_register_template
-class _BracketsMulti3Reps(_TemplateExpected):
+@_templates.register
+class _BracketsMulti3Reps(_BaseTemplate):
     """Test file with 3 repeat multiline string in parentheses."""
 
     @property
@@ -266,11 +256,11 @@ class _BracketsMulti3Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, MULTILINE))
 
 
-@_register_template
+@_templates.register
 class _Brackets0Reps(_TemplateNoneExpected):
     """Test file with 3 concatenated strings in parentheses."""
 
@@ -281,7 +271,7 @@ class _Brackets0Reps(_TemplateNoneExpected):
 """
 
 
-@_register_template
+@_templates.register
 class _BracketsCommaInString0Reps(_TemplateNoneExpected):
     """Test file with 3 strings in parentheses with comma in string."""
 
@@ -292,7 +282,7 @@ class _BracketsCommaInString0Reps(_TemplateNoneExpected):
 """
 
 
-@_register_template
+@_templates.register
 class _BracketsMulti0Reps(_TemplateNoneExpected):
     """Test file with concatenated string in indented parentheses."""
 
@@ -316,7 +306,7 @@ class _BracketsMulti0Reps(_TemplateNoneExpected):
 """
 
 
-@_register_template
+@_templates.register
 class _BracketsAssignedMulti0Reps(_TemplateNoneExpected):
     """Test file with concatenated string in assigned parentheses."""
 
@@ -340,7 +330,7 @@ class _BracketsAssignedMulti0Reps(_TemplateNoneExpected):
 """
 
 
-@_register_template
+@_templates.register
 class _TripleQuotesMulti0Reps(_TemplateNoneExpected):
     """Test file with multiline string in triple quotes."""
 
@@ -364,7 +354,7 @@ class _TripleQuotesMulti0Reps(_TemplateNoneExpected):
 """
 
 
-@_register_template
+@_templates.register
 class _ModuleDocstring0Reps(_TemplateNoneExpected):
     """Test file with module docstring for 1 repeat."""
 
@@ -377,12 +367,8 @@ package._module
 {QUOTES[2]}
 """
 
-    @property
-    def kwargs(self) -> _t.Dict[str, _t.Any]:
-        return dict(count=1)
 
-
-@_register_template
+@_templates.register
 class _FString0Reps(_TemplateNoneExpected):
     """Test file for ignored fstrings which cannot be evaluated."""
 
@@ -396,7 +382,7 @@ print({CONST[0]})
 """
 
 
-@_register_template
+@_templates.register
 class _FStringConcat0Reps(_TemplateNoneExpected):
     """Test file for ignored concatenated fstrings."""
 
@@ -410,8 +396,8 @@ print(f"this is a {{{CONST[0]}}}")
 """
 
 
-@_register_template
-class _AddConcat3Reps(_TemplateExpected):
+@_templates.register
+class _AddConcat3Reps(_BaseTemplate):
     """Test file for concatenated strings with plus sign."""
 
     @property
@@ -423,11 +409,11 @@ class _AddConcat3Reps(_TemplateExpected):
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, PLUS[1]))
 
 
-@_register_template
+@_templates.register
 class _NestedConcatFString0Reps(_TemplateNoneExpected):
     """Test file for nested fstring."""
 
@@ -474,8 +460,8 @@ FSTRINGS_IGNORED = "f-strings ignored"
 """
 
 
-@_register_template
-class _NestedAltFString0Reps(_TemplateExpected):
+@_templates.register
+class _NestedAltFString0Reps(_BaseTemplate):
     """Test file for nested alternating strings and fstrings."""
 
     @property
@@ -524,5 +510,5 @@ FSTRINGS_IGNORED = "f-strings ignored"
 """
 
     @property
-    def single_expected(self) -> str:
+    def expected(self) -> str:
         return _display((3, LEN_6[3]))

@@ -8,12 +8,13 @@ import typing as t
 
 import pytest
 from pathlib3x import Path
+from templatest import templates
+from templatest.utils import ALPHA
 
 # noinspection PyProtectedMember
 import constcheck._objects
 
 from ._strings import (
-    ALPHA,
     CONST,
     LEN_2,
     LEN_3,
@@ -26,68 +27,46 @@ from ._strings import (
     QUOTES,
     VERSION,
 )
-from ._utils import (
-    IndexFileType,
-    MockMainType,
-    MockTemplate,
-    NameConflictError,
-    NoColorCapsys,
-    display,
-    header,
-    register_template,
-    templates,
-)
+from ._utils import IndexFileType, MockMainType, NoColorCapsys, display, header
 
 
 @pytest.mark.parametrize(
-    "_,path,kwargs,template,__,expected",
-    templates,
-    ids=(i[0] for i in templates),
+    "name,template,expected",
+    templates.registered,
+    ids=templates.registered.getids(),
 )
 def test_single_file(
     main: MockMainType,
     index_file: IndexFileType,
-    _: str,
-    path: Path,
-    kwargs: t.Dict[str, t.Any],
+    name: str,
     template: str,
-    __: str,
     expected: str,
 ) -> None:
     """Test results when one file exists.
 
     :param main: Patch package entry point.
     :param index_file: Create and index file.
-    :param kwargs: Parameters for ``constcheck.main``.
     :param template: Content to write to file.
     :param expected: Expected result from test.
     """
-    index_file(Path.cwd() / path, template)
-    assert main(**kwargs)[0] == expected
+    index_file(Path.cwd() / f"{name}.py", template)
+    assert expected in main()[0]
 
 
 @pytest.mark.parametrize(
-    "_,__,kwargs,template,single_expected,____",
-    templates,
-    ids=(i[0] for i in templates),
+    "_,template,expected",
+    templates.registered,
+    ids=templates.registered.getids(),
 )
 def test_parse_str(
-    main: MockMainType,
-    _: str,
-    __: Path,
-    kwargs: t.Dict[str, t.Any],
-    template: str,
-    single_expected: str,
-    ____: str,
+    main: MockMainType, _: str, template: str, expected: str
 ) -> None:
     """Test results when one file exists.
 
     :param main: Patch package entry point.
-    :param kwargs: Parameters for ``constcheck.main``.
     :param template: Content to write to file.
-    :param single_expected: Expected result from test.
     """
-    assert main(string=template, **kwargs)[0] == single_expected
+    assert expected in main(string=template)[0]
 
 
 @pytest.mark.parametrize(
@@ -194,8 +173,8 @@ def test_multiple_files_single_packages(
     :param kwargs: Parameters for ``constcheck.main``.
     :param expected: Expected result from test.
     """
-    for _, path, _, content, _, _ in templates:
-        index_file(Path.cwd() / path, content)
+    for name, template, _ in templates.registered:
+        index_file(Path.cwd() / f"{name}.py", template)
 
     assert main(**kwargs)[0] == expected
 
@@ -334,8 +313,8 @@ def test_multiple_files_multiple_packages(
     :param expected: Expected result from test.
     """
     package_no = 0
-    for _, path, _, content, _, _ in templates:
-        index_file(Path.cwd() / PACKAGE[package_no] / path, content)
+    for name, template, _ in templates.registered:
+        index_file(Path.cwd() / PACKAGE[package_no] / f"{name}.py", template)
         package_no += 1
         if package_no > 2:
             package_no = 0
@@ -373,23 +352,6 @@ def test_dequote() -> None:
     assert (
         constcheck._objects.TokenText(f"'''{LEN_3[0]}'''").dequote()
         == LEN_3[0]
-    )
-
-
-def test_name_conflict_error(
-    monkeypatch: pytest.MonkeyPatch, mock_template: t.Type[MockTemplate]
-) -> None:
-    """Test name conflict for registered templates.
-
-    :param monkeypatch: Mock patch environment and attributes.
-    """
-    monkeypatch.setattr("tests._utils.templates", [])
-    register_template(mock_template)
-    with pytest.raises(NameConflictError) as err:
-        register_template(mock_template)
-
-    assert str(err.value) == (
-        "registered name conflict at MockTemplate: 'mock-template'"
     )
 
 
@@ -494,10 +456,10 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
 
     :param capsys: Capture and return stdout and stderr stream.
     """
-    _, _, _, template, single_expected, _ = templates[0]
+    _, template, expected = templates.registered[0]
     constcheck.main(string=template)
     assert capsys.readouterr()[0] == (
         f"\x1b[33m3\x1b[0;0m   \x1b[36m|\x1b[0;0m {LEN_5[0]}\n\n"
     )
     constcheck.main(string=template, no_color=True)
-    assert capsys.readouterr()[0] == single_expected
+    assert capsys.readouterr()[0] == expected
