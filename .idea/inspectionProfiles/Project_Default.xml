@@ -4,9 +4,6 @@
     <inspection_tool class="Annotator" enabled="true" level="ERROR" enabled_by_default="true">
       <scope name="docs.index" level="ERROR" enabled="false" />
     </inspection_tool>
-    <inspection_tool class="CssUnusedSymbol" enabled="true" level="WARNING" enabled_by_default="true">
-      <scope name="docs._themes.graphite.static" level="WARNING" enabled="false" />
-    </inspection_tool>
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <scope name="whitelist.py" level="WEAK WARNING" enabled="false" />
     </inspection_tool>
@@ -19,12 +16,11 @@
     <inspection_tool class="PoetryPackageVersionsInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <scope name="tests.files" level="WEAK WARNING" enabled="false" />
-      <scope name="tests.strings" level="WEAK WARNING" enabled="false" />
+      <scope name="whitelist.py" level="WEAK WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <scope name="app.dom.renderers" level="WEAK WARNING" enabled="false" />
       <scope name="pyaud._environ" level="WEAK WARNING" enabled="false" />
-      <scope name="pyaud_environ._environ" level="WEAK WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="PyProtectedMemberInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <scope name="whitelist.py" level="WEAK WARNING" enabled="false" />
@@ -48,7 +44,6 @@
     </inspection_tool>
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="pyaud.config" level="WARNING" enabled="false" />
-      <scope name="readmetester._core" level="WARNING" enabled="false" />
       <scope name="whitelist.py" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="Pylint" enabled="true" level="WARNING" enabled_by_default="true">
