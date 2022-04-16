@@ -11,13 +11,7 @@ from pathlib3x import Path
 
 import constcheck
 
-from ._utils import (
-    IndexFileType,
-    MockMainType,
-    MockTemplate,
-    NoColorCapsys,
-    git,
-)
+from ._utils import IndexFileType, MockMainType, NoColorCapsys, git
 
 
 @pytest.fixture(name="mock_environment", autouse=True)
@@ -118,12 +112,3 @@ def fixture_index_file() -> IndexFileType:
         git.add(".")
 
     return _index_file
-
-
-@pytest.fixture(name="mock_template")
-def fixture_mock_template() -> t.Type[MockTemplate]:
-    """Bare ``TemplateExpected`` object to test with.
-
-    :return: Uninstantiated ``MockTemplate`` type.
-    """
-    return MockTemplate
