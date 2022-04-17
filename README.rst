@@ -61,15 +61,16 @@ The default quantity of strings to check for repeats is also 3
     ...     'STRING_5 = "Hello"'
     ...     'STRING_6 = "Hello"'
     ...     'STRING_7 = "Hello"'
-    ...     'STRING_8 = "Hello, world!"'
-    ...     'STRING_9 = "Hello, world!"'
-    ...     'STRING_10 = "Hello, world!"'
-    ...     'STRING_11 = "Hello, world!"'
-    ...     'STRING_12 = "Hello, world!"'
+    ...     'STRING_8 = "Hello, world"'
+    ...     'STRING_9 = "Hello, world"'
+    ...     'STRING_10 = "Hello, world"'
+    ...     'STRING_11 = "Hello, world"'
+    ...     'STRING_12 = "Hello, world"'
     ... )
     >>>
     >>> import constcheck
     >>> constcheck.main(string=EXAMPLE, no_color=True)
-    "3   | Hey"
-    "4   | Hello"
-    "5   | Hello, world!"
+    3   | Hey
+    4   | Hello
+    5   | Hello, world
+    <BLANKLINE>

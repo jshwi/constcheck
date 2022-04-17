@@ -1,7 +1,7 @@
 {
   "name": "constcheck",
   "version": "0.1.0",
-  "description": "Intuitive Git for Python",
+  "description": "Check Python files for repeat use of strings",
   "private": true,
   "directories": {
     "doc": "docs",
@@ -9,7 +9,9 @@
   },
   "scripts": {
     "toml:sort": "poetry run toml-sort pyproject.toml --in-place --all",
-    "audit": "poetry run pyaud audit && npm run toml:sort",
+    "audit": "npm-run-all audit:* && npm run toml:sort && npm run test:doctest:readme",
+    "audit:misc": "npx prettier -c .",
+    "audit:py": "poetry run pyaud audit --deploy --rcfile .github/pyaud.toml",
     "bump:major": "poetry run bump2version major",
     "bump:minor": "poetry run bump2version minor",
     "bump:patch": "poetry run bump2version patch",
@@ -21,7 +23,10 @@
     "format:py:docs": "poetry run pyaud format-docs",
     "format:py:str": "poetry run pyaud format-str",
     "lint": "poetry run pyaud lint",
-    "test": "poetry run pyaud tests",
+    "test": "npm-run-all test:**",
+    "test:doctest:package": "poetry run sphinx-build -M doctest docs/ docs/_build",
+    "test:doctest:readme": "poetry run python -m doctest README.rst",
+    "test:unit": "poetry run pyaud tests",
     "types": "poetry run pyaud typecheck"
   },
   "repository": {
@@ -29,12 +34,11 @@
     "url": "git+https://github.com/jshwi/constcheck.git"
   },
   "keywords": [
-    "python3.8",
-    "git",
-    "commandline",
-    "wrapper",
-    "script",
-    "tree"
+    "const",
+    "constant",
+    "str",
+    "check",
+    "dry"
   ],
   "author": "Stephen Whitlock",
   "license": "MIT",
