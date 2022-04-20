@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.1.0...HEAD)
 ------------------------------------------------------------------------
+### Added
+- Adds `constcheck.__version__` and `--version` arg
 
 ### Changed
 - Updates help

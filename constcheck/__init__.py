@@ -1,9 +1,5 @@
-"""
-constcheck
-==========
-
-Check Python files for repeat use of strings.
-"""
+"""Check Python files for repeat use of strings."""
 from ._main import main
+from ._version import __version__
 
-__all__ = ["main"]
+__all__ = ["__version__", "main"]
