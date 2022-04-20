@@ -2,9 +2,9 @@
 constcheck.__main__
 ===================
 
-Package entry point.
+Module entry point.
 """
-from constcheck._main import main
+from constcheck import main
 
 if __name__ == "__main__":
     main()
