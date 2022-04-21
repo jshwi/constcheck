@@ -41,17 +41,17 @@ Usage
 Commandline
 ***********
 
-    usage: constcheck [-h] [-f] [-n] [-v] [-c INT] [-l INT] [-p PATH] [-s STR]
+    usage: constcheck [-h] [-p PATH] [-c INT] [-l INT] [-s STR] [-f] [-n] [-v]
 
     optional arguments:
       -h, --help            show this help message and exit
+      -p PATH, --path PATH  path to check files for (default: .)
+      -c INT, --count INT   minimum number of repeat strings (default: 3)
+      -l INT, --len INT     minimum length of repeat strings (default: 3)
+      -s STR, --string STR  parse a string instead of a file
       -f, --filter          filter out empty results
       -n, --no-color        disable color output
       -v, --version         show version and exit
-      -c INT, --count INT   minimum number of repeat strings
-      -l INT, --len INT     minimum length of repeat strings
-      -p PATH, --path PATH  path to check files for
-      -s STR, --string STR  parse a string instead of a file
 
 API
 ***

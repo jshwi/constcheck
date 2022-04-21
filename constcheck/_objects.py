@@ -10,6 +10,7 @@ import sys as _sys
 import tokenize as _tokenize
 import typing as _t
 from argparse import ArgumentParser as _ArgumentParser
+from argparse import HelpFormatter as _HelpFormatter
 from collections import UserString as _UserString
 
 from lsfiles import LSFiles as _LSFiles
@@ -30,12 +31,55 @@ class Parser(_ArgumentParser):
     _STORE_TRUE = "store_true"
 
     def __init__(self) -> None:
-        super().__init__(prog=color.cyan.get(NAME))
+        super().__init__(
+            prog=color.cyan.get(NAME),
+            formatter_class=lambda prog: _HelpFormatter(
+                prog, max_help_position=40
+            ),
+            description=(
+                "Check Python files for repeat use of strings."
+                " Defaults can be configured in your pyproject.toml file."
+            ),
+        )
         self._add_arguments()
         self.args = self.parse_args()
         self._version_request()
 
     def _add_arguments(self) -> None:
+        self.add_argument(
+            "-p",
+            "--path",
+            action=self._STORE,
+            default=_Path.cwd().relative_to(_Path.cwd()),
+            type=_Path,
+            help="path to check files for (default: %(default)s)",
+        )
+        self.add_argument(
+            "-c",
+            "--count",
+            action=self._STORE,
+            default=3,
+            metavar="INT",
+            type=int,
+            help="minimum number of repeat strings (default: %(default)d)",
+        )
+        self.add_argument(
+            "-l",
+            "--len",
+            action=self._STORE,
+            default=3,
+            metavar="INT",
+            type=int,
+            help="minimum length of repeat strings (default: %(default)d)",
+        )
+        self.add_argument(
+            "-s",
+            "--string",
+            action=self._STORE,
+            metavar="STR",
+            type=str,
+            help="parse a string instead of a file",
+        )
         self.add_argument(
             "-f",
             "--filter",
@@ -53,40 +97,6 @@ class Parser(_ArgumentParser):
             "--version",
             action=self._STORE_TRUE,
             help="show version and exit",
-        )
-        self.add_argument(
-            "-c",
-            "--count",
-            action=self._STORE,
-            default=3,
-            metavar="INT",
-            type=int,
-            help="minimum number of repeat strings",
-        )
-        self.add_argument(
-            "-l",
-            "--len",
-            action=self._STORE,
-            default=3,
-            metavar="INT",
-            type=int,
-            help="minimum length of repeat strings",
-        )
-        self.add_argument(
-            "-p",
-            "--path",
-            action=self._STORE,
-            default=_Path.cwd(),
-            type=_Path,
-            help="path to check files for",
-        )
-        self.add_argument(
-            "-s",
-            "--string",
-            action=self._STORE,
-            metavar="STR",
-            type=str,
-            help="parse a string instead of a file",
         )
 
     def _version_request(self) -> None:
