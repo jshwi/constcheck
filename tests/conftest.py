@@ -11,7 +11,7 @@ from pathlib3x import Path
 
 import constcheck
 
-from ._utils import IndexFileType, MockMainType, NoColorCapsys, git
+from ._utils import Argify, IndexFileType, MockMainType, NoColorCapsys, git
 
 
 @pytest.fixture(name="mock_environment", autouse=True)
@@ -46,52 +46,28 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
     :return: Function for using this fixture.
     """
 
-    def _convert(
-        key: str, kwargs: t.Dict[str, t.Any], default: t.Optional[t.Any] = None
-    ) -> t.Tuple[str, t.Optional[t.Any]]:
-        return f"--{key}".replace("_", "-"), kwargs.get(key, default)
-
-    def _convert_str(
-        key: str, kwargs: t.Dict[str, t.Any], default: t.Any
-    ) -> t.Tuple[str, str]:
-        key, value = _convert(key, kwargs, default)
-        return key, str(value)
-
-    def _non_defaults(kwargs: t.Dict[str, t.Any]) -> t.List[str]:
-        args = []
-        converted = [_convert("string", kwargs)]
-        for key, value in converted:
-            if value:
-                args.extend([key, value])
-
-        return args
-
-    def _flags(kwargs: t.Dict[str, t.Any]) -> t.List[str]:
-        converted = (
-            _convert("filter", kwargs, default=False),
-            _convert("no_color", kwargs, default=False),
-        )
-        return [k for k, v in converted if v]
-
-    def _get_args(kwargs: t.Dict[str, t.Any]) -> t.List[str]:
-        return [
-            *_convert_str("path", kwargs, default=Path.cwd()),
-            *_convert_str("count", kwargs, default=3),
-            *_convert_str("len", kwargs, default=3),
-            *_flags(kwargs),
-            *_non_defaults(kwargs),
-        ]
-
-    def _main(**kwargs: t.Union[bool, int, str, Path]) -> t.Tuple[str, ...]:
-        """Run main with custom args."""
+    def _kwargs(**kwargs) -> t.Tuple[str, ...]:
         constcheck.main(**kwargs)
-        kwargs_output = nocolorcapsys.readouterr()
-        args = _get_args(kwargs)
+        return nocolorcapsys.readouterr()
+
+    def _commandline(**kwargs) -> t.Tuple[str, ...]:
+        argify = Argify(kwargs)
+        args = [
+            *argify.get_key_single("path", Path.cwd()),
+            *argify.get_key_single("count", 3),
+            *argify.get_key_single("len", 3),
+            *argify.get_non_default("string"),
+            *argify.get_flags("filter", "no_color"),
+        ]
         sys.argv.extend(args)
         constcheck.main()
-        args_output = nocolorcapsys.readouterr()
-        assert kwargs_output == args_output
-        return args_output
+        return nocolorcapsys.readouterr()
+
+    def _main(**kwargs: t.Union[bool, int, str, Path]) -> t.Tuple[str, ...]:
+        kwargs_output = _kwargs(**kwargs)
+        commandline_output = _commandline(**kwargs)
+        assert kwargs_output == commandline_output
+        return commandline_output
 
     return _main
 

@@ -74,6 +74,49 @@ class TemplateNoneExpected(_BaseTemplate):
         return "\n"
 
 
+class Argify:
+    """Convert kwargs to main to commandline arguments.
+
+    :param kwargs: Kwargs passed to main.
+    """
+
+    def __init__(self, kwargs: _t.Dict[str, _t.Any]) -> None:
+        self._kwargs = kwargs
+
+    @staticmethod
+    def _argify(key: str) -> str:
+        return f"--{key}".replace("_", "-")
+
+    def get_key_single(self, key: str, default: _t.Any) -> _t.List[str]:
+        """Get a list of for args passed with a single value.
+
+        :param key: Key passed to main.
+        :param default: Default value when arg not provided.
+        :return: List containing the argument and its value as strings.
+        """
+        return [self._argify(key), str(self._kwargs.get(key, default))]
+
+    def get_non_default(self, key: str) -> _t.List[str]:
+        """Get a tuple for and optional arg passed with a value.
+
+        If the value is None return an empty list.
+
+        :param key: Key passed to main.
+        :return: List containing the argument and its value as strings.
+        """
+        value = self._kwargs.get(key)
+        return [self._argify(key), value] if value is not None else []
+
+    def get_flags(self, *args: str) -> _t.List[str]:
+        """Get a list of boolean switches, added if their value is True.
+
+        :return: List of flags for switching an option to True.
+        """
+        return [
+            self._argify(i) for i in args if self._kwargs.get(i) is not None
+        ]
+
+
 def header(**kwargs: _t.Any) -> str:
     """Get the header for the path.
 
