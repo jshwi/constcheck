@@ -28,6 +28,8 @@ constcheck
 Check Python files for repeat use of strings
 --------------------------------------------
 
+Defaults can be configured in your pyproject.toml file
+
 Installation
 ------------
 
@@ -117,3 +119,19 @@ With the ``ignore_strings`` argument which accepts a ``str`` iterable
     >>> constcheck.main(string=EXAMPLE, ignore_strings="Hello, world")
     3   | Hey
     <BLANKLINE>
+
+Config
+******
+
+All keyword arguments available to ``constcheck.main()`` can be configured in the pyproject.toml file
+
+.. code-block:: toml
+
+    [tool.constcheck]
+    path = "."
+    count = 3
+    len = 3
+    ignore_strings = ["Hello", "Hello, world"]
+    ignore_files = ["tests/__init__.py"]
+    filter = false
+    no_color = false

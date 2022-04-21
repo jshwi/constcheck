@@ -7,6 +7,7 @@ import sys
 import typing as t
 
 import pytest
+import tomli_w
 from pathlib3x import Path
 
 import constcheck
@@ -46,6 +47,15 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
     :return: Function for using this fixture.
     """
 
+    def _config(kwargs):
+        pyproject_file = Path.cwd() / "pyproject.toml"
+        pyproject_obj = {"tool": {constcheck.__name__: kwargs}}
+        with open(pyproject_file, "wb") as fout:
+            tomli_w.dump(pyproject_obj, fout)
+
+        constcheck.main()
+        return nocolorcapsys.readouterr()
+
     def _kwargs(**kwargs) -> t.Tuple[str, ...]:
         constcheck.main(**kwargs)
         return nocolorcapsys.readouterr()
@@ -68,7 +78,9 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
     def _main(
         **kwargs: t.Union[bool, int, str, Path, t.List[str]]
     ) -> t.Tuple[str, ...]:
+        config_output = _config(kwargs)
         kwargs_output = _kwargs(**kwargs)
+        assert kwargs_output == config_output
         commandline_output = _commandline(**kwargs)
         assert kwargs_output == commandline_output
         return commandline_output

@@ -9,9 +9,11 @@ import typing as _t
 from collections import Counter as _Counter
 from io import StringIO as _StringIO
 
+import tomli as _tomli
 from object_colors import Color as _Color
 from pathlib3x import Path as _Path
 
+from ._objects import NAME as _NAME
 from ._objects import LSFiles as _LSFiles
 from ._objects import Parser as _Parser
 from ._objects import TokenText as _TokenText
@@ -119,7 +121,7 @@ def _populate_totals(path: _Path, contents: _PathFileStringRep) -> None:
 
 
 def _get_default_args():
-    return dict(
+    args = dict(
         path=_Path.cwd().relative_to(_Path.cwd()),
         count=3,
         len=3,
@@ -129,6 +131,15 @@ def _get_default_args():
         ignore_strings=[],
         ignore_files=[],
     )
+    pyproject_file = _Path.cwd() / "pyproject.toml"
+    if pyproject_file.is_file():
+
+        with open(pyproject_file, "rb") as fin:
+            pyproject_obj = _tomli.load(fin)
+
+        args.update(pyproject_obj.get("tool", {}).get(_NAME, {}))
+
+    return args
 
 
 def display(obj: _FileStringRep, no_color: bool) -> None:

@@ -27,6 +27,9 @@ def main(
     If no arguments are provided then the defaults will be used. As of
     this version all arguments are optional.
 
+    The below default values are valid so long as they have not been
+    configured in the pyproject.toml file.
+
     :key path: Path to check files for (default: .).
     :key count: Minimum number of repeat strings (default: 3).
     :key len: Minimum length of repeat strings (default: 3).
