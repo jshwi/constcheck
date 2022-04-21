@@ -127,6 +127,7 @@ def _get_default_args():
         no_color=False,
         string=None,
         ignore_strings=[],
+        ignore_files=[],
     )
 
 
@@ -181,6 +182,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
             kwargs.get("no_color", args["no_color"]),
             kwargs.get("string", args["string"]),
             kwargs.get("ignore_strings", args["ignore_strings"]),
+            kwargs.get("ignore_files", args["ignore_files"]),
         )
 
     parser = _Parser(args)
@@ -191,11 +193,15 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
         parser.args.no_color,
         parser.args.string,
         parser.args.ignore_strings,
+        parser.args.ignore_files,
     )
 
 
 def parse_files(
-    path: _PathLike, values: _ValueTuple, ignore_strings: _t.Iterable[str]
+    path: _PathLike,
+    values: _ValueTuple,
+    ignore_strings: _t.List[str],
+    ignore_files: _t.List[str],
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
@@ -203,11 +209,12 @@ def parse_files(
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
     :param ignore_strings: Iterable of str objects for words to exclude.
+    :param ignore_files: Iterable of str objects for files to exclude.
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
     """
     contents = {}
-    files = _LSFiles()
+    files = _LSFiles(exclude=ignore_files)
     files.populate()
     path = _Path(path).absolute()
     for file in files:

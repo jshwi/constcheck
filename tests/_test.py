@@ -494,6 +494,7 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
             "initial_value must be str or None, not set",
         ),
         ("ignore_strings", False, "argument of type 'bool' is not iterable"),
+        ("ignore_files", 10, "argument of type 'int' is not iterable"),
     ],
 )
 def test_invalid_types(
@@ -535,3 +536,23 @@ def test_file_ignore_str(
     word = get_word(expected)
     index_file(Path.cwd() / f"{name}.py", template)
     assert expected not in main(ignore_strings=[word])[0]
+
+
+@pytest.mark.parametrize(
+    "name,_,__",
+    templates.registered.getgroup(NONE),
+    ids=templates.registered.getgroup(NONE).getids(),
+)
+def test_ignore_files(
+    main: MockMainType, index_file: IndexFileType, name: str, _: str, __: str
+) -> None:
+    """Test results when multiple files exist.
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    """
+    for _name, _template, _ in templates.registered:
+        index_file(Path.cwd() / f"{_name}.py", _template)
+
+    expected = header(index=templates.registered.getindex(name))
+    assert expected not in main(ignore_files=[f"{name}.py"])[0]

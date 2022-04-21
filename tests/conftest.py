@@ -57,6 +57,7 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
             *argify.get_key_single("count", 3),
             *argify.get_key_single("len", 3),
             *argify.get_key_seq("ignore_strings"),
+            *argify.get_key_seq("ignore_files"),
             *argify.get_non_default("string"),
             *argify.get_flags("filter", "no_color"),
         ]

@@ -32,16 +32,25 @@ def main(
     :key len: Minimum length of repeat strings (default: 3).
     :key string: Parse a str instead of a path.
     :key ignore_strings: Iterable of str objects for words to exclude.
+    :key ignore_files: Iterable of str objects for paths to exclude.
     :key filter: Boolean value to filter out empty results.
     :key no_color: Boolean value to disable color output.
     """
     _color.populate_colors()
-    (path, values, filter_empty, no_color, string, ignore_strings) = _get_args(
-        kwargs
-    )
+    (
+        path,
+        values,
+        filter_empty,
+        no_color,
+        string,
+        ignore_strings,
+        ignore_files,
+    ) = _get_args(kwargs)
     if string is not None:
         string_contents = _parse_string(string, values, ignore_strings)
         _display(string_contents, no_color)
     else:
-        file_contents = _parse_files(path, values, ignore_strings)
+        file_contents = _parse_files(
+            path, values, ignore_strings, ignore_files
+        )
         _display_path(file_contents, filter_empty, no_color)

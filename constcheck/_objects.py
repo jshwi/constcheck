@@ -92,6 +92,15 @@ class Parser(_ArgumentParser):
             help="comma separated list of strings to exclude",
         )
         self.add_argument(
+            "-I",
+            "--ignore-files",
+            action=self._STORE,
+            metavar="LIST",
+            type=lambda x: list(x.split(",")),
+            default=self._kwargs["ignore_files"],
+            help="comma separated list of files to exclude",
+        )
+        self.add_argument(
             "-f",
             "--filter",
             action=self._STORE_TRUE,
