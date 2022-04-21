@@ -96,6 +96,16 @@ class Argify:
         """
         return [self._argify(key), str(self._kwargs.get(key, default))]
 
+    def get_key_seq(self, key: str) -> _t.List[str]:
+        """Get a list for args passed with a list.
+
+        :param key: Key passed to main.
+        :return: List containing the argument and its value as a comma
+            separated list.
+        """
+        value = self._kwargs.get(key, [])
+        return [i for i in (self._argify(key), ",".join(value)) if value]
+
     def get_non_default(self, key: str) -> _t.List[str]:
         """Get a tuple for and optional arg passed with a value.
 
@@ -154,3 +164,12 @@ def display(*args: _t.Tuple[int, str]) -> str:
         string += f"{count}{(4 - len(str(count))) * ' '}| {value}\n"
 
     return f"{string}\n"
+
+
+def get_word(string: str) -> str:
+    """Parse the expected str from a template's ``expected`` property.
+
+    :param string: String to parse.
+    :return: Parse string.
+    """
+    return string.split("|")[1].lstrip().rstrip().replace("\\\\", "\\")

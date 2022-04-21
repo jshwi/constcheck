@@ -83,6 +83,15 @@ class Parser(_ArgumentParser):
             help="parse a string instead of a file",
         )
         self.add_argument(
+            "-i",
+            "--ignore-strings",
+            action=self._STORE,
+            metavar="LIST",
+            type=lambda x: list(x.split(",")),
+            default=self._kwargs["ignore_strings"],
+            help="comma separated list of strings to exclude",
+        )
+        self.add_argument(
             "-f",
             "--filter",
             action=self._STORE_TRUE,

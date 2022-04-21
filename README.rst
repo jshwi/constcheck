@@ -41,17 +41,19 @@ Usage
 Commandline
 ***********
 
-    usage: constcheck [-h] [-p PATH] [-c INT] [-l INT] [-s STR] [-f] [-n] [-v]
+    usage: constcheck [-h] [-p PATH] [-c INT] [-l INT] [-s STR] [-i LIST] [-I LIST] [-f] [-n] [-v]
 
     optional arguments:
-      -h, --help            show this help message and exit
-      -p PATH, --path PATH  path to check files for (default: .)
-      -c INT, --count INT   minimum number of repeat strings (default: 3)
-      -l INT, --len INT     minimum length of repeat strings (default: 3)
-      -s STR, --string STR  parse a string instead of a file
-      -f, --filter          filter out empty results
-      -n, --no-color        disable color output
-      -v, --version         show version and exit
+      -h, --help                      show this help message and exit
+      -p PATH, --path PATH            path to check files for (default: .)
+      -c INT, --count INT             minimum number of repeat strings (default: 3)
+      -l INT, --len INT               minimum length of repeat strings (default: 3)
+      -s STR, --string STR            parse a string instead of a file
+      -i LIST, --ignore-strings LIST  comma separated list of strings to exclude
+      -I LIST, --ignore-files LIST    comma separated list of files to exclude
+      -f, --filter                    filter out empty results
+      -n, --no-color                  disable color output
+      -v, --version                   show version and exit
 
 API
 ***
@@ -100,4 +102,18 @@ With the ``len`` argument
 
     >>> constcheck.main(string=EXAMPLE, len=6)
     5   | Hello, world
+    <BLANKLINE>
+
+With the ``ignore_strings`` argument which accepts a ``str`` iterable
+
+.. code-block:: python
+
+    >>> constcheck.main(string=EXAMPLE, ignore_strings=["Hello, world", "Hello"])
+    3   | Hey
+    <BLANKLINE>
+
+.. code-block:: python
+
+    >>> constcheck.main(string=EXAMPLE, ignore_strings="Hello, world")
+    3   | Hey
     <BLANKLINE>

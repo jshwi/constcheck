@@ -21,13 +21,22 @@ from ._strings import (
     LEN_4,
     LEN_5,
     LEN_6,
+    MULTI,
     MULTILINE,
+    NONE,
     PACKAGE,
     PLUS,
     QUOTES,
     VERSION,
 )
-from ._utils import IndexFileType, MockMainType, NoColorCapsys, display, header
+from ._utils import (
+    IndexFileType,
+    MockMainType,
+    NoColorCapsys,
+    display,
+    get_word,
+    header,
+)
 
 
 @pytest.mark.parametrize(
@@ -484,6 +493,7 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
             {"check-this"},
             "initial_value must be str or None, not set",
         ),
+        ("ignore_strings", False, "argument of type 'bool' is not iterable"),
     ],
 )
 def test_invalid_types(
@@ -501,3 +511,27 @@ def test_invalid_types(
         constcheck.main(**{key: value})
 
     assert str(err.value) == expected
+
+
+@pytest.mark.parametrize(
+    "name,template,expected",
+    templates.registered.filtergroup(NONE).filtergroup(MULTI),
+    ids=templates.registered.filtergroup(NONE).filtergroup(MULTI).getids(),
+)
+def test_file_ignore_str(
+    main: MockMainType,
+    index_file: IndexFileType,
+    name: str,
+    template: str,
+    expected: str,
+) -> None:
+    """Test results when one file exists.
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    :param template: Content to write to file.
+    :param expected: Expected result from test.
+    """
+    word = get_word(expected)
+    index_file(Path.cwd() / f"{name}.py", template)
+    assert expected not in main(ignore_strings=[word])[0]

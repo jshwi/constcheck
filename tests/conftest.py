@@ -56,6 +56,7 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
             *argify.get_key_single("path", Path.cwd()),
             *argify.get_key_single("count", 3),
             *argify.get_key_single("len", 3),
+            *argify.get_key_seq("ignore_strings"),
             *argify.get_non_default("string"),
             *argify.get_flags("filter", "no_color"),
         ]
@@ -63,7 +64,9 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
         constcheck.main()
         return nocolorcapsys.readouterr()
 
-    def _main(**kwargs: t.Union[bool, int, str, Path]) -> t.Tuple[str, ...]:
+    def _main(
+        **kwargs: t.Union[bool, int, str, Path, t.List[str]]
+    ) -> t.Tuple[str, ...]:
         kwargs_output = _kwargs(**kwargs)
         commandline_output = _commandline(**kwargs)
         assert kwargs_output == commandline_output

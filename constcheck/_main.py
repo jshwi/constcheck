@@ -15,7 +15,9 @@ from ._objects import color as _color
 from ._typing import PathLike as _PathLike
 
 
-def main(**kwargs: _t.Union[bool, int, str, _PathLike]) -> None:
+def main(
+    **kwargs: _t.Union[bool, int, str, _PathLike, _t.Iterable[str]]
+) -> None:
     """Entry point for commandline and API use.
 
     If keyword arguments are passed to this function then the package
@@ -29,14 +31,17 @@ def main(**kwargs: _t.Union[bool, int, str, _PathLike]) -> None:
     :key count: Minimum number of repeat strings (default: 3).
     :key len: Minimum length of repeat strings (default: 3).
     :key string: Parse a str instead of a path.
+    :key ignore_strings: Iterable of str objects for words to exclude.
     :key filter: Boolean value to filter out empty results.
     :key no_color: Boolean value to disable color output.
     """
     _color.populate_colors()
-    path, values, filter_empty, no_color, string = _get_args(kwargs)
+    (path, values, filter_empty, no_color, string, ignore_strings) = _get_args(
+        kwargs
+    )
     if string is not None:
-        string_contents = _parse_string(string, values)
+        string_contents = _parse_string(string, values, ignore_strings)
         _display(string_contents, no_color)
     else:
-        file_contents = _parse_files(path, values)
+        file_contents = _parse_files(path, values, ignore_strings)
         _display_path(file_contents, filter_empty, no_color)

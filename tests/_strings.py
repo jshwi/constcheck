@@ -31,11 +31,13 @@ LEN_6 = _RandStrLenSeq(6)
 
 #: Specific string types
 QUOTES = ["'", '"', '"""']
+MULTI = "multi"
 MULTILINE = (
     "this is a long string\\n"
     "and another long string\\n"
     "and another long string\\n\\n"
 )
+NONE = "none"
 PLUS = (
     '"this" + " " + "is" + " " + "a" + " " + "single" + " " + "string"',
     "this is a single string",

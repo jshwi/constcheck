@@ -89,6 +89,14 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
     return contents
 
 
+def _remove_ignored_strings(
+    contents: _t.List[_TokenText], ignored_strings: _t.Iterable[str]
+) -> None:
+    for string in list(contents):
+        if str(string) in ignored_strings:
+            contents.remove(string)
+
+
 def _filter_repeats(lines: _TokenList, values: _ValueTuple) -> _FileStringRep:
     repeats = {
         k: v
@@ -118,6 +126,7 @@ def _get_default_args():
         filter=False,
         no_color=False,
         string=None,
+        ignore_strings=[],
     )
 
 
@@ -171,6 +180,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
             kwargs.get("filter", args["filter"]),
             kwargs.get("no_color", args["no_color"]),
             kwargs.get("string", args["string"]),
+            kwargs.get("ignore_strings", args["ignore_strings"]),
         )
 
     parser = _Parser(args)
@@ -180,15 +190,19 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
         parser.args.filter,
         parser.args.no_color,
         parser.args.string,
+        parser.args.ignore_strings,
     )
 
 
-def parse_files(path: _PathLike, values: _ValueTuple) -> _PathFileStringRep:
+def parse_files(
+    path: _PathLike, values: _ValueTuple, ignore_strings: _t.Iterable[str]
+) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
     :param path: Path for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
+    :param ignore_strings: Iterable of str objects for words to exclude.
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
     """
@@ -200,6 +214,7 @@ def parse_files(path: _PathLike, values: _ValueTuple) -> _PathFileStringRep:
         if _valid_path(file, path):
             with open(file, encoding="utf-8") as fin:
                 strings = _get_strings(fin)
+                _remove_ignored_strings(strings, ignore_strings)
 
             contents[file] = _filter_repeats(strings, values)
 
@@ -207,14 +222,18 @@ def parse_files(path: _PathLike, values: _ValueTuple) -> _PathFileStringRep:
     return contents
 
 
-def parse_string(string: str, values: _ValueTuple) -> _FileStringRep:
+def parse_string(
+    string: str, values: _ValueTuple, ignore_strings: _t.Iterable[str]
+) -> _FileStringRep:
     """Parse string for repeats strings.
 
     :param string: String for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
+    :param ignore_strings: Iterable of str objects for words to exclude.
     :return: Object containing repeated string and occurrence.
     """
     fin = _StringIO(string)
     strings = _get_strings(fin)
+    _remove_ignored_strings(strings, ignore_strings)
     return _filter_repeats(strings, values)
