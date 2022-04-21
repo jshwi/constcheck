@@ -110,6 +110,17 @@ def _populate_totals(path: _Path, contents: _PathFileStringRep) -> None:
                 contents[path][token] += occurrence
 
 
+def _get_default_args():
+    return dict(
+        path=_Path.cwd().relative_to(_Path.cwd()),
+        count=3,
+        len=3,
+        filter=False,
+        no_color=False,
+        string=None,
+    )
+
+
 def display(obj: _FileStringRep, no_color: bool) -> None:
     """Format and display object containing string and occurrence.
 
@@ -149,16 +160,20 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     :param kwargs: Kwargs passed to main.
     :return: Tuple of configured values.
     """
+    args = _get_default_args()
     if kwargs:
         return (
-            kwargs.get("path", _Path.cwd()),
-            (kwargs.get("count", 3), kwargs.get("len", 3)),
-            kwargs.get("filter", False),
-            kwargs.get("no_color", False),
-            kwargs.get("string"),
+            kwargs.get("path", args["path"]),
+            (
+                kwargs.get("count", args["count"]),
+                kwargs.get("len", args["len"]),
+            ),
+            kwargs.get("filter", args["filter"]),
+            kwargs.get("no_color", args["no_color"]),
+            kwargs.get("string", args["string"]),
         )
 
-    parser = _Parser()
+    parser = _Parser(args)
     return (
         parser.args.path,
         (parser.args.count, parser.args.len),

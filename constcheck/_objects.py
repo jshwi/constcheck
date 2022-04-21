@@ -30,7 +30,7 @@ class Parser(_ArgumentParser):
     _STORE = "store"
     _STORE_TRUE = "store_true"
 
-    def __init__(self) -> None:
+    def __init__(self, kwargs: _t.Dict[str, _t.Any]) -> None:
         super().__init__(
             prog=color.cyan.get(NAME),
             formatter_class=lambda prog: _HelpFormatter(
@@ -41,6 +41,7 @@ class Parser(_ArgumentParser):
                 " Defaults can be configured in your pyproject.toml file."
             ),
         )
+        self._kwargs = kwargs
         self._add_arguments()
         self.args = self.parse_args()
         self._version_request()
@@ -50,7 +51,7 @@ class Parser(_ArgumentParser):
             "-p",
             "--path",
             action=self._STORE,
-            default=_Path.cwd().relative_to(_Path.cwd()),
+            default=self._kwargs["path"],
             type=_Path,
             help="path to check files for (default: %(default)s)",
         )
@@ -58,7 +59,7 @@ class Parser(_ArgumentParser):
             "-c",
             "--count",
             action=self._STORE,
-            default=3,
+            default=self._kwargs["count"],
             metavar="INT",
             type=int,
             help="minimum number of repeat strings (default: %(default)d)",
@@ -67,7 +68,7 @@ class Parser(_ArgumentParser):
             "-l",
             "--len",
             action=self._STORE,
-            default=3,
+            default=self._kwargs["len"],
             metavar="INT",
             type=int,
             help="minimum length of repeat strings (default: %(default)d)",
@@ -78,18 +79,21 @@ class Parser(_ArgumentParser):
             action=self._STORE,
             metavar="STR",
             type=str,
+            default=self._kwargs["string"],
             help="parse a string instead of a file",
         )
         self.add_argument(
             "-f",
             "--filter",
             action=self._STORE_TRUE,
+            default=self._kwargs["filter"],
             help="filter out empty results",
         )
         self.add_argument(
             "-n",
             "--no-color",
             action=self._STORE_TRUE,
+            default=self._kwargs["no_color"],
             help="disable color output",
         )
         self.add_argument(
