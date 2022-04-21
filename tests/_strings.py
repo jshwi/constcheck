@@ -95,7 +95,7 @@ class _BracketsAssigned3Reps(_BaseTemplate):
 
 
 @_templates.register
-class _Basic3to4Reps(_BaseTemplate):
+class _MultiBasic3to4Reps(_BaseTemplate):
     """Test file with 3 and 4 repeat strings."""
 
     @property
@@ -120,7 +120,7 @@ class _Basic3to4Reps(_BaseTemplate):
 
 
 @_templates.register
-class _Basic3to5Reps(_BaseTemplate):
+class _MultiBasic3to5Reps(_BaseTemplate):
     """Test file with 3, 4, and 5 repeat strings."""
 
     @property
