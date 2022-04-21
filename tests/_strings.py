@@ -261,7 +261,7 @@ class _BracketsMulti3Reps(_BaseTemplate):
 
 
 @_templates.register
-class _Brackets0Reps(_TemplateNoneExpected):
+class _NoneBrackets(_TemplateNoneExpected):
     """Test file with 3 concatenated strings in parentheses."""
 
     @property
@@ -272,7 +272,7 @@ class _Brackets0Reps(_TemplateNoneExpected):
 
 
 @_templates.register
-class _BracketsCommaInString0Reps(_TemplateNoneExpected):
+class _NoneCommaInString(_TemplateNoneExpected):
     """Test file with 3 strings in parentheses with comma in string."""
 
     @property
@@ -283,7 +283,7 @@ class _BracketsCommaInString0Reps(_TemplateNoneExpected):
 
 
 @_templates.register
-class _BracketsMulti0Reps(_TemplateNoneExpected):
+class _NoneBracketsMulti(_TemplateNoneExpected):
     """Test file with concatenated string in indented parentheses."""
 
     @property
@@ -307,7 +307,7 @@ class _BracketsMulti0Reps(_TemplateNoneExpected):
 
 
 @_templates.register
-class _BracketsAssignedMulti0Reps(_TemplateNoneExpected):
+class _NoneBracketsAssignedMulti(_TemplateNoneExpected):
     """Test file with concatenated string in assigned parentheses."""
 
     @property
@@ -331,7 +331,7 @@ class _BracketsAssignedMulti0Reps(_TemplateNoneExpected):
 
 
 @_templates.register
-class _TripleQuotesMulti0Reps(_TemplateNoneExpected):
+class _NoneTripleQuotesMulti(_TemplateNoneExpected):
     """Test file with multiline string in triple quotes."""
 
     @property
@@ -355,7 +355,7 @@ class _TripleQuotesMulti0Reps(_TemplateNoneExpected):
 
 
 @_templates.register
-class _ModuleDocstring0Reps(_TemplateNoneExpected):
+class _NoneModuleDocstring(_TemplateNoneExpected):
     """Test file with module docstring for 1 repeat."""
 
     @property
@@ -369,7 +369,7 @@ package._module
 
 
 @_templates.register
-class _FString0Reps(_TemplateNoneExpected):
+class _NoneFString(_TemplateNoneExpected):
     """Test file for ignored fstrings which cannot be evaluated."""
 
     @property
@@ -383,7 +383,7 @@ print({CONST[0]})
 
 
 @_templates.register
-class _FStringConcat0Reps(_TemplateNoneExpected):
+class _NoneFStringConcat(_TemplateNoneExpected):
     """Test file for ignored concatenated fstrings."""
 
     @property
@@ -414,7 +414,7 @@ class _AddConcat3Reps(_BaseTemplate):
 
 
 @_templates.register
-class _NestedConcatFString0Reps(_TemplateNoneExpected):
+class _NoneNestedConcatFString(_TemplateNoneExpected):
     """Test file for nested fstring."""
 
     @property
@@ -461,7 +461,7 @@ FSTRINGS_IGNORED = "f-strings ignored"
 
 
 @_templates.register
-class _NestedAltFString0Reps(_BaseTemplate):
+class _NestedAltFString3Reps(_BaseTemplate):
     """Test file for nested alternating strings and fstrings."""
 
     @property

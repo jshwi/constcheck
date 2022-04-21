@@ -98,25 +98,25 @@ def test_parse_str(
             + display((5, QUOTES[2]))
             + header(index=6)
             + display((3, QUOTES[2]))
-            + header(index=9, newline=True)
             + header(index=1)
             + display((3, LEN_3[1]))
             + header(index=2)
             + display((3, LEN_3[4]))
-            + header(index=12, newline=True)
-            + header(index=10, newline=True)
-            + header(index=11, newline=True)
             + header(index=8)
             + display((3, MULTILINE))
-            + header(index=15, newline=True)
-            + header(index=16, newline=True)
-            + header(index=14, newline=True)
             + header(index=19)
             + display((3, LEN_6[3]))
+            + header(index=12, newline=True)
+            + header(index=11, newline=True)
+            + header(index=9, newline=True)
+            + header(index=10, newline=True)
+            + header(index=16, newline=True)
+            + header(index=15, newline=True)
+            + header(index=14, newline=True)
             + header(index=18, newline=True)
+            + header(index=13, newline=True)
             + header(index=7)
-            + display((4, LEN_5[0]))
-            + header(index=13, newline=True),
+            + display((4, LEN_5[0])),
         ),
         (
             dict(filter=True),
@@ -204,8 +204,8 @@ def test_multiple_files_single_packages(
             + display((3, LEN_4[0]), (4, LEN_5[0]))
             + header(prefix=PACKAGE[0], index=6)
             + display((3, QUOTES[2]))
-            + header(prefix=PACKAGE[0], index=9, newline=True)
             + header(prefix=PACKAGE[0], index=12, newline=True)
+            + header(prefix=PACKAGE[0], index=9, newline=True)
             + header(prefix=PACKAGE[0], index=15, newline=True)
             + header(prefix=PACKAGE[0], index=18, newline=True)
             + header(prefix=PACKAGE[1])
@@ -220,13 +220,13 @@ def test_multiple_files_single_packages(
             + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
             + header(prefix=PACKAGE[1], index=1)
             + display((3, LEN_3[1]))
-            + header(prefix=PACKAGE[1], index=10, newline=True)
-            + header(prefix=PACKAGE[1], index=16, newline=True)
             + header(prefix=PACKAGE[1], index=19)
             + display((3, LEN_6[3]))
+            + header(prefix=PACKAGE[1], index=10, newline=True)
+            + header(prefix=PACKAGE[1], index=16, newline=True)
+            + header(prefix=PACKAGE[1], index=13, newline=True)
             + header(prefix=PACKAGE[1], index=7)
             + display((4, LEN_5[0]))
-            + header(prefix=PACKAGE[1], index=13, newline=True)
             + header(prefix=PACKAGE[2])
             + display(
                 (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
@@ -237,9 +237,9 @@ def test_multiple_files_single_packages(
             + display((5, QUOTES[2]))
             + header(prefix=PACKAGE[2], index=2)
             + display((3, LEN_3[4]))
-            + header(prefix=PACKAGE[2], index=11, newline=True)
             + header(prefix=PACKAGE[2], index=8)
             + display((3, MULTILINE))
+            + header(prefix=PACKAGE[2], index=11, newline=True)
             + header(prefix=PACKAGE[2], index=14, newline=True),
         ),
         (
@@ -252,8 +252,8 @@ def test_multiple_files_single_packages(
             + display((3, LEN_4[0]), (4, LEN_5[0]))
             + header(prefix=PACKAGE[0], index=6)
             + display((3, QUOTES[2]))
-            + header(prefix=PACKAGE[0], index=9, newline=True)
             + header(prefix=PACKAGE[0], index=12, newline=True)
+            + header(prefix=PACKAGE[0], index=9, newline=True)
             + header(prefix=PACKAGE[0], index=15, newline=True)
             + header(prefix=PACKAGE[0], index=18, newline=True),
         ),
@@ -271,13 +271,13 @@ def test_multiple_files_single_packages(
             + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
             + header(prefix=PACKAGE[1], index=1)
             + display((3, LEN_3[1]))
-            + header(prefix=PACKAGE[1], index=10, newline=True)
-            + header(prefix=PACKAGE[1], index=16, newline=True)
             + header(prefix=PACKAGE[1], index=19)
             + display((3, LEN_6[3]))
+            + header(prefix=PACKAGE[1], index=10, newline=True)
+            + header(prefix=PACKAGE[1], index=16, newline=True)
+            + header(prefix=PACKAGE[1], index=13, newline=True)
             + header(prefix=PACKAGE[1], index=7)
-            + display((4, LEN_5[0]))
-            + header(prefix=PACKAGE[1], index=13, newline=True),
+            + display((4, LEN_5[0])),
         ),
         (
             dict(path=PACKAGE[2]),
@@ -291,9 +291,9 @@ def test_multiple_files_single_packages(
             + display((5, QUOTES[2]))
             + header(prefix=PACKAGE[2], index=2)
             + display((3, LEN_3[4]))
-            + header(prefix=PACKAGE[2], index=11, newline=True)
             + header(prefix=PACKAGE[2], index=8)
             + display((3, MULTILINE))
+            + header(prefix=PACKAGE[2], index=11, newline=True)
             + header(prefix=PACKAGE[2], index=14, newline=True),
         ),
     ],
