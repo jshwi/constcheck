@@ -16,7 +16,22 @@ from ._typing import PathLike as _PathLike
 
 
 def main(**kwargs: _t.Union[bool, int, str, _PathLike]) -> None:
-    """Main function for package."""
+    """Entry point for commandline and API use.
+
+    If keyword arguments are passed to this function then the package
+    has been imported and the commandline parser will not read from the
+    argument vector.
+
+    If no arguments are provided then the defaults will be used. As of
+    this version all arguments are optional.
+
+    :key path: Path to check files for (default: .).
+    :key count: Minimum number of repeat strings (default: 3).
+    :key len: Minimum length of repeat strings (default: 3).
+    :key string: Parse a str instead of a path.
+    :key filter: Boolean value to filter out empty results.
+    :key no_color: Boolean value to disable color output.
+    """
     _color.populate_colors()
     path, values, filter_empty, no_color, string = _get_args(kwargs)
     if string is not None:
