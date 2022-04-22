@@ -28,7 +28,7 @@ keywords = ["const", "constant", "str", "check", "dry",]
 license = "MIT"
 name = "constcheck"
 readme = "README.rst"
-version = "0.1.0"
+version = "0.2.0"
 
 [tool.poetry.dependencies]
 lsfiles = "^0.1.1"
