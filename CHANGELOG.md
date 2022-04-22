@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.2.0...HEAD)
 ------------------------------------------------------------------------
 ### Added
+- Adds non-zero exit status for results
 - Allows for escaping comma delimiter
 
 [0.2.0](https://github.com/jshwi/constcheck/releases/tag/v0.2.0) - 2022-04-22

@@ -142,37 +142,45 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
     return args
 
 
-def display(obj: _FileStringRep, no_color: bool) -> None:
+def display(obj: _FileStringRep, no_color: bool) -> int:
     """Format and display object containing string and occurrence.
 
     :param obj: Object containing repeated string and occurrence.
     :param no_color: disable color output.
+    :return: Return non-zero exit status if constants were found.
     """
+    returncode = 0
     for string, count in sorted(sorted(obj.items()), key=lambda x: x[1]):
         numbers = _color_display(count, _color.yellow, no_color)
         pipe = _color_display("|", _color.cyan, no_color)
         tab = (4 - len(str(count))) * " "
         print(f"{numbers}{tab}{pipe} {string}")
+        returncode = 1
 
     print()
+    return returncode
 
 
 def display_path(
     contents: _PathFileStringRep, filter_empty: bool, no_color: bool
-) -> None:
+) -> int:
     """Display the end result of string repetition of provided files.
 
     :param contents: Object containing repeated string and occurrence
         grouped by their parent dirs.
     :param filter_empty: Do not display empty results.
     :param no_color: disable color output.
+    :return: Return non-zero exit status if constants were found.
     """
+    returncodes = []
     for path, obj in sorted(contents.items()):
         if obj or not filter_empty:
             relative_file = str(path.relative_to(_Path.cwd()))
             print(_color_display(relative_file, _color.magenta, no_color))
             print(len(relative_file) * "-")
-            display(obj, no_color)
+            returncodes.append(display(obj, no_color))
+
+    return int(any(returncodes))
 
 
 def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:

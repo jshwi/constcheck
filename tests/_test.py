@@ -2,7 +2,7 @@
 tests._test
 ===========
 """
-# pylint: disable=too-many-arguments,protected-access
+# pylint: disable=too-many-arguments,protected-access,no-self-use
 import sys
 import typing as t
 
@@ -598,3 +598,41 @@ def test_escaped_comma(main_cmd: MockMainType) -> None:
             f"{TUPLE[0]}\\,{TUPLE[1]}",
         )[0]
     )
+
+
+class TestReturncode:
+    """Test correct exit status returned from main."""
+
+    @pytest.mark.parametrize(
+        "name,template,_",
+        templates.registered.getgroup(NONE),
+        ids=templates.registered.getgroup(NONE).getids(),
+    )
+    def test_zero(
+        self, index_file: IndexFileType, name: str, template: str, _: str
+    ) -> None:
+        """Test zero when no results produced.
+
+        :param index_file: Create and index file.
+        :param name: Name of registered template.
+        :param template: Content to write to file.
+        """
+        index_file(Path.cwd() / f"{name}.py", template)
+        assert constcheck.main() == 0
+
+    @pytest.mark.parametrize(
+        "name,template,_",
+        templates.registered.filtergroup(NONE),
+        ids=templates.registered.filtergroup(NONE).getids(),
+    )
+    def test_non_zero(
+        self, index_file: IndexFileType, name: str, template: str, _: str
+    ) -> None:
+        """Test non-zero when constants are detected.
+
+        :param index_file: Create and index file.
+        :param name: Name of registered template.
+        :param template: Content to write to file.
+        """
+        index_file(Path.cwd() / f"{name}.py", template)
+        assert constcheck.main() != 0

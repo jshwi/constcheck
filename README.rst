@@ -90,6 +90,7 @@ API
     4   | Hello
     5   | Hello, world
     <BLANKLINE>
+    1
 
 With the ``count`` argument
 
@@ -99,6 +100,7 @@ With the ``count`` argument
     4   | Hello
     5   | Hello, world
     <BLANKLINE>
+    1
 
 With the ``len`` argument
 
@@ -107,6 +109,7 @@ With the ``len`` argument
     >>> constcheck.main(string=EXAMPLE, len=6)
     5   | Hello, world
     <BLANKLINE>
+    1
 
 With the ``ignore_strings`` argument which accepts a ``str`` iterable
 
@@ -115,12 +118,20 @@ With the ``ignore_strings`` argument which accepts a ``str`` iterable
     >>> constcheck.main(string=EXAMPLE, ignore_strings=["Hello, world", "Hello"])
     3   | Hey
     <BLANKLINE>
+    1
 
 .. code-block:: python
 
     >>> constcheck.main(string=EXAMPLE, ignore_strings="Hello, world")
     3   | Hey
     <BLANKLINE>
+    1
+
+.. code-block:: python
+
+    >>> constcheck.main(string=EXAMPLE, ignore_strings=["Hello, world", "Hello", "Hey"])
+    <BLANKLINE>
+    0
 
 Config
 ******

@@ -19,7 +19,7 @@ def main(
     **kwargs: _t.Union[
         bool, int, str, _PathLike, _t.Iterable[str], _t.List[str]
     ]
-) -> None:
+) -> int:
     """Entry point for commandline and API use.
 
     If keyword arguments are passed to this function then the package
@@ -40,6 +40,7 @@ def main(
     :key ignore_files: List of str objects for paths to exclude.
     :key filter: Boolean value to filter out empty results.
     :key no_color: Boolean value to disable color output.
+    :return: Exit status.
     """
     _color.populate_colors()
     (
@@ -53,9 +54,7 @@ def main(
     ) = _get_args(kwargs)
     if string is not None:
         string_contents = _parse_string(string, values, ignore_strings)
-        _display(string_contents, no_color)
-    else:
-        file_contents = _parse_files(
-            path, values, ignore_strings, ignore_files
-        )
-        _display_path(file_contents, filter_empty, no_color)
+        return _display(string_contents, no_color)
+
+    file_contents = _parse_files(path, values, ignore_strings, ignore_files)
+    return _display_path(file_contents, filter_empty, no_color)
