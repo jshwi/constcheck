@@ -463,3 +463,41 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
     )
     constcheck.main(string=template, no_color=True)
     assert capsys.readouterr()[0] == expected
+
+
+@pytest.mark.parametrize(
+    "key,value,expected",
+    [
+        ("path", 1, "expected str, bytes or os.PathLike object, not int"),
+        (
+            "count",
+            "Hello",
+            "'>=' not supported between instances of 'int' and 'str'",
+        ),
+        (
+            "len",
+            ["Hello, world"],
+            "'>=' not supported between instances of 'int' and 'list'",
+        ),
+        (
+            "string",
+            {"check-this"},
+            "initial_value must be str or None, not set",
+        ),
+    ],
+)
+def test_invalid_types(
+    index_file: IndexFileType, key: str, value: t.Any, expected: str
+) -> None:
+    """Test ``TypeError`` when incorrect types passed to ``main``.
+
+    :param index_file: Create and index file.
+    :param key: Keyword passed to ``main``.
+    :param value: Incorrect value.
+    :param expected: Expected error output.
+    """
+    index_file(Path.cwd() / "file.py", templates.registered[0][1])
+    with pytest.raises(TypeError) as err:
+        constcheck.main(**{key: value})
+
+    assert str(err.value) == expected
