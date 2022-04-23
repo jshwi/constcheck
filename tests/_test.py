@@ -498,6 +498,7 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
         ("ignore_strings", False, "argument of type 'bool' is not iterable"),
         ("ignore_files", 10, "argument of type 'int' is not iterable"),
     ],
+    ids=["path", "count", "len", "string", "ignore_strings", "ignore_files"],
 )
 def test_invalid_types(
     index_file: IndexFileType, key: str, value: t.Any, expected: str
