@@ -120,7 +120,7 @@ def _populate_totals(path: _Path, contents: _PathFileStringRep) -> None:
                 contents[path][token] += occurrence
 
 
-def _get_default_args():
+def _get_default_args() -> _t.Dict[str, _t.Any]:
     args = dict(
         path=_Path.cwd().relative_to(_Path.cwd()),
         count=3,
