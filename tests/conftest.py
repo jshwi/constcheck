@@ -33,6 +33,7 @@ def fixture_mock_environment(
     """
     monkeypatch.setattr("sys.argv", [constcheck.__name__])
     monkeypatch.setattr("os.getcwd", lambda: str(tmp_path))
+    git.init(".", devnull=True)
 
 
 @pytest.fixture(name="nocolorcapsys")
@@ -156,7 +157,6 @@ def fixture_index_file() -> IndexFileType:
         with open(path, "w", encoding="utf-8") as fout:
             fout.write(template)
 
-        git.init(".", devnull=True)
         git.add(".")
 
     return _index_file
