@@ -85,17 +85,21 @@ def fixture_main_config(nocolorcapsys: NoColorCapsys) -> MockMainType:
 
 
 @pytest.fixture(name="main_cmd")
-def fixture_main_cmd(nocolorcapsys: NoColorCapsys) -> MockMainType:
+def fixture_main_cmd(
+    monkeypatch: pytest.MonkeyPatch, nocolorcapsys: NoColorCapsys
+) -> MockMainType:
     """Main for commandline usage.
 
     :param nocolorcapsys: Capture system output while stripping ANSI
         color codes.
+    :param monkeypatch: Mock patch environment and attributes.
     :return: Function for using this fixture.
     """
 
     def _main_cmd(*args: str) -> t.Tuple[str, ...]:
         sys.argv.extend(args)
         constcheck.main()
+        monkeypatch.setattr("sys.argv", [constcheck.__name__])
         return nocolorcapsys.readouterr()
 
     return _main_cmd
