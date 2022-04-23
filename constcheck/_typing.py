@@ -24,4 +24,5 @@ ArgTuple = _t.Tuple[
     _t.Optional[str],
     _t.Iterable[str],
     _t.List[str],
+    _t.Dict[str, _t.Iterable[str]],
 ]

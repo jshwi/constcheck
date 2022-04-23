@@ -10,8 +10,10 @@ import re as _re
 import sys as _sys
 import tokenize as _tokenize
 import typing as _t
+from argparse import Action as _Action
 from argparse import ArgumentParser as _ArgumentParser
 from argparse import HelpFormatter as _HelpFormatter
+from argparse import Namespace as _Namespace
 from collections import UserString as _UserString
 
 from lsfiles import LSFiles as _LSFiles
@@ -30,6 +32,26 @@ def _split_comma(value: str) -> _t.List[str]:
     return [i.replace("\\,", ",") for i in _re.split(r"(?<!\\),", value)]
 
 
+class _DictAction(_Action):  # pylint: disable=too-few-public-methods
+    def __call__(
+        self,
+        parser: _ArgumentParser,
+        namespace: _Namespace,
+        values: _t.Optional[_t.Union[str, _t.Sequence[_t.Any]]],
+        _: _t.Optional[str] = None,
+    ) -> None:
+        if values is not None:
+            try:
+                dest = {
+                    k: _split_comma(v)
+                    for i in values
+                    for k, v in [i.split("=")]
+                }
+                setattr(namespace, self.dest, dest)
+            except ValueError:
+                pass
+
+
 class Parser(_ArgumentParser):
     """Parse commandline arguments."""
 
@@ -40,7 +62,7 @@ class Parser(_ArgumentParser):
         super().__init__(
             prog=color.cyan.get(NAME),
             formatter_class=lambda prog: _HelpFormatter(
-                prog, max_help_position=40
+                prog, max_help_position=45
             ),
             description=(
                 "Check Python files for repeat use of strings."
@@ -106,6 +128,14 @@ class Parser(_ArgumentParser):
             type=_split_comma,
             default=self._kwargs["ignore_files"],
             help="comma separated list of files to exclude",
+        )
+        self.add_argument(
+            "--ignore-from",
+            action=_DictAction,
+            metavar="FILE=LIST",
+            nargs="*",
+            default=self._kwargs["ignore_from"],
+            help="comma separated list of strings to exclude from file",
         )
         self.add_argument(
             "-f",

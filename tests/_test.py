@@ -480,31 +480,67 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
 
 
 @pytest.mark.parametrize(
-    "key,value,expected",
+    "key,value,expected,exception",
     [
-        ("path", 1, "expected str, bytes or os.PathLike object, not int"),
+        (
+            "path",
+            1,
+            "expected str, bytes or os.PathLike object, not int",
+            TypeError,
+        ),
         (
             "count",
             "Hello",
             "'>=' not supported between instances of 'int' and 'str'",
+            TypeError,
         ),
         (
             "len",
             ["Hello, world"],
             "'>=' not supported between instances of 'int' and 'list'",
+            TypeError,
         ),
         (
             "string",
             {"check-this"},
             "initial_value must be str or None, not set",
+            TypeError,
         ),
-        ("ignore_strings", False, "argument of type 'bool' is not iterable"),
-        ("ignore_files", 10, "argument of type 'int' is not iterable"),
+        (
+            "ignore_strings",
+            False,
+            "argument of type 'bool' is not iterable",
+            TypeError,
+        ),
+        (
+            "ignore_files",
+            10,
+            "argument of type 'int' is not iterable",
+            TypeError,
+        ),
+        (
+            "ignore_from",
+            ["hi"],
+            "'list' object has no attribute 'get'",
+            AttributeError,
+        ),
     ],
-    ids=["path", "count", "len", "string", "ignore_strings", "ignore_files"],
+    ids=[
+        "path",
+        "count",
+        "len",
+        "string",
+        "ignore_strings",
+        "ignore_files",
+        "ignore_from",
+    ],
 )
 def test_invalid_types(
-    index_file: IndexFileType, key: str, value: t.Any, expected: str
+    index_file: IndexFileType,
+    key: str,
+    value: t.Any,
+    expected: str,
+    exception: t.Type[Exception],
 ) -> None:
     """Test ``TypeError`` when incorrect types passed to ``main``.
 
@@ -514,7 +550,7 @@ def test_invalid_types(
     :param expected: Expected error output.
     """
     index_file(Path.cwd() / "file.py", templates.registered[0][1])
-    with pytest.raises(TypeError) as err:
+    with pytest.raises(exception) as err:
         constcheck.main(**{key: value})
 
     assert str(err.value) == expected
@@ -636,3 +672,46 @@ class TestReturncode:
         """
         index_file(Path.cwd() / f"{name}.py", template)
         assert constcheck.main() != 0
+
+
+@pytest.mark.parametrize("sliced", [(0, 2), (2, 4), (4, 6), (6, 8)])
+def test_ignore_from(
+    main: MockMainType, index_file: IndexFileType, sliced: t.Tuple[int, int]
+) -> None:
+    """Test file/strings passed to ``ignore_from`` only ignores file.
+
+    :param main: Patch package entry point.
+    :param index_file: Create and index file.
+    :param sliced: Slice to get from registered.
+    """
+    te1, te2 = (
+        templates.registered.filtergroup(NONE)
+        .filtergroup(MULTI)
+        .filtergroup(ESCAPED)[slice(*sliced)]
+    )
+
+    # make sure files have the same content
+    index_file(Path.cwd() / f"{te1.name}.py", te1.template)
+    index_file(Path.cwd() / f"{te2.name}.py", te1.template)
+    word = get_word(te1.expected)
+
+    # # ignore the word in file 1
+    result = main(ignore_from={f"{te1.name}.py": [word]}, filter=True)[0]
+    assert header(index=templates.registered.getindex(te1.name)) not in result
+    assert header(index=templates.registered.getindex(te2.name)) in result
+
+    # ignore the word in file 2
+    result = main(ignore_from={f"{te2.name}.py": [word]}, filter=True)[0]
+    assert header(index=templates.registered.getindex(te1.name)) in result
+    assert header(index=templates.registered.getindex(te2.name)) not in result
+
+
+def test_ignore_from_no_value_given(main_cmd: MockMainType) -> None:
+    """Test program continues if value not given to key.
+
+    No need to run any assertions, testing no error raised.
+
+    :param main_cmd: Main, as used through the commandline, which
+        receives strings as arguments from the argument vector.
+    """
+    main_cmd("--ignore-from", "some-file")

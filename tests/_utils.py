@@ -19,7 +19,15 @@ git = _Git()
 
 MockMainType = _t.Callable[..., _t.Tuple[str, ...]]
 IndexFileType = _t.Callable[[_Path, str], None]
-KwargsType = _t.Union[bool, int, str, _Path, _t.Iterable[str], _t.List[str]]
+KwargsType = _t.Union[
+    bool,
+    int,
+    str,
+    _Path,
+    _t.Iterable[str],
+    _t.List[str],
+    _t.Dict[str, _t.Iterable[str]],
+]
 
 
 class NoColorCapsys:
@@ -106,6 +114,20 @@ class Argify:
         """
         value = self._kwargs.get(key, [])
         return [i for i in (self._argify(key), ",".join(value)) if value]
+
+    def get_key_mapping(self, key: str) -> _t.List[str]:
+        """Get a list for args passed with a list.
+
+        :param key: Key passed to main.
+        :return: List containing the argument and its value as a comma
+            separated list.
+        """
+        strings = []
+        obj = self._kwargs.get(key, {})
+        for subkey, value in obj.items():
+            strings.append(f"{subkey}={','.join(value)}")
+
+        return [i for i in (self._argify(key), " ".join(strings)) if obj]
 
     def get_non_default(self, key: str) -> _t.List[str]:
         """Get a tuple for and optional arg passed with a value.

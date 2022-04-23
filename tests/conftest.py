@@ -129,6 +129,7 @@ def fixture_main(
             *argify.get_key_single("len", 3),
             *argify.get_key_seq("ignore_strings"),
             *argify.get_key_seq("ignore_files"),
+            *argify.get_key_mapping("ignore_from"),
             *argify.get_non_default("string"),
             *argify.get_flags("filter", "no_color"),
         ]

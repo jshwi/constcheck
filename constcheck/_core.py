@@ -99,11 +99,16 @@ def _remove_ignored_strings(
             contents.remove(string)
 
 
-def _filter_repeats(lines: _TokenList, values: _ValueTuple) -> _FileStringRep:
+def _filter_repeats(
+    lines: _TokenList,
+    values: _ValueTuple,
+    file_exclusions: _t.Optional[_t.Iterable[str]] = None,
+) -> _FileStringRep:
+    ignore = file_exclusions or []
     repeats = {
         k: v
         for k, v in _Counter(lines).items()
-        if v >= values[0] and len(k) >= values[1]
+        if v >= values[0] and len(k) >= values[1] and str(k) not in ignore
     }
     return repeats
 
@@ -130,6 +135,7 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
         string=None,
         ignore_strings=[],
         ignore_files=[],
+        ignore_from={},
     )
     pyproject_file = _Path.cwd() / "pyproject.toml"
     if pyproject_file.is_file():
@@ -202,6 +208,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
             kwargs.get("string", args["string"]),
             kwargs.get("ignore_strings", args["ignore_strings"]),
             kwargs.get("ignore_files", args["ignore_files"]),
+            kwargs.get("ignore_from", args["ignore_from"]),
         )
 
     parser = _Parser(args)
@@ -213,6 +220,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
         parser.args.string,
         parser.args.ignore_strings,
         parser.args.ignore_files,
+        parser.args.ignore_from,
     )
 
 
@@ -221,14 +229,18 @@ def parse_files(
     values: _ValueTuple,
     ignore_strings: _t.Iterable[str],
     ignore_files: _t.List[str],
+    ignore_from: _t.Dict[str, _t.Iterable[str]],
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
+    :param ignore_from:
     :param path: Path for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
     :param ignore_strings: Iterable of str objects for words to exclude.
     :param ignore_files: List of str objects for paths to exclude.
+    :param ignore_from: Dict of Iterable of str objects for strings to
+        exclude from a particular path.
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
     """
@@ -242,7 +254,10 @@ def parse_files(
                 strings = _get_strings(fin)
                 _remove_ignored_strings(strings, ignore_strings)
 
-            contents[file] = _filter_repeats(strings, values)
+            file_exclusions = ignore_from.get(
+                str(file.relative_to(_Path.cwd())), {}
+            )
+            contents[file] = _filter_repeats(strings, values, file_exclusions)
 
     _populate_totals(path, contents)
     return contents
