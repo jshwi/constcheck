@@ -19,6 +19,7 @@ git = _Git()
 
 MockMainType = _t.Callable[..., _t.Tuple[str, ...]]
 IndexFileType = _t.Callable[[_Path, str], None]
+KwargsType = _t.Union[bool, int, str, _Path, _t.Iterable[str], _t.List[str]]
 
 
 class NoColorCapsys:

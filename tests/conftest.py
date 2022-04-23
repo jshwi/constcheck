@@ -12,7 +12,14 @@ from pathlib3x import Path
 
 import constcheck
 
-from ._utils import Argify, IndexFileType, MockMainType, NoColorCapsys, git
+from ._utils import (
+    Argify,
+    IndexFileType,
+    KwargsType,
+    MockMainType,
+    NoColorCapsys,
+    git,
+)
 
 
 @pytest.fixture(name="mock_environment", autouse=True)
@@ -40,16 +47,32 @@ def fixture_nocolorcapsys(capsys: pytest.CaptureFixture) -> NoColorCapsys:
     return NoColorCapsys(capsys)
 
 
-@pytest.fixture(name="main")
-def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
-    """Pass patched commandline arguments to package's main function.
+@pytest.fixture(name="main_kwargs")
+def fixture_main_kwargs(nocolorcapsys: NoColorCapsys) -> MockMainType:
+    """Main for pyproject.toml usage.
 
     :param nocolorcapsys: Capture system output while stripping ANSI
         color codes.
     :return: Function for using this fixture.
     """
 
-    def _config(kwargs):
+    def _main_kwargs(**kwargs: KwargsType) -> t.Tuple[str, ...]:
+        constcheck.main(**kwargs)
+        return nocolorcapsys.readouterr()
+
+    return _main_kwargs
+
+
+@pytest.fixture(name="main_config")
+def fixture_main_config(nocolorcapsys: NoColorCapsys) -> MockMainType:
+    """Main for pyproject.toml usage.
+
+    :param nocolorcapsys: Capture system output while stripping ANSI
+        color codes.
+    :return: Function for using this fixture.
+    """
+
+    def _main_config(**kwargs: KwargsType) -> t.Tuple[str, ...]:
         pyproject_file = Path.cwd() / "pyproject.toml"
         pyproject_obj = {"tool": {constcheck.__name__: kwargs}}
         with open(pyproject_file, "wb") as fout:
@@ -58,13 +81,44 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
         constcheck.main()
         return nocolorcapsys.readouterr()
 
-    def _kwargs(**kwargs) -> t.Tuple[str, ...]:
-        constcheck.main(**kwargs)
+    return _main_config
+
+
+@pytest.fixture(name="main_cmd")
+def fixture_main_cmd(nocolorcapsys: NoColorCapsys) -> MockMainType:
+    """Main for commandline usage.
+
+    :param nocolorcapsys: Capture system output while stripping ANSI
+        color codes.
+    :return: Function for using this fixture.
+    """
+
+    def _main_cmd(*args: str) -> t.Tuple[str, ...]:
+        sys.argv.extend(args)
+        constcheck.main()
         return nocolorcapsys.readouterr()
 
-    def _commandline(**kwargs) -> t.Tuple[str, ...]:
+    return _main_cmd
+
+
+@pytest.fixture(name="main")
+def fixture_main(
+    main_config: MockMainType,
+    main_kwargs: MockMainType,
+    main_cmd: MockMainType,
+) -> MockMainType:
+    """Pass patched commandline arguments to package's main function.
+
+    :param main_config: Main with arguments parsed from pyproject.toml.
+    :param main_kwargs: Main as the function itself, for API usage.
+    :param main_cmd: Main, as used through the commandline, which
+        receives strings as arguments from the argument vector.
+    :return: Function for using this fixture.
+    """
+
+    def _convert_commandline(**kwargs: KwargsType) -> t.List[str]:
         argify = Argify(kwargs)
-        args = [
+        return [
             *argify.get_key_single("path", Path.cwd()),
             *argify.get_key_single("count", 3),
             *argify.get_key_single("len", 3),
@@ -73,17 +127,13 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
             *argify.get_non_default("string"),
             *argify.get_flags("filter", "no_color"),
         ]
-        sys.argv.extend(args)
-        constcheck.main()
-        return nocolorcapsys.readouterr()
 
-    def _main(
-        **kwargs: t.Union[bool, int, str, Path, t.Iterable[str], t.List[str]]
-    ) -> t.Tuple[str, ...]:
-        config_output = _config(kwargs)
-        kwargs_output = _kwargs(**kwargs)
-        assert kwargs_output == config_output
-        commandline_output = _commandline(**kwargs)
+    def _main(**kwargs: KwargsType) -> t.Tuple[str, ...]:
+        args = _convert_commandline(**kwargs)
+        config_output = main_config(**kwargs)
+        kwargs_output = main_kwargs(**kwargs)
+        commandline_output = main_cmd(*args)
+        assert config_output == kwargs_output
         assert kwargs_output == commandline_output
         return commandline_output
 
