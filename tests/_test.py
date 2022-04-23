@@ -55,6 +55,7 @@ def test_single_file(
 
     :param main: Patch package entry point.
     :param index_file: Create and index file.
+    :param name: Name of registered template.
     :param template: Content to write to file.
     :param expected: Expected result from test.
     """
@@ -74,6 +75,7 @@ def test_parse_str(
 
     :param main: Patch package entry point.
     :param template: Content to write to file.
+    :param expected: Expected result from test.
     """
     assert expected in main(string=template)[0]
 
@@ -530,6 +532,7 @@ def test_file_ignore_str(
 
     :param main: Patch package entry point.
     :param index_file: Create and index file.
+    :param name: Name of registered template.
     :param template: Content to write to file.
     :param expected: Expected result from test.
     """
@@ -550,6 +553,7 @@ def test_ignore_files(
 
     :param main: Patch package entry point.
     :param index_file: Create and index file.
+    :param name: Name of registered template.
     """
     for _name, _template, _ in templates.registered:
         index_file(Path.cwd() / f"{_name}.py", _template)

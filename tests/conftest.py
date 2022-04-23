@@ -44,6 +44,8 @@ def fixture_nocolorcapsys(capsys: pytest.CaptureFixture) -> NoColorCapsys:
 def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
     """Pass patched commandline arguments to package's main function.
 
+    :param nocolorcapsys: Capture system output while stripping ANSI
+        color codes.
     :return: Function for using this fixture.
     """
 
