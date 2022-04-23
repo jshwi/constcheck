@@ -220,7 +220,7 @@ def parse_files(
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
     :param ignore_strings: Iterable of str objects for words to exclude.
-    :param ignore_files: Iterable of str objects for files to exclude.
+    :param ignore_files: List of str objects for paths to exclude.
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
     """

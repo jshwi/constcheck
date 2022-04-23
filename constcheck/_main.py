@@ -16,7 +16,9 @@ from ._typing import PathLike as _PathLike
 
 
 def main(
-    **kwargs: _t.Union[bool, int, str, _PathLike, _t.Iterable[str]]
+    **kwargs: _t.Union[
+        bool, int, str, _PathLike, _t.Iterable[str], _t.List[str]
+    ]
 ) -> None:
     """Entry point for commandline and API use.
 
@@ -35,7 +37,7 @@ def main(
     :key len: Minimum length of repeat strings (default: 3).
     :key string: Parse a str instead of a path.
     :key ignore_strings: Iterable of str objects for words to exclude.
-    :key ignore_files: Iterable of str objects for paths to exclude.
+    :key ignore_files: List of str objects for paths to exclude.
     :key filter: Boolean value to filter out empty results.
     :key no_color: Boolean value to disable color output.
     """
