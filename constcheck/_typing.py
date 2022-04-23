@@ -22,6 +22,6 @@ ArgTuple = _t.Tuple[
     bool,
     bool,
     _t.Optional[str],
-    _t.List[str],
+    _t.Iterable[str],
     _t.List[str],
 ]

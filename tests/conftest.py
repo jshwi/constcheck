@@ -78,7 +78,7 @@ def fixture_main(nocolorcapsys: NoColorCapsys) -> MockMainType:
         return nocolorcapsys.readouterr()
 
     def _main(
-        **kwargs: t.Union[bool, int, str, Path, t.List[str]]
+        **kwargs: t.Union[bool, int, str, Path, t.Iterable[str], t.List[str]]
     ) -> t.Tuple[str, ...]:
         config_output = _config(kwargs)
         kwargs_output = _kwargs(**kwargs)

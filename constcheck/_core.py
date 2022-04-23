@@ -211,7 +211,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
 def parse_files(
     path: _PathLike,
     values: _ValueTuple,
-    ignore_strings: _t.List[str],
+    ignore_strings: _t.Iterable[str],
     ignore_files: _t.List[str],
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
