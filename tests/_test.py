@@ -7,6 +7,7 @@ import sys
 import typing as t
 
 import pytest
+import templatest
 from pathlib3x import Path
 from templatest import templates
 from templatest.utils import ALPHA
@@ -16,6 +17,7 @@ import constcheck._objects
 
 from ._strings import (
     CONST,
+    ESCAPED,
     LEN_2,
     LEN_3,
     LEN_4,
@@ -27,6 +29,7 @@ from ._strings import (
     PACKAGE,
     PLUS,
     QUOTES,
+    TUPLE,
     VERSION,
 )
 from ._utils import (
@@ -184,7 +187,7 @@ def test_multiple_files_single_packages(
     :param kwargs: Parameters for ``constcheck.main``.
     :param expected: Expected result from test.
     """
-    for name, template, _ in templates.registered:
+    for name, template, _ in templates.registered.filtergroup(ESCAPED):
         index_file(Path.cwd() / f"{name}.py", template)
 
     assert main(**kwargs)[0] == expected
@@ -324,7 +327,7 @@ def test_multiple_files_multiple_packages(
     :param expected: Expected result from test.
     """
     package_no = 0
-    for name, template, _ in templates.registered:
+    for name, template, _ in templates.registered.filtergroup(ESCAPED):
         index_file(Path.cwd() / PACKAGE[package_no] / f"{name}.py", template)
         package_no += 1
         if package_no > 2:
@@ -519,8 +522,13 @@ def test_invalid_types(
 
 @pytest.mark.parametrize(
     "name,template,expected",
-    templates.registered.filtergroup(NONE).filtergroup(MULTI),
-    ids=templates.registered.filtergroup(NONE).filtergroup(MULTI).getids(),
+    templates.registered.filtergroup(NONE)
+    .filtergroup(MULTI)
+    .filtergroup(ESCAPED),
+    ids=templates.registered.filtergroup(NONE)
+    .filtergroup(MULTI)
+    .filtergroup(ESCAPED)
+    .getids(),
 )
 def test_file_ignore_str(
     main: MockMainType,
@@ -561,3 +569,32 @@ def test_ignore_files(
 
     expected = header(index=templates.registered.getindex(name))
     assert expected not in main(ignore_files=[f"{name}.py"])[0]
+
+
+def test_escaped_comma(main_cmd: MockMainType) -> None:
+    """Test escaping of commas for strings that contain commas.
+
+    :param main_cmd: Main, as used through the commandline, which
+        receives strings as arguments from the argument vector.
+    """
+    template: templatest.Template = templates.registered[
+        templates.registered.getindex("escaped-chars-3-reps")
+    ]
+    assert (
+        template.expected
+        in main_cmd(
+            "--string",
+            template.template,
+            "--ignore-strings",
+            f"{TUPLE[0]},{TUPLE[1]}",
+        )[0]
+    )
+    assert (
+        template.expected
+        not in main_cmd(
+            "--string",
+            template.template,
+            "--ignore-strings",
+            f"{TUPLE[0]}\\,{TUPLE[1]}",
+        )[0]
+    )

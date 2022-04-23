@@ -6,6 +6,7 @@ Classes used by package's functions.
 """
 from __future__ import annotations
 
+import re as _re
 import sys as _sys
 import tokenize as _tokenize
 import typing as _t
@@ -24,6 +25,11 @@ color = _Color()
 NAME = __name__.split(".", maxsplit=1)[0]
 
 
+# split str by comma, but allow for escaping
+def _split_comma(value: str) -> _t.List[str]:
+    return [i.replace("\\,", ",") for i in _re.split(r"(?<!\\),", value)]
+
+
 class Parser(_ArgumentParser):
     """Parse commandline arguments."""
 
@@ -38,6 +44,7 @@ class Parser(_ArgumentParser):
             ),
             description=(
                 "Check Python files for repeat use of strings."
+                " Escape commas with \\\\."
                 " Defaults can be configured in your pyproject.toml file."
             ),
         )
@@ -87,7 +94,7 @@ class Parser(_ArgumentParser):
             "--ignore-strings",
             action=self._STORE,
             metavar="LIST",
-            type=lambda x: list(x.split(",")),
+            type=_split_comma,
             default=self._kwargs["ignore_strings"],
             help="comma separated list of strings to exclude",
         )
@@ -96,7 +103,7 @@ class Parser(_ArgumentParser):
             "--ignore-files",
             action=self._STORE,
             metavar="LIST",
-            type=lambda x: list(x.split(",")),
+            type=_split_comma,
             default=self._kwargs["ignore_files"],
             help="comma separated list of files to exclude",
         )

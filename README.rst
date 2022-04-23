@@ -28,6 +28,8 @@ constcheck
 Check Python files for repeat use of strings
 --------------------------------------------
 
+Escape commas with \\ (\ when enclosed in single quotes.)
+
 Defaults can be configured in your pyproject.toml file
 
 Installation

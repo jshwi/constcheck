@@ -30,6 +30,7 @@ LEN_5 = _RandStrLenSeq(5)
 LEN_6 = _RandStrLenSeq(6)
 
 #: Specific string types
+TUPLE = (LEN_2[0], LEN_3[0])
 QUOTES = ["'", '"', '"""']
 MULTI = "multi"
 MULTILINE = (
@@ -38,6 +39,7 @@ MULTILINE = (
     "and another long string\\n\\n"
 )
 NONE = "none"
+ESCAPED = "escaped"
 PLUS = (
     '"this" + " " + "is" + " " + "a" + " " + "single" + " " + "string"',
     "this is a single string",
@@ -514,3 +516,22 @@ FSTRINGS_IGNORED = "f-strings ignored"
     @property
     def expected(self) -> str:
         return _display((3, LEN_6[3]))
+
+
+@_templates.register
+class _EscapedChars3Reps(_BaseTemplate):
+    """Test file with 3 repeat strings in assigned parentheses."""
+
+    _STRING = f"{TUPLE[0]},{TUPLE[1]}"
+
+    @property
+    def template(self) -> str:
+        return f"""
+{CONST[0]} = "{self._STRING}"
+{CONST[1]} = "{self._STRING}"
+{CONST[2]} = "{self._STRING}"
+"""
+
+    @property
+    def expected(self) -> str:
+        return _display((3, self._STRING))
