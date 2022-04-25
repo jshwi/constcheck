@@ -17,7 +17,12 @@ from ._typing import PathLike as _PathLike
 
 def main(
     **kwargs: _t.Union[
-        bool, int, str, _PathLike, _t.List[str], _t.Dict[str, _t.List[str]]
+        bool,
+        int,
+        str,
+        _t.List[str],
+        _t.List[_PathLike],
+        _t.Dict[str, _t.List[str]],
     ]
 ) -> int:
     """Entry point for commandline and API use.
@@ -32,7 +37,7 @@ def main(
     The below default values are valid so long as they have not been
     configured in the pyproject.toml file.
 
-    :key path: Path to check files for (default: .).
+    :key path: List of paths to check files for (default: ["."]).
     :key count: Minimum number of repeat strings (default: 3).
     :key len: Minimum length of repeat strings (default: 3).
     :key string: Parse a str instead of a path.

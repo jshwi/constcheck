@@ -257,7 +257,7 @@ def test_multiple_files_single_packages(
             + header(prefix=PACKAGE[2], index=14, newline=True),
         ),
         (
-            dict(path=PACKAGE[0]),
+            dict(path=[PACKAGE[0]]),
             header(prefix=PACKAGE[0])
             + display((3, QUOTES[2]), (3, LEN_4[0]), (7, LEN_5[0]))
             + header(prefix=PACKAGE[0], index=0)
@@ -272,7 +272,7 @@ def test_multiple_files_single_packages(
             + header(prefix=PACKAGE[0], index=18, newline=True),
         ),
         (
-            dict(path=PACKAGE[1]),
+            dict(path=[PACKAGE[1]]),
             header(prefix=PACKAGE[1])
             + display(
                 (3, LEN_3[0]),
@@ -294,7 +294,7 @@ def test_multiple_files_single_packages(
             + display((4, LEN_5[0])),
         ),
         (
-            dict(path=PACKAGE[2]),
+            dict(path=[PACKAGE[2]]),
             header(prefix=PACKAGE[2])
             + display(
                 (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
@@ -482,12 +482,7 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
 @pytest.mark.parametrize(
     "key,value,expected,exception",
     [
-        (
-            "path",
-            1,
-            "expected str, bytes or os.PathLike object, not int",
-            TypeError,
-        ),
+        ("path", 1, "'int' object is not iterable", TypeError),
         (
             "count",
             "Hello",

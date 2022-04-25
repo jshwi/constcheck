@@ -47,12 +47,15 @@ Commandline
 
 .. code-block:: console
 
-    usage: constcheck [-h] [-p PATH] [-c INT] [-l INT] [-s STR] [-i LIST] [-I LIST]
+    usage: constcheck [-h] [-c INT] [-l INT] [-s STR] [-i LIST] [-I LIST]
                                  [--ignore-from [FILE=LIST [FILE=LIST ...]]] [-f] [-n] [-v]
+                                 [path [path ...]]
+
+    positional arguments:
+      path                                       path(s) to check files for (default: .)
 
     optional arguments:
       -h, --help                                 show this help message and exit
-      -p PATH, --path PATH                       path to check files for (default: .)
       -c INT, --count INT                        minimum number of repeat strings (default: 3)
       -l INT, --len INT                          minimum length of repeat strings (default: 3)
       -s STR, --string STR                       parse a string instead of a file

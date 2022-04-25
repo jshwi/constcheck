@@ -16,7 +16,7 @@ PathLike = _t.Union[str, _os.PathLike]
 TokenList = _t.List[_TokenText]
 ValueTuple = _t.Tuple[int, int]
 ArgTuple = _t.Tuple[
-    PathLike,
+    _t.List[PathLike],
     ValueTuple,
     bool,
     bool,

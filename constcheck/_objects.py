@@ -76,12 +76,12 @@ class Parser(_ArgumentParser):
 
     def _add_arguments(self) -> None:
         self.add_argument(
-            "-p",
-            "--path",
+            "path",
+            nargs="*",
             action=self._STORE,
             default=self._kwargs["path"],
             type=_Path,
-            help="path to check files for (default: %(default)s)",
+            help="path(s) to check files for (default: .)",
         )
         self.add_argument(
             "-c",

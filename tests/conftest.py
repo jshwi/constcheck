@@ -122,7 +122,7 @@ def fixture_main(
     def _convert_commandline(**kwargs: KwargsType) -> t.List[str]:
         argify = Argify(kwargs)
         return [
-            *argify.get_key_single("path", Path.cwd()),
+            *argify.get_positionals("path", [Path.cwd()]),
             *argify.get_key_single("count", 3),
             *argify.get_key_single("len", 3),
             *argify.get_key_seq("ignore_strings"),

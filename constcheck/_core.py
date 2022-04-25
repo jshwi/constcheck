@@ -120,7 +120,7 @@ def _populate_totals(path: _Path, contents: _PathFileStringRep) -> None:
 
 def _get_default_args() -> _t.Dict[str, _t.Any]:
     args = dict(
-        path=_Path.cwd(),
+        path=[_Path.cwd()],
         count=3,
         len=3,
         filter=False,
@@ -259,7 +259,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
 
 
 def parse_files(
-    dirname: _PathLike,
+    dirnames: _t.List[_PathLike],
     values: _ValueTuple,
     ignore_strings: _t.List[str],
     ignore_files: _t.List[str],
@@ -267,7 +267,8 @@ def parse_files(
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
-    :param dirname: Path for which results are being compiled for.
+    :param dirnames: List of paths for which results are being compiled
+        for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
     :param ignore_strings: List of str objects for strings to exclude.
@@ -278,18 +279,22 @@ def parse_files(
         their parent dirs.
     """
     contents = {}
-    dirname = _Path(dirname)
-    paths = _get_paths(dirname, ignore_files)
-    for path in paths:
-        with open(path, encoding="utf-8") as fin:
-            strings = _get_strings(fin)
-            _remove_ignored_strings(strings, ignore_strings)
+    for dirname in dirnames:
+        dirname = _Path(dirname)
+        paths = _get_paths(dirname, ignore_files)
+        for path in paths:
+            with open(path, encoding="utf-8") as fin:
+                strings = _get_strings(fin)
+                _remove_ignored_strings(strings, ignore_strings)
 
-        path = _get_relative_to(path, _Path.cwd())
-        file_exclusions: _t.Optional[_t.List[str]] = ignore_from.get(str(path))
-        contents[path] = _filter_repeats(strings, values, file_exclusions)
+            path = _get_relative_to(path, _Path.cwd())
+            file_exclusions: _t.Optional[_t.List[str]] = ignore_from.get(
+                str(path)
+            )
+            contents[path] = _filter_repeats(strings, values, file_exclusions)
 
-    _populate_totals(_get_relative_to(dirname, _Path.cwd()), contents)
+        _populate_totals(_get_relative_to(dirname, _Path.cwd()), contents)
+
     return contents
 
 
