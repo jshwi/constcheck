@@ -102,7 +102,7 @@ def _remove_ignored_strings(
 def _filter_repeats(
     lines: _TokenList,
     values: _ValueTuple,
-    file_exclusions: _t.Optional[_t.Iterable[str]] = None,
+    file_exclusions: _t.Optional[_t.List[str]] = None,
 ) -> _FileStringRep:
     ignore = file_exclusions or []
     repeats = {
@@ -229,17 +229,16 @@ def parse_files(
     values: _ValueTuple,
     ignore_strings: _t.List[str],
     ignore_files: _t.List[str],
-    ignore_from: _t.Dict[str, _t.Iterable[str]],
+    ignore_from: _t.Dict[str, _t.List[str]],
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
-    :param ignore_from:
     :param path: Path for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
     :param ignore_strings: List of str objects for strings to exclude.
     :param ignore_files: List of str objects for paths to exclude.
-    :param ignore_from: Dict of Iterable of str objects for strings to
+    :param ignore_from: Dict with list of str objects for strings to
         exclude from a particular path.
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
@@ -254,8 +253,8 @@ def parse_files(
                 strings = _get_strings(fin)
                 _remove_ignored_strings(strings, ignore_strings)
 
-            file_exclusions = ignore_from.get(
-                str(file.relative_to(_Path.cwd())), {}
+            file_exclusions: _t.Optional[_t.List[str]] = ignore_from.get(
+                str(file.relative_to(_Path.cwd()))
             )
             contents[file] = _filter_repeats(strings, values, file_exclusions)
 

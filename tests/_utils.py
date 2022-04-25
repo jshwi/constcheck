@@ -20,7 +20,7 @@ git = _Git()
 MockMainType = _t.Callable[..., _t.Tuple[str, ...]]
 IndexFileType = _t.Callable[[_Path, str], None]
 KwargsType = _t.Union[
-    bool, int, str, _Path, _t.List[str], _t.Dict[str, _t.Iterable[str]]
+    bool, int, str, _Path, _t.List[str], _t.Dict[str, _t.List[str]]
 ]
 
 

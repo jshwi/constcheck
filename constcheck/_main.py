@@ -17,12 +17,7 @@ from ._typing import PathLike as _PathLike
 
 def main(
     **kwargs: _t.Union[
-        bool,
-        int,
-        str,
-        _PathLike,
-        _t.List[str],
-        _t.Dict[str, _t.Iterable[str]],
+        bool, int, str, _PathLike, _t.List[str], _t.Dict[str, _t.List[str]]
     ]
 ) -> int:
     """Entry point for commandline and API use.
@@ -43,7 +38,7 @@ def main(
     :key string: Parse a str instead of a path.
     :key ignore_files: List of str objects for strings to exclude.
     :key ignore_files: List of str objects for paths to exclude.
-    :key ignore_from: Dict of Iterable of str objects for strings to
+    :key ignore_from: Dict with list of str objects for strings to
         exclude from a particular path.
     :key filter: Boolean value to filter out empty results.
     :key no_color: Boolean value to disable color output.
