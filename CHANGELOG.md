@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.3.1...HEAD)
 ------------------------------------------------------------------------
+### Changed
+- Paths do not need to be in version control
 
 [0.3.1](https://github.com/jshwi/constcheck/releases/tag/v0.3.1) - 2022-04-25
 ------------------------------------------------------------------------

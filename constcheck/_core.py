@@ -8,13 +8,12 @@ import tokenize as _tokenize
 import typing as _t
 from collections import Counter as _Counter
 from io import StringIO as _StringIO
+from pathlib import Path as _Path
 
 import tomli as _tomli
 from object_colors import Color as _Color
-from pathlib3x import Path as _Path
 
 from ._objects import NAME as _NAME
-from ._objects import LSFiles as _LSFiles
 from ._objects import Parser as _Parser
 from ._objects import TokenText as _TokenText
 from ._objects import TokenType as _TokenType
@@ -30,12 +29,6 @@ from ._typing import ValueTuple as _ValueTuple
 def _color_display(obj: object, color: _Color, no_color: bool) -> str:
     string = str(obj)
     return string if no_color else color.get(string)
-
-
-def _valid_path(test_path: _Path, opt_path: _Path) -> bool:
-    test_relpath = test_path.relative_to(_Path.cwd())
-    opt_relpath = opt_path.relative_to(_Path.cwd())
-    return test_relpath.is_relative_to(opt_relpath)
 
 
 def _get_strings(textio: _t.TextIO) -> _TokenList:
@@ -127,7 +120,7 @@ def _populate_totals(path: _Path, contents: _PathFileStringRep) -> None:
 
 def _get_default_args() -> _t.Dict[str, _t.Any]:
     args = dict(
-        path=_Path.cwd().relative_to(_Path.cwd()),
+        path=_Path.cwd(),
         count=3,
         len=3,
         filter=False,
@@ -160,6 +153,25 @@ def _nested_update(
             obj[key] = value
 
     return obj
+
+
+# get all paths to python files whilst skipping over any paths that
+# should be ignored
+def _get_paths(dirname: _Path, ignore_files: _t.List[str]) -> _t.List[_Path]:
+    return list(
+        p
+        for p in dirname.absolute().glob("**/*")
+        if not any(i in ignore_files for i in (*p.parts, p.stem))
+        and p.name.endswith(".py")
+    )
+
+
+# get relative path if path is relative to, otherwise get path
+def _get_relative_to(path: _Path, other: _Path) -> _Path:
+    try:
+        return path.relative_to(other)
+    except ValueError:
+        return path
 
 
 def display(obj: _FileStringRep, no_color: bool) -> int:
@@ -195,9 +207,8 @@ def display_path(
     returncodes = []
     for path, obj in sorted(contents.items()):
         if obj or not filter_empty:
-            relative_file = str(path.relative_to(_Path.cwd()))
-            print(_color_display(relative_file, _color.magenta, no_color))
-            print(len(relative_file) * "-")
+            print(_color_display(path, _color.magenta, no_color))
+            print(len(str(path)) * "-")
             returncodes.append(display(obj, no_color))
 
     return int(any(returncodes))
@@ -248,7 +259,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
 
 
 def parse_files(
-    path: _PathLike,
+    dirname: _PathLike,
     values: _ValueTuple,
     ignore_strings: _t.List[str],
     ignore_files: _t.List[str],
@@ -256,7 +267,7 @@ def parse_files(
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
-    :param path: Path for which results are being compiled for.
+    :param dirname: Path for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
     :param ignore_strings: List of str objects for strings to exclude.
@@ -267,21 +278,18 @@ def parse_files(
         their parent dirs.
     """
     contents = {}
-    files = _LSFiles(exclude=ignore_files)
-    files.populate()
-    path = _Path(path).absolute()
-    for file in files:
-        if _valid_path(file, path):
-            with open(file, encoding="utf-8") as fin:
-                strings = _get_strings(fin)
-                _remove_ignored_strings(strings, ignore_strings)
+    dirname = _Path(dirname)
+    paths = _get_paths(dirname, ignore_files)
+    for path in paths:
+        with open(path, encoding="utf-8") as fin:
+            strings = _get_strings(fin)
+            _remove_ignored_strings(strings, ignore_strings)
 
-            file_exclusions: _t.Optional[_t.List[str]] = ignore_from.get(
-                str(file.relative_to(_Path.cwd()))
-            )
-            contents[file] = _filter_repeats(strings, values, file_exclusions)
+        path = _get_relative_to(path, _Path.cwd())
+        file_exclusions: _t.Optional[_t.List[str]] = ignore_from.get(str(path))
+        contents[path] = _filter_repeats(strings, values, file_exclusions)
 
-    _populate_totals(path, contents)
+    _populate_totals(_get_relative_to(dirname, _Path.cwd()), contents)
     return contents
 
 

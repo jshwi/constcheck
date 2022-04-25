@@ -8,17 +8,14 @@ Utilities for testing.
 import re as _re
 import typing as _t
 from abc import abstractmethod as _abstractmethod
+from pathlib import Path as _Path
 
 import pytest as _pytest
-from gitspy import Git as _Git
-from pathlib3x import Path as _Path
 from templatest import BaseTemplate as _BaseTemplate
 from templatest import templates as _templates
 
-git = _Git()
-
 MockMainType = _t.Callable[..., _t.Tuple[str, ...]]
-IndexFileType = _t.Callable[[_Path, str], None]
+WriteFileType = _t.Callable[[_Path, str], None]
 KwargsType = _t.Union[
     bool, int, str, _Path, _t.List[str], _t.Dict[str, _t.List[str]]
 ]

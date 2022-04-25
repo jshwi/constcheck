@@ -225,22 +225,10 @@ python-versions = ">=3.5.0"
 unicode_backport = ["unicodedata2"]
 
 [[package]]
-name = "cli-exit-tools"
-version = "1.2.3"
-description = "functions to exit an cli application properly"
-category = "main"
-optional = false
-python-versions = ">=3.6.0"
-
-[package.dependencies]
-click = "*"
-lib-detect-testenv = "*"
-
-[[package]]
 name = "click"
 version = "8.1.2"
 description = "Composable command line interface toolkit"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -461,7 +449,7 @@ tomli = ">=1.1.0"
 name = "gitspy"
 version = "0.1.1"
 description = "Intuitive Git for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8,<4.0"
 
@@ -628,18 +616,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "lib-detect-testenv"
-version = "2.0.2"
-description = "detects if pytest or doctest or pyrunner on pycharm is running"
-category = "main"
-optional = false
-python-versions = ">=3.6.0"
-
-[package.dependencies]
-cli-exit-tools = "*"
-click = "*"
-
-[[package]]
 name = "lockfile"
 version = "0.12.2"
 description = "Platform-independent file locking module"
@@ -651,7 +627,7 @@ python-versions = "*"
 name = "lsfiles"
 version = "0.1.1"
 description = "Path object VC index"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8,<4.0"
 
@@ -803,18 +779,6 @@ qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["docopt", "pytest (<6.0.0)"]
 
 [[package]]
-name = "pathlib3x"
-version = "1.3.9"
-description = "backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions"
-category = "main"
-optional = false
-python-versions = ">=3.6.0"
-
-[package.dependencies]
-cli-exit-tools = "*"
-click = "*"
-
-[[package]]
 name = "pathspec"
 version = "0.9.0"
 description = "Utility library for gitignore style pattern matching of file paths."
@@ -917,7 +881,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "pyaud"
-version = "3.11.1"
+version = "3.12.0"
 description = "Framework for writing Python package audits"
 category = "dev"
 optional = false
@@ -970,11 +934,11 @@ vulture = ">=2.3,<3.0"
 
 [[package]]
 name = "pygments"
-version = "2.11.2"
+version = "2.12.0"
 description = "Pygments is a syntax highlighting package written in Python."
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 
 [[package]]
 name = "pylint"
@@ -1034,7 +998,7 @@ readme = ["docutils (==0.16)", "readme-renderer[md] (>=27.0)"]
 
 [[package]]
 name = "pytest"
-version = "7.1.1"
+version = "7.1.2"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
@@ -1282,7 +1246,7 @@ python-versions = ">=3.6"
 name = "spall"
 version = "0.1.1"
 description = "Object-oriented commandline"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8,<4.0"
 
@@ -1576,7 +1540,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "tomlkit"
-version = "0.10.1"
+version = "0.10.2"
 description = "Style preserving TOML library"
 category = "dev"
 optional = false
@@ -1672,7 +1636,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "84dd081afe3c72bf3508b3fc0cd44fc896759c8d46979fb6d98588e46f6058dd"
+content-hash = "541fea8caf28c09d87cfbd1bee6485cbba7eda27ec427d18a43d66da8a575e16"
 
 [metadata.files]
 alabaster = [
@@ -1771,15 +1735,6 @@ certifi = [
 charset-normalizer = [
     {file = "charset-normalizer-2.0.12.tar.gz", hash = "sha256:2857e29ff0d34db842cd7ca3230549d1a697f96ee6d3fb071cfa6c7393832597"},
     {file = "charset_normalizer-2.0.12-py3-none-any.whl", hash = "sha256:6881edbebdb17b39b4eaaa821b438bf6eddffb4468cf344f09f89def34a8b1df"},
-]
-cli-exit-tools = [
-    {file = "cli_exit_tools-1.2.3-py3-none-any.whl", hash = "sha256:47bf58549cf81e9252ecd7350b8a77df2d20b75e021d258d12bf0fbe99f478ae"},
-    {file = "cli_exit_tools-1.2.3-py3.10.egg", hash = "sha256:adb252bbaf3622caae68da4cd5efd548b32d428ef01a524677e4e75517dc965b"},
-    {file = "cli_exit_tools-1.2.3-py3.6.egg", hash = "sha256:44ce72d2b6c77878a5ddacbdd33ebb4e9fbee7016d2b93429dab16fbd2587a95"},
-    {file = "cli_exit_tools-1.2.3-py3.7.egg", hash = "sha256:01c9a37a78f4962eb223a9e2346d388fe151189b18d06a778529ac062fcf9cd7"},
-    {file = "cli_exit_tools-1.2.3-py3.8.egg", hash = "sha256:c736524f24354cdf0870b3b7b5b24560e9dfcd915387cca21560d48ce2993728"},
-    {file = "cli_exit_tools-1.2.3-py3.9.egg", hash = "sha256:1a5193cd82cf317e4223d16dbe9dd991104fcba5863b6cca14c0b001ef645cb6"},
-    {file = "cli_exit_tools-1.2.3.tar.gz", hash = "sha256:9276c5acfe662a0ab5c8e550ed1e5578f18563fa165019f344e69ec010902854"},
 ]
 click = [
     {file = "click-8.1.2-py3-none-any.whl", hash = "sha256:24e1a4a9ec5bf6299411369b208c1df2188d9eb8d916302fe6bf03faed227f1e"},
@@ -1979,15 +1934,6 @@ lazy-object-proxy = [
     {file = "lazy_object_proxy-1.7.1-cp39-cp39-win_amd64.whl", hash = "sha256:677ea950bef409b47e51e733283544ac3d660b709cfce7b187f5ace137960d61"},
     {file = "lazy_object_proxy-1.7.1-pp37.pp38-none-any.whl", hash = "sha256:d66906d5785da8e0be7360912e99c9188b70f52c422f9fc18223347235691a84"},
 ]
-lib-detect-testenv = [
-    {file = "lib_detect_testenv-2.0.2-py3-none-any.whl", hash = "sha256:534f58c32b498566ec7f00b15f92d7cb8fabce60a85247ccaa6304b844c6fee3"},
-    {file = "lib_detect_testenv-2.0.2-py3.10.egg", hash = "sha256:15e679c1da0ecd6cb769c24d77c356abd742c98eb90ee3a3d042396c3232e099"},
-    {file = "lib_detect_testenv-2.0.2-py3.6.egg", hash = "sha256:9eb6eb784a5f1a1dd39e453c337c3db0eb5c9884eae4eca8af661268c573dd58"},
-    {file = "lib_detect_testenv-2.0.2-py3.7.egg", hash = "sha256:238419015db9484038bcaf0c1ffd1818fb33df4beb59815eda117ba87f4a9935"},
-    {file = "lib_detect_testenv-2.0.2-py3.8.egg", hash = "sha256:16ac9b4d7b21ed5cb2c124da181e414efb3539cc42ce918d672207ce252ff8c3"},
-    {file = "lib_detect_testenv-2.0.2-py3.9.egg", hash = "sha256:33eda2c1250147a8d7ac44ff6f394aa0e88ca2943f0ee45d1dc93f560a90316b"},
-    {file = "lib_detect_testenv-2.0.2.tar.gz", hash = "sha256:dca5a208e92a2298c691a23088fdf57e142170686398ef7569e0e25b108dba58"},
-]
 lockfile = [
     {file = "lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
     {file = "lockfile-0.12.2.tar.gz", hash = "sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799"},
@@ -2138,14 +2084,6 @@ parso = [
     {file = "parso-0.8.3-py2.py3-none-any.whl", hash = "sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75"},
     {file = "parso-0.8.3.tar.gz", hash = "sha256:8c07be290bb59f03588915921e29e8a50002acaf2cdc5fa0e0114f91709fafa0"},
 ]
-pathlib3x = [
-    {file = "pathlib3x-1.3.9-py3-none-any.whl", hash = "sha256:fb0048de6f50395c5389e41a6d7d81a8751abf61e17e5fce35c619880ea420ee"},
-    {file = "pathlib3x-1.3.9-py3.6.egg", hash = "sha256:d3cc9dca94be46335d2717d642c96f15a2ffd6fd7cb699c0dedbcdd22f2fabd2"},
-    {file = "pathlib3x-1.3.9-py3.7.egg", hash = "sha256:58e2afdd4672e709e03b4305e40f34c86807d5a7f69933be44242996e3458f0d"},
-    {file = "pathlib3x-1.3.9-py3.8.egg", hash = "sha256:42e52a5e1b3c53c93c5a1e8c1eff573ef2f438e0fdba8149ae50967f8a5d5fe3"},
-    {file = "pathlib3x-1.3.9-py3.9.egg", hash = "sha256:d4caf49f8e8b61ca3418a27bface39fcbc359d440698f02d0eb1e5b648ef101c"},
-    {file = "pathlib3x-1.3.9.tar.gz", hash = "sha256:47b186e0d9085eafe05c6e0742d45970bf1a096038e664f33123babe614f05e2"},
-]
 pathspec = [
     {file = "pathspec-0.9.0-py2.py3-none-any.whl", hash = "sha256:7d15c4ddb0b5c802d161efc417ec1a2558ea2653c2e8ad9c19098201dc1c993a"},
     {file = "pathspec-0.9.0.tar.gz", hash = "sha256:e564499435a2673d586f6b2130bb5b95f04a3ba06f81b8f895b651a3c76aabb1"},
@@ -2187,16 +2125,16 @@ py = [
     {file = "py-1.11.0.tar.gz", hash = "sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"},
 ]
 pyaud = [
-    {file = "pyaud-3.11.1-py3-none-any.whl", hash = "sha256:4a33884c4f450c2760ab675d7340836b0aa7ddf8098bcf1661b5943bda8575a7"},
-    {file = "pyaud-3.11.1.tar.gz", hash = "sha256:c21b29763b292e40ce9b1b98ccd62012cd7b95852f8b332da913da9cc334051a"},
+    {file = "pyaud-3.12.0-py3-none-any.whl", hash = "sha256:6e24478c540c107999bcb19a685114b1fd9f223934786e67c9e500ade9e33718"},
+    {file = "pyaud-3.12.0.tar.gz", hash = "sha256:c39625a98412e386a7400131628174eb0534df818190878f7e03542a221e78f3"},
 ]
 pyaud-plugins = [
     {file = "pyaud-plugins-0.3.0.tar.gz", hash = "sha256:435e6cd980acd82b40730af9311e1bbdcd292871188918384f7c040e0003e6f2"},
     {file = "pyaud_plugins-0.3.0-py3-none-any.whl", hash = "sha256:634fd461647fc0f7a91b73cc722142c342ae9354000b2e5d9a33a4c60e60cf7a"},
 ]
 pygments = [
-    {file = "Pygments-2.11.2-py3-none-any.whl", hash = "sha256:44238f1b60a76d78fc8ca0528ee429702aae011c265fe6a8dd8b63049ae41c65"},
-    {file = "Pygments-2.11.2.tar.gz", hash = "sha256:4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"},
+    {file = "Pygments-2.12.0-py3-none-any.whl", hash = "sha256:dc9c10fb40944260f6ed4c688ece0cd2048414940f1cea51b8b226318411c519"},
+    {file = "Pygments-2.12.0.tar.gz", hash = "sha256:5eb116118f9612ff1ee89ac96437bb6b49e8f04d8a13b514ba26f620208e26eb"},
 ]
 pylint = [
     {file = "pylint-2.13.7-py3-none-any.whl", hash = "sha256:13ddbbd8872c804574149e81197c28877eba75224ba6b76cd8652fc31df55c1c"},
@@ -2211,8 +2149,8 @@ pyproject-parser = [
     {file = "pyproject_parser-0.4.3-py3-none-any.whl", hash = "sha256:60d9bb9cf411250a1c071788f90202e6fdb6d02954e30cd8fb854433877e0de0"},
 ]
 pytest = [
-    {file = "pytest-7.1.1-py3-none-any.whl", hash = "sha256:92f723789a8fdd7180b6b06483874feca4c48a5c76968e03bb3e7f806a1869ea"},
-    {file = "pytest-7.1.1.tar.gz", hash = "sha256:841132caef6b1ad17a9afde46dc4f6cfa59a05f9555aae5151f73bdf2820ca63"},
+    {file = "pytest-7.1.2-py3-none-any.whl", hash = "sha256:13d0e3ccfc2b6e26be000cb6568c832ba67ba32e719443bfe725814d3c42433c"},
+    {file = "pytest-7.1.2.tar.gz", hash = "sha256:a06a0425453864a270bc45e71f783330a7428defb4230fb5e6a731fde06ecd45"},
 ]
 pytest-cov = [
     {file = "pytest-cov-3.0.0.tar.gz", hash = "sha256:e7f0f5b1617d2210a2cabc266dfe2f4c75a8d32fb89eafb7ad9d06f6d076d470"},
@@ -2397,8 +2335,8 @@ tomli-w = [
     {file = "tomli_w-1.0.0.tar.gz", hash = "sha256:f463434305e0336248cac9c2dc8076b707d8a12d019dd349f5c1e382dd1ae1b9"},
 ]
 tomlkit = [
-    {file = "tomlkit-0.10.1-py3-none-any.whl", hash = "sha256:3eba517439dcb2f84cf39f4f85fd2c3398309823a3c75ac3e73003638daf7915"},
-    {file = "tomlkit-0.10.1.tar.gz", hash = "sha256:3c517894eadef53e9072d343d37e4427b8f0b6200a70b7c9a19b2ebd1f53b951"},
+    {file = "tomlkit-0.10.2-py3-none-any.whl", hash = "sha256:905cf92c2111ef80d355708f47ac24ad1b6fc2adc5107455940088c9bbecaedb"},
+    {file = "tomlkit-0.10.2.tar.gz", hash = "sha256:30d54c0b914e595f3d10a87888599eab5321a2a69abc773bbefff51599b72db6"},
 ]
 traitlets = [
     {file = "traitlets-5.1.1-py3-none-any.whl", hash = "sha256:2d313cc50a42cd6c277e7d7dc8d4d7fedd06a2c215f78766ae7b1a66277e0033"},

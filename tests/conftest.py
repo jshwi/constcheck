@@ -5,20 +5,19 @@ tests.conftest
 # pylint: disable=protected-access,no-member,import-outside-toplevel
 import sys
 import typing as t
+from pathlib import Path
 
 import pytest
 import tomli_w
-from pathlib3x import Path
 
 import constcheck
 
 from ._utils import (
     Argify,
-    IndexFileType,
     KwargsType,
     MockMainType,
     NoColorCapsys,
-    git,
+    WriteFileType,
 )
 
 
@@ -33,7 +32,6 @@ def fixture_mock_environment(
     """
     monkeypatch.setattr("sys.argv", [constcheck.__name__])
     monkeypatch.setattr("os.getcwd", lambda: str(tmp_path))
-    git.init(".", devnull=True)
 
 
 @pytest.fixture(name="nocolorcapsys")
@@ -146,18 +144,16 @@ def fixture_main(
     return _main
 
 
-@pytest.fixture(name="index_file")
-def fixture_index_file() -> IndexFileType:
+@pytest.fixture(name="write_file")
+def fixture_write_file() -> WriteFileType:
     """Create file with provided contents and add to version control.
 
     :return: Function for using this fixture.
     """
 
-    def _index_file(path: Path, template: str) -> None:
+    def _write_file(path: Path, template: str) -> None:
         path.parent.mkdir(exist_ok=True, parents=True)
         with open(path, "w", encoding="utf-8") as fout:
             fout.write(template)
 
-        git.add(".")
-
-    return _index_file
+    return _write_file

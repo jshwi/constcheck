@@ -15,10 +15,9 @@ from argparse import ArgumentParser as _ArgumentParser
 from argparse import HelpFormatter as _HelpFormatter
 from argparse import Namespace as _Namespace
 from collections import UserString as _UserString
+from pathlib import Path as _Path
 
-from lsfiles import LSFiles as _LSFiles
 from object_colors import Color as _Color
-from pathlib3x import Path as _Path
 
 from ._version import __version__
 
@@ -312,17 +311,3 @@ class TokenText(_UserString):
         return self.istriplequoted() and (
             prev_ttype.isindent() or not prev_ttext.isequal()
         )
-
-
-class LSFiles(_LSFiles):
-    """Subclass ``LSFiles`` to change type of held paths."""
-
-    def populate(self) -> None:
-        """Change type from ``pathlib.Path`` to ``pathlib3x.Path``.
-
-        ``pathlib3x`` is a backport for ``Python^3.9`` which has the
-        method ``is_relative_to.``
-        """
-        super().populate()
-        for count, path in enumerate(self):
-            self[count] = _Path(path)

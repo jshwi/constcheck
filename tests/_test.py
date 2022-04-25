@@ -5,10 +5,10 @@ tests._test
 # pylint: disable=too-many-arguments,protected-access,no-self-use
 import sys
 import typing as t
+from pathlib import Path
 
 import pytest
 import templatest
-from pathlib3x import Path
 from templatest import templates
 from templatest.utils import ALPHA
 
@@ -33,9 +33,9 @@ from ._strings import (
     VERSION,
 )
 from ._utils import (
-    IndexFileType,
     MockMainType,
     NoColorCapsys,
+    WriteFileType,
     display,
     get_word,
     header,
@@ -49,7 +49,7 @@ from ._utils import (
 )
 def test_single_file(
     main: MockMainType,
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     name: str,
     template: str,
     expected: str,
@@ -57,12 +57,12 @@ def test_single_file(
     """Test results when one file exists.
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param name: Name of registered template.
     :param template: Content to write to file.
     :param expected: Expected result from test.
     """
-    index_file(Path.cwd() / f"{name}.py", template)
+    write_file(Path.cwd() / f"{name}.py", template)
     assert expected in main()[0]
 
 
@@ -176,19 +176,19 @@ def test_parse_str(
 )
 def test_multiple_files_single_packages(
     main: MockMainType,
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     kwargs: t.Dict[str, t.Any],
     expected: str,
 ) -> None:
     """Test results when multiple files exist.
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param kwargs: Parameters for ``constcheck.main``.
     :param expected: Expected result from test.
     """
     for name, template, _ in templates.registered.filtergroup(ESCAPED):
-        index_file(Path.cwd() / f"{name}.py", template)
+        write_file(Path.cwd() / f"{name}.py", template)
 
     assert main(**kwargs)[0] == expected
 
@@ -315,20 +315,20 @@ def test_multiple_files_single_packages(
 )
 def test_multiple_files_multiple_packages(
     main: MockMainType,
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     kwargs: t.Dict[str, t.Any],
     expected: str,
 ) -> None:
     """Test results when multiple files exist.
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param kwargs: Parameters for ``constcheck.main``.
     :param expected: Expected result from test.
     """
     package_no = 0
     for name, template, _ in templates.registered.filtergroup(ESCAPED):
-        index_file(Path.cwd() / PACKAGE[package_no] / f"{name}.py", template)
+        write_file(Path.cwd() / PACKAGE[package_no] / f"{name}.py", template)
         package_no += 1
         if package_no > 2:
             package_no = 0
@@ -428,7 +428,7 @@ def test_dequote() -> None:
 )
 def test_len_and_count(
     main: MockMainType,
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     count: int,
     length: int,
     expected: str,
@@ -436,7 +436,7 @@ def test_len_and_count(
     """Test using ``-c/--count`` and ``-l/--len``
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param count: Minimum number of repeat strings.
     :param length: Minimum length of repeat strings.
     :param expected: Expected result.
@@ -461,7 +461,7 @@ def test_len_and_count(
         f'{CONST[16]} = "{LEN_3[3]}"\n'
         f'{CONST[17]} = "{LEN_3[3]}"\n'
     )
-    index_file(Path.cwd() / f"{count}-{length}.py", template)
+    write_file(Path.cwd() / f"{count}-{length}.py", template)
     assert expected in main(count=count, len=length)[0]
 
 
@@ -526,7 +526,7 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
     ],
 )
 def test_invalid_types(
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     key: str,
     value: t.Any,
     expected: str,
@@ -534,12 +534,12 @@ def test_invalid_types(
 ) -> None:
     """Test ``TypeError`` when incorrect types passed to ``main``.
 
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param key: Keyword passed to ``main``.
     :param value: Incorrect value.
     :param expected: Expected error output.
     """
-    index_file(Path.cwd() / "file.py", templates.registered[0][1])
+    write_file(Path.cwd() / "file.py", templates.registered[0][1])
     with pytest.raises(exception) as err:
         constcheck.main(**{key: value})
 
@@ -558,7 +558,7 @@ def test_invalid_types(
 )
 def test_file_ignore_str(
     main: MockMainType,
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     name: str,
     template: str,
     expected: str,
@@ -566,13 +566,13 @@ def test_file_ignore_str(
     """Test results when one file exists.
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param name: Name of registered template.
     :param template: Content to write to file.
     :param expected: Expected result from test.
     """
     word = get_word(expected)
-    index_file(Path.cwd() / f"{name}.py", template)
+    write_file(Path.cwd() / f"{name}.py", template)
     assert expected not in main(ignore_strings=[word])[0]
 
 
@@ -582,16 +582,16 @@ def test_file_ignore_str(
     ids=templates.registered.getgroup(NONE).getids(),
 )
 def test_ignore_files(
-    main: MockMainType, index_file: IndexFileType, name: str, _: str, __: str
+    main: MockMainType, write_file: WriteFileType, name: str, _: str, __: str
 ) -> None:
     """Test results when multiple files exist.
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param name: Name of registered template.
     """
     for _name, _template, _ in templates.registered:
-        index_file(Path.cwd() / f"{_name}.py", _template)
+        write_file(Path.cwd() / f"{_name}.py", _template)
 
     expected = header(index=templates.registered.getindex(name))
     assert expected not in main(ignore_files=[f"{name}.py"])[0]
@@ -635,15 +635,15 @@ class TestReturncode:
         ids=templates.registered.getgroup(NONE).getids(),
     )
     def test_zero(
-        self, index_file: IndexFileType, name: str, template: str, _: str
+        self, write_file: WriteFileType, name: str, template: str, _: str
     ) -> None:
         """Test zero when no results produced.
 
-        :param index_file: Create and index file.
+        :param write_file: Create and write file.
         :param name: Name of registered template.
         :param template: Content to write to file.
         """
-        index_file(Path.cwd() / f"{name}.py", template)
+        write_file(Path.cwd() / f"{name}.py", template)
         assert constcheck.main() == 0
 
     @pytest.mark.parametrize(
@@ -652,26 +652,26 @@ class TestReturncode:
         ids=templates.registered.filtergroup(NONE).getids(),
     )
     def test_non_zero(
-        self, index_file: IndexFileType, name: str, template: str, _: str
+        self, write_file: WriteFileType, name: str, template: str, _: str
     ) -> None:
         """Test non-zero when constants are detected.
 
-        :param index_file: Create and index file.
+        :param write_file: Create and write file.
         :param name: Name of registered template.
         :param template: Content to write to file.
         """
-        index_file(Path.cwd() / f"{name}.py", template)
+        write_file(Path.cwd() / f"{name}.py", template)
         assert constcheck.main() != 0
 
 
 @pytest.mark.parametrize("sliced", [(0, 2), (2, 4), (4, 6), (6, 8)])
 def test_ignore_from(
-    main: MockMainType, index_file: IndexFileType, sliced: t.Tuple[int, int]
+    main: MockMainType, write_file: WriteFileType, sliced: t.Tuple[int, int]
 ) -> None:
     """Test file/strings passed to ``ignore_from`` only ignores file.
 
     :param main: Patch package entry point.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param sliced: Slice to get from registered.
     """
     te1, te2 = (
@@ -681,8 +681,8 @@ def test_ignore_from(
     )
 
     # make sure files have the same content
-    index_file(Path.cwd() / f"{te1.name}.py", te1.template)
-    index_file(Path.cwd() / f"{te2.name}.py", te1.template)
+    write_file(Path.cwd() / f"{te1.name}.py", te1.template)
+    write_file(Path.cwd() / f"{te2.name}.py", te1.template)
     word = get_word(te1.expected)
 
     # # ignore the word in file 1
@@ -807,7 +807,7 @@ def test_ignore_from_no_value_given(main_cmd: MockMainType) -> None:
 def test_ignore_from_no_override(
     main_config: MockMainType,
     main_kwargs: MockMainType,
-    index_file: IndexFileType,
+    write_file: WriteFileType,
     kwargs: t.Tuple[t.Dict[str, t.Any], t.Dict[str, t.Any]],
     expected: t.Tuple[str, str],
 ) -> None:
@@ -815,7 +815,7 @@ def test_ignore_from_no_override(
 
     :param main_config: Main for pyproject.toml usage..
     :param main_kwargs: Main function for API.
-    :param index_file: Create and index file.
+    :param write_file: Create and write file.
     :param kwargs: Kwargs for main.
     :param expected: Expected result.
     """
@@ -831,8 +831,8 @@ def test_ignore_from_no_override(
         f'{CONST[17]} = "{LEN_5[0]}"\n'
     )
     te1, te2 = templates.registered[1:3]
-    index_file(Path.cwd() / f"{te1.name}.py", template)
-    index_file(Path.cwd() / f"{te2.name}.py", template)
+    write_file(Path.cwd() / f"{te1.name}.py", template)
+    write_file(Path.cwd() / f"{te2.name}.py", template)
     result_1 = main_config(filter=True, **kwargs[0])[0]
     result_2 = main_kwargs(filter=True, **kwargs[1])[0]
     assert result_1 == expected[0]

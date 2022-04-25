@@ -6,8 +6,7 @@ Types specific to this package.
 """
 import os as _os
 import typing as _t
-
-from pathlib3x import Path as _Path
+from pathlib import Path as _Path
 
 from ._objects import TokenText as _TokenText
 
