@@ -115,7 +115,7 @@ With the ``len`` argument
     <BLANKLINE>
     1
 
-With the ``ignore_strings`` argument which accepts a ``str`` iterable
+With the ``ignore_strings`` argument which accepts ``list`` of ``str`` objects
 
 .. code-block:: python
 
@@ -123,19 +123,6 @@ With the ``ignore_strings`` argument which accepts a ``str`` iterable
     3   | Hey
     <BLANKLINE>
     1
-
-.. code-block:: python
-
-    >>> constcheck.main(string=EXAMPLE, ignore_strings="Hello, world")
-    3   | Hey
-    <BLANKLINE>
-    1
-
-.. code-block:: python
-
-    >>> constcheck.main(string=EXAMPLE, ignore_strings=["Hello, world", "Hello", "Hey"])
-    <BLANKLINE>
-    0
 
 Config
 ******

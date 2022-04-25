@@ -21,7 +21,6 @@ def main(
         int,
         str,
         _PathLike,
-        _t.Iterable[str],
         _t.List[str],
         _t.Dict[str, _t.Iterable[str]],
     ]
@@ -42,7 +41,7 @@ def main(
     :key count: Minimum number of repeat strings (default: 3).
     :key len: Minimum length of repeat strings (default: 3).
     :key string: Parse a str instead of a path.
-    :key ignore_strings: Iterable of str objects for words to exclude.
+    :key ignore_files: List of str objects for strings to exclude.
     :key ignore_files: List of str objects for paths to exclude.
     :key ignore_from: Dict of Iterable of str objects for strings to
         exclude from a particular path.

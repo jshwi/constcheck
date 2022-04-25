@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.3.0...HEAD)
 ------------------------------------------------------------------------
+### Fixed
+- Fixes up typing for `ignore_strings`
 
 [0.3.0](https://github.com/jshwi/constcheck/releases/tag/v0.3.0) - 2022-04-23
 ------------------------------------------------------------------------

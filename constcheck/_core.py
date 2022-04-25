@@ -92,7 +92,7 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
 
 
 def _remove_ignored_strings(
-    contents: _t.List[_TokenText], ignored_strings: _t.Iterable[str]
+    contents: _t.List[_TokenText], ignored_strings: _t.List[str]
 ) -> None:
     for string in list(contents):
         if str(string) in ignored_strings:
@@ -227,7 +227,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
 def parse_files(
     path: _PathLike,
     values: _ValueTuple,
-    ignore_strings: _t.Iterable[str],
+    ignore_strings: _t.List[str],
     ignore_files: _t.List[str],
     ignore_from: _t.Dict[str, _t.Iterable[str]],
 ) -> _PathFileStringRep:
@@ -237,7 +237,7 @@ def parse_files(
     :param path: Path for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
-    :param ignore_strings: Iterable of str objects for words to exclude.
+    :param ignore_strings: List of str objects for strings to exclude.
     :param ignore_files: List of str objects for paths to exclude.
     :param ignore_from: Dict of Iterable of str objects for strings to
         exclude from a particular path.
@@ -264,14 +264,14 @@ def parse_files(
 
 
 def parse_string(
-    string: str, values: _ValueTuple, ignore_strings: _t.Iterable[str]
+    string: str, values: _ValueTuple, ignore_strings: _t.List[str]
 ) -> _FileStringRep:
     """Parse string for repeats strings.
 
     :param string: String for which results are being compiled for.
     :param values: Tuple consisting of the minimum number of repetitions
         of ``str`` and the minimum length of ``str`` to be valid.
-    :param ignore_strings: Iterable of str objects for words to exclude.
+    :param ignore_strings: List of str objects for strings to exclude.
     :return: Object containing repeated string and occurrence.
     """
     fin = _StringIO(string)
