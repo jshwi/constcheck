@@ -506,22 +506,12 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
             "initial_value must be str or None, not set",
             TypeError,
         ),
-        (
-            "ignore_strings",
-            False,
-            "argument of type 'bool' is not iterable",
-            TypeError,
-        ),
-        (
-            "ignore_files",
-            10,
-            "argument of type 'int' is not iterable",
-            TypeError,
-        ),
+        ("ignore_strings", False, "'bool' object is not iterable", TypeError),
+        ("ignore_files", 10, "'int' object is not iterable", TypeError),
         (
             "ignore_from",
             ["hi"],
-            "'list' object has no attribute 'get'",
+            "'list' object has no attribute 'items'",
             AttributeError,
         ),
     ],
@@ -715,3 +705,135 @@ def test_ignore_from_no_value_given(main_cmd: MockMainType) -> None:
         receives strings as arguments from the argument vector.
     """
     main_cmd("--ignore-from", "some-file")
+
+
+@pytest.mark.parametrize(
+    "kwargs,expected",
+    [
+        (
+            (dict(ignore_strings=[LEN_3[0]]), dict(ignore_strings=[LEN_4[0]])),
+            (
+                header()
+                + display((6, LEN_4[0]), (6, LEN_5[0]))
+                + header(index=1)
+                + display((3, LEN_4[0]), (3, LEN_5[0]))
+                + header(index=2)
+                + display((3, LEN_4[0]), (3, LEN_5[0])),
+                header()
+                + display((6, LEN_5[0]))
+                + header(index=1)
+                + display((3, LEN_5[0]))
+                + header(index=2)
+                + display((3, LEN_5[0])),
+            ),
+        ),
+        (
+            (
+                dict(ignore_files=[f"{templates.registered[1].name}.py"]),
+                dict(ignore_files=[f"{templates.registered[2].name}.py"]),
+            ),
+            (
+                header()
+                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0]))
+                + header(index=2)
+                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
+                "",
+            ),
+        ),
+        (
+            (
+                dict(
+                    ignore_from={
+                        f"{templates.registered[1].name}.py": [LEN_5[0]]
+                    }
+                ),
+                dict(
+                    ignore_from={
+                        f"{templates.registered[1].name}.py": [LEN_4[0]]
+                    }
+                ),
+            ),
+            (
+                header()
+                + display((6, LEN_3[0]), (6, LEN_4[0]), (3, LEN_5[0]))
+                + header(index=1)
+                + display((3, LEN_3[0]), (3, LEN_4[0]))
+                + header(index=2)
+                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
+                header()
+                + display((6, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0]))
+                + header(index=1)
+                + display((3, LEN_3[0]))
+                + header(index=2)
+                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
+            ),
+        ),
+        (
+            (
+                dict(
+                    ignore_from={
+                        f"{templates.registered[1].name}.py": [LEN_5[0]]
+                    }
+                ),
+                dict(
+                    ignore_from={
+                        f"{templates.registered[2].name}.py": [LEN_5[0]]
+                    }
+                ),
+            ),
+            (
+                header()
+                + display((6, LEN_3[0]), (6, LEN_4[0]), (3, LEN_5[0]))
+                + header(index=1)
+                + display((3, LEN_3[0]), (3, LEN_4[0]))
+                + header(index=2)
+                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
+                header()
+                + display((6, LEN_3[0]), (6, LEN_4[0]))
+                + header(index=1)
+                + display((3, LEN_3[0]), (3, LEN_4[0]))
+                + header(index=2)
+                + display((3, LEN_3[0]), (3, LEN_4[0])),
+            ),
+        ),
+    ],
+    ids=[
+        "ignore-strings",
+        "ignore-files",
+        "filter-from-file",
+        "ignore-from-files",
+    ],
+)
+def test_ignore_from_no_override(
+    main_config: MockMainType,
+    main_kwargs: MockMainType,
+    index_file: IndexFileType,
+    kwargs: t.Tuple[t.Dict[str, t.Any], t.Dict[str, t.Any]],
+    expected: t.Tuple[str, str],
+) -> None:
+    """Test default values aren't overridden through commandline.
+
+    :param main_config: Main for pyproject.toml usage..
+    :param main_kwargs: Main function for API.
+    :param index_file: Create and index file.
+    :param kwargs: Kwargs for main.
+    :param expected: Expected result.
+    """
+    template = (
+        f'{CONST[12]} = "{LEN_3[0]}"\n'
+        f'{CONST[13]} = "{LEN_3[0]}"\n'
+        f'{CONST[14]} = "{LEN_3[0]}"\n'
+        f'{CONST[15]} = "{LEN_4[0]}"\n'
+        f'{CONST[16]} = "{LEN_4[0]}"\n'
+        f'{CONST[17]} = "{LEN_4[0]}"\n'
+        f'{CONST[15]} = "{LEN_5[0]}"\n'
+        f'{CONST[16]} = "{LEN_5[0]}"\n'
+        f'{CONST[17]} = "{LEN_5[0]}"\n'
+    )
+    te1, te2 = templates.registered[1:3]
+    index_file(Path.cwd() / f"{te1.name}.py", template)
+    index_file(Path.cwd() / f"{te2.name}.py", template)
+    result_1 = main_config(filter=True, **kwargs[0])[0]
+    result_2 = main_kwargs(filter=True, **kwargs[1])[0]
+    assert result_1 == expected[0]
+    assert result_2 == expected[1]

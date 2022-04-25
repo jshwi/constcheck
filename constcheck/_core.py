@@ -148,6 +148,20 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
     return args
 
 
+def _nested_update(
+    obj: _t.Dict[str, _t.List[str]], update: _t.Dict[str, _t.List[str]]
+) -> _t.Dict[str, _t.Any]:
+    # ensure that no entire dict keys with missing nested keys overwrite
+    # all other values
+    for key, value in update.items():
+        if key in obj:
+            obj[key] += value
+        else:
+            obj[key] = value
+
+    return obj
+
+
 def display(obj: _FileStringRep, no_color: bool) -> int:
     """Format and display object containing string and occurrence.
 
@@ -196,7 +210,13 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     :return: Tuple of configured values.
     """
     args = _get_default_args()
+    ignore_strings = args.get("ignore_strings", [])
+    ignore_files = args.get("ignore_files", [])
+    ignore_from = args.get("ignore_from", {})
     if kwargs:
+        ignore_strings.extend(kwargs.get("ignore_strings", []))
+        ignore_files.extend(kwargs.get("ignore_files", []))
+        _nested_update(ignore_from, kwargs.get("ignore_from", {}))
         return (
             kwargs.get("path", args["path"]),
             (
@@ -206,21 +226,24 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
             kwargs.get("filter", args["filter"]),
             kwargs.get("no_color", args["no_color"]),
             kwargs.get("string", args["string"]),
-            kwargs.get("ignore_strings", args["ignore_strings"]),
-            kwargs.get("ignore_files", args["ignore_files"]),
-            kwargs.get("ignore_from", args["ignore_from"]),
+            ignore_strings,
+            ignore_files,
+            ignore_from,
         )
 
     parser = _Parser(args)
+    ignore_strings.extend(parser.args.ignore_strings)
+    ignore_files.extend(parser.args.ignore_files)
+    _nested_update(ignore_from, parser.args.ignore_from)
     return (
         parser.args.path,
         (parser.args.count, parser.args.len),
         parser.args.filter,
         parser.args.no_color,
         parser.args.string,
-        parser.args.ignore_strings,
-        parser.args.ignore_files,
-        parser.args.ignore_from,
+        ignore_strings,
+        ignore_files,
+        ignore_from,
     )
 
 

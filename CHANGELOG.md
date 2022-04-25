@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.3.0...HEAD)
 ------------------------------------------------------------------------
 ### Fixed
+- Ensures default lists and dicts are added to and not overridden
 - Fixes up typing for `ignore_from`
 - Fixes up typing for `ignore_strings`
 
