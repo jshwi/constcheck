@@ -258,7 +258,9 @@ def test_multiple_files_single_packages(
         ),
         (
             dict(path=[PACKAGE[0]]),
-            header(prefix=PACKAGE[0])
+            header()
+            + display((3, QUOTES[2]), (3, LEN_4[0]), (7, LEN_5[0]))
+            + header(prefix=PACKAGE[0])
             + display((3, QUOTES[2]), (3, LEN_4[0]), (7, LEN_5[0]))
             + header(prefix=PACKAGE[0], index=0)
             + display((3, LEN_5[0]))
@@ -273,7 +275,15 @@ def test_multiple_files_single_packages(
         ),
         (
             dict(path=[PACKAGE[1]]),
-            header(prefix=PACKAGE[1])
+            header()
+            + display(
+                (3, LEN_3[0]),
+                (3, LEN_6[3]),
+                (3, LEN_3[1]),
+                (4, LEN_4[0]),
+                (9, LEN_5[0]),
+            )
+            + header(prefix=PACKAGE[1])
             + display(
                 (3, LEN_3[0]),
                 (3, LEN_6[3]),
@@ -295,7 +305,11 @@ def test_multiple_files_single_packages(
         ),
         (
             dict(path=[PACKAGE[2]]),
-            header(prefix=PACKAGE[2])
+            header()
+            + display(
+                (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
+            )
+            + header(prefix=PACKAGE[2])
             + display(
                 (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
             )
@@ -795,7 +809,7 @@ def test_ignore_from_no_value_given(main_cmd: MockMainType) -> None:
     ids=[
         "ignore-strings",
         "ignore-files",
-        "filter-from-file",
+        "ignore-from-file",
         "ignore-from-files",
     ],
 )
@@ -832,3 +846,59 @@ def test_ignore_from_no_override(
     result_2 = main_kwargs(filter=True, **kwargs[1])[0]
     assert result_1 == expected[0]
     assert result_2 == expected[1]
+
+
+def test_file_args(main: MockMainType, write_file: WriteFileType) -> None:
+    """Test passing individual file names to the ``path`` argument.
+
+    :param main: Patch package entry point.
+    :param write_file: Create and write file.
+    """
+    for registered in templates.registered:
+        write_file(
+            Path.cwd() / f"{registered.name}.py",
+            templates.registered[0].template,
+        )
+
+    assert (
+        templates.registered[0].expected
+        in main(
+            path=[
+                str(Path.cwd() / f"{i.name}.py") for i in templates.registered
+            ]
+        )[0]
+    )
+
+
+@pytest.mark.parametrize(
+    "name,template,expected",
+    templates.registered,
+    ids=templates.registered.getids(),
+)
+def test_file_args_non_relative(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    main: MockMainType,
+    write_file: WriteFileType,
+    name: str,
+    template: str,
+    expected: str,
+) -> None:
+    """Test header and result when passing relative files to ``path``.
+
+    Ensure path is resolved properly when path is not in CWD.
+
+    :param main: Patch package entry point.
+    :param write_file: Create and write file.
+    """
+    cwd = tmp_path / "project"
+    files = tmp_path / "files"
+    cwd.mkdir()
+    monkeypatch.setattr("os.getcwd", lambda: str(cwd))
+    write_file(files / f"{name}.py", template)
+    result = main(path=["../files"])[0]
+    assert expected in result
+    assert (
+        header(prefix=files, index=templates.registered.getindex(name))
+        in result
+    )

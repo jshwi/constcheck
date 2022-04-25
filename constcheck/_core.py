@@ -4,6 +4,7 @@ constcheck._core
 
 Functions for implementing package logic.
 """
+import os as _os
 import tokenize as _tokenize
 import typing as _t
 from collections import Counter as _Counter
@@ -92,30 +93,27 @@ def _remove_ignored_strings(
             contents.remove(string)
 
 
-def _filter_repeats(
-    lines: _TokenList,
-    values: _ValueTuple,
-    file_exclusions: _t.Optional[_t.List[str]] = None,
-) -> _FileStringRep:
-    ignore = file_exclusions or []
+def _filter_repeats(lines: _TokenList, values: _ValueTuple) -> _FileStringRep:
     repeats = {
         k: v
         for k, v in _Counter(lines).items()
-        if v >= values[0] and len(k) >= values[1] and str(k) not in ignore
+        if v >= values[0] and len(k) >= values[1]
     }
     return repeats
 
 
-def _populate_totals(path: _Path, contents: _PathFileStringRep) -> None:
-    for key, values in dict(contents).items():
-        contents[key.parent] = contents.get(key.parent, {})
-        contents[path] = contents.get(path, {})
-        for token, occurrence in values.items():
-            contents[key.parent][token] = contents[key.parent].get(token, 0)
-            contents[key.parent][token] += occurrence
-            if key.parent != path:
-                contents[path][token] = contents[path].get(token, 0)
-                contents[path][token] += occurrence
+# populate contents with all totals leading up to all path's common path
+def _populate_totals(
+    path: _Path,
+    common_path: _Path,
+    repeats: _t.Dict[_TokenText, int],
+    contents: _PathFileStringRep,
+) -> None:
+    while _is_relative_to(path, common_path):
+        relpath = _get_relative_to(path, _Path.cwd())
+        contents[relpath] = contents.get(relpath, {})
+        _nested_update(contents[relpath], repeats)
+        path = path.parent
 
 
 def _get_default_args() -> _t.Dict[str, _t.Any]:
@@ -142,8 +140,8 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
 
 
 def _nested_update(
-    obj: _t.Dict[str, _t.List[str]], update: _t.Dict[str, _t.List[str]]
-) -> _t.Dict[str, _t.Any]:
+    obj: _t.Dict[_t.Any, _t.Any], update: _t.Dict[_t.Any, _t.Any]
+) -> _t.Dict[_t.Any, _t.Any]:
     # ensure that no entire dict keys with missing nested keys overwrite
     # all other values
     for key, value in update.items():
@@ -157,21 +155,52 @@ def _nested_update(
 
 # get all paths to python files whilst skipping over any paths that
 # should be ignored
-def _get_paths(dirname: _Path, ignore_files: _t.List[str]) -> _t.List[_Path]:
+def _get_paths(
+    pathlikes: _t.List[_PathLike], ignore_files: _t.List[str]
+) -> _t.List[_Path]:
+    paths = [_Path(i).resolve() for i in pathlikes]
+    for path in paths:
+        if path.is_dir():
+            paths.extend(path.glob("**/*"))
+
     return list(
-        p
-        for p in dirname.absolute().glob("**/*")
-        if not any(i in ignore_files for i in (*p.parts, p.stem))
-        and p.name.endswith(".py")
+        set(
+            p
+            for p in paths
+            if not any(i in ignore_files for i in (*p.parts, p.stem))
+            and p.name.endswith(".py")
+        )
     )
 
 
 # get relative path if path is relative to, otherwise get path
-def _get_relative_to(path: _Path, other: _Path) -> _Path:
+def _is_relative_to(path: _Path, other: _Path) -> bool:
     try:
-        return path.relative_to(other)
+        path.relative_to(other)
+        return True
     except ValueError:
-        return path
+        return False
+
+
+# get relative path if path is relative to, otherwise get path
+def _get_relative_to(path: _Path, other: _Path) -> _Path:
+    if _is_relative_to(path, other):
+        return path.relative_to(other)
+
+    return path
+
+
+# get common dir to all paths provided
+# if common dir contain the current working dir, return that instead
+def _get_common_path(paths: _t.List[_Path]) -> _Path:
+    try:
+        path = _Path(_os.path.commonpath(paths))
+        if _is_relative_to(path, _Path.cwd()):
+            return _Path.cwd()
+
+        return path.parent if path.is_file() else path
+    except ValueError:
+        return _Path("/")
 
 
 def display(obj: _FileStringRep, no_color: bool) -> int:
@@ -278,22 +307,18 @@ def parse_files(
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
     """
-    contents = {}
-    for dirname in dirnames:
-        dirname = _Path(dirname)
-        paths = _get_paths(dirname, ignore_files)
-        for path in paths:
-            with open(path, encoding="utf-8") as fin:
-                strings = _get_strings(fin)
-                _remove_ignored_strings(strings, ignore_strings)
+    contents: _t.Dict[_Path, _t.Dict[_TokenText, int]] = {}
+    paths = _get_paths(dirnames, ignore_files)
+    common_path = _get_common_path(paths)
+    ignore_from_paths = {_Path(k).resolve(): v for k, v in ignore_from.items()}
+    for path in paths:
+        total_ignored = [*ignore_strings, *ignore_from_paths.get(path, [])]
+        with open(path, encoding="utf-8") as fin:
+            strings = _get_strings(fin)
+            _remove_ignored_strings(strings, total_ignored)
 
-            path = _get_relative_to(path, _Path.cwd())
-            file_exclusions: _t.Optional[_t.List[str]] = ignore_from.get(
-                str(path)
-            )
-            contents[path] = _filter_repeats(strings, values, file_exclusions)
-
-        _populate_totals(_get_relative_to(dirname, _Path.cwd()), contents)
+        repeats = _filter_repeats(strings, values)
+        _populate_totals(path, common_path, repeats, contents)
 
     return contents
 
