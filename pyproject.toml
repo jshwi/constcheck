@@ -46,7 +46,7 @@ pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.5.0"
 restview = "^3.0.0"
 sphinx-toolbox = "^2.18.1"
-templatest = "^0.2.0"
+templatest = "^0.3.0"
 toml-sort = "^0.20.0"
 tomli-w = "^1.0.0"
 
