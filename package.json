@@ -8,10 +8,10 @@
     "test": "tests"
   },
   "scripts": {
-    "toml:sort": "poetry run toml-sort pyproject.toml --in-place --all",
-    "audit": "npm-run-all audit:* && npm run toml:sort && npm run test:doctest:readme",
+    "toml:sort": "poetry run pyaud sort-pyproject",
+    "audit": "npm-run-all audit:*",
     "audit:misc": "npx prettier -c .",
-    "audit:py": "poetry run pyaud audit --deploy --rcfile .github/pyaud.toml",
+    "audit:py": "poetry run pyaud audit --rcfile .github/pyaud.toml",
     "bump:major": "poetry run bump2version major",
     "bump:minor": "poetry run bump2version minor",
     "bump:patch": "poetry run bump2version patch",
@@ -23,11 +23,13 @@
     "format:py:docs": "poetry run pyaud format-docs",
     "format:py:str": "poetry run pyaud format-str",
     "lint": "poetry run pyaud lint",
-    "test": "npm-run-all test:**",
-    "test:doctest:package": "poetry run sphinx-build -M doctest docs/ docs/_build",
-    "test:doctest:readme": "poetry run python -m doctest README.rst",
+    "test": "poetry run pyaud test",
+    "test:doctest": "poetry run pyaud doctest",
+    "test:doctest:package": "poetry run pyaud doctest-package",
+    "test:doctest:readme": "poetry run pyaud doctest-readme",
     "test:unit": "poetry run pyaud tests",
-    "types": "poetry run pyaud typecheck"
+    "types": "poetry run pyaud typecheck",
+    "const": "poetry run pyaud const"
   },
   "repository": {
     "type": "git",

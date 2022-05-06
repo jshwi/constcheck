@@ -59,7 +59,6 @@ pytest-sugar = "^0.9.4"
 restview = "^3.0.0"
 sphinx-toolbox = "^2.18.1"
 templatest = "^0.3.0"
-toml-sort = "^0.20.0"
 tomli-w = "^1.0.0"
 
 [tool.poetry.scripts]
@@ -67,7 +66,9 @@ constcheck = "constcheck.__main__:main"
 
 [tool.pyaud.audit]
 modules = [
-    "files",
+    "toc",
+    "whitelist",
+    "sort-pyproject",
     "format",
     "format-docs",
     "format-str",
@@ -75,7 +76,8 @@ modules = [
     "typecheck",
     "unused",
     "lint",
-    "coverage",
+    "const",
+    "test",
     "docs",
 ]
 
