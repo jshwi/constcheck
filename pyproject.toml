@@ -1,6 +1,8 @@
 [build-system]
 build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
+requires = [
+    "poetry-core>=1.0.0",
+]
 
 [tool.black]
 exclude = '''
@@ -19,12 +21,23 @@ skip-magic-trailing-comma = true
 fail_under = 100
 
 [tool.coverage.run]
-omit = ["whitelist.py", "constcheck/__main__.py"]
+omit = [
+    "whitelist.py",
+    "constcheck/__main__.py",
+]
 
 [tool.poetry]
-authors = ["jshwi <stephen@jshwisolutions.com>"]
+authors = [
+    "jshwi <stephen@jshwisolutions.com>",
+]
 description = "Check Python files for repeat use of strings"
-keywords = ["const", "constant", "str", "check", "dry",]
+keywords = [
+    "const",
+    "constant",
+    "str",
+    "check",
+    "dry",
+]
 license = "MIT"
 name = "constcheck"
 readme = "README.rst"
@@ -43,7 +56,6 @@ pyaud = "^3.13.4"
 pytest = "^7.1.1"
 pytest-randomly = "^3.11.0"
 pytest-sugar = "^0.9.4"
-pytest-xdist = "^2.5.0"
 restview = "^3.0.0"
 sphinx-toolbox = "^2.18.1"
 templatest = "^0.3.0"
@@ -68,10 +80,17 @@ modules = [
 ]
 
 [tool.pyaud.clean]
-exclude = ["*.egg*", ".mypy_cache", ".env"]
+exclude = [
+    "*.egg*",
+    ".mypy_cache",
+    ".env",
+]
 
 [tool.pyaud.indexing]
-exclude = ["whitelist.py", "conf.py"]
+exclude = [
+    "whitelist.py",
+    "conf.py",
+]
 
 [tool.pyaud.logging]
 disable_existing_loggers = true
@@ -88,7 +107,9 @@ formatter = "standard"
 when = "d"
 
 [tool.pyaud.logging.root]
-handlers = ["default"]
+handlers = [
+    "default",
+]
 level = "DEBUG"
 propagate = false
 
@@ -99,8 +120,12 @@ addopts = [
     "--color=yes",
     "--cov-report",
     "term-missing",
-    "-n",
-    "auto"
 ]
 filterwarnings = "ignore::DeprecationWarning"
-norecursedirs = ["docs", "*.egg-info", ".git", ".mypy_cache", ".idea"]
+norecursedirs = [
+    "docs",
+    "*.egg-info",
+    ".git",
+    ".mypy_cache",
+    ".idea",
+]
