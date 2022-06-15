@@ -1426,7 +1426,7 @@ widechars = ["wcwidth"]
 
 [[package]]
 name = "templatest"
-version = "0.4.0"
+version = "0.5.0"
 description = "Templates for testing with strings"
 category = "dev"
 optional = false
@@ -1573,7 +1573,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "e3bdc1770f13930d4be064aa46ccae0d69280c02581d781f9fb859faa2f2ebb0"
+content-hash = "7c09ab9494ade77cd727d1deae52ff362e0cc33abd6998a86f6a0f9d7d0b8931"
 
 [metadata.files]
 alabaster = [
@@ -2229,8 +2229,8 @@ tabulate = [
     {file = "tabulate-0.8.9.tar.gz", hash = "sha256:eb1d13f25760052e8931f2ef80aaf6045a6cceb47514db8beab24cded16f13a7"},
 ]
 templatest = [
-    {file = "templatest-0.4.0-py3-none-any.whl", hash = "sha256:f6087927d12310f0dd590a1b15cfabbcb23c119805e9184f8353c8fb978a386c"},
-    {file = "templatest-0.4.0.tar.gz", hash = "sha256:48534596e8ef2f936a524dae5813fa08996da85404a823f5ef5cba4d75380f3a"},
+    {file = "templatest-0.5.0-py3-none-any.whl", hash = "sha256:2ead1c7671aaaa2d6bad15f8f9b6d7d7b46c82b67ef10e3a848d5ee38cf31fff"},
+    {file = "templatest-0.5.0.tar.gz", hash = "sha256:23d8ae7dd902147b8027ab537aec1f74a2c138d9bc30912af161513721c13d8d"},
 ]
 termcolor = [
     {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
