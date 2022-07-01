@@ -32,6 +32,10 @@ omit = [
     "constcheck/__main__.py",
 ]
 
+[tool.docsig]
+summary = true
+check-class = true
+
 [tool.poetry]
 authors = [
     "jshwi <stephen@jshwisolutions.com>",
@@ -84,6 +88,7 @@ modules = [
     "unused",
     "lint",
     "const",
+    "params",
     "test",
     "docs",
 ]
