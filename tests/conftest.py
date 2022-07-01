@@ -89,9 +89,9 @@ def fixture_main_cmd(
 ) -> MockMainType:
     """Main for commandline usage.
 
+    :param monkeypatch: Mock patch environment and attributes.
     :param nocolorcapsys: Capture system output while stripping ANSI
         color codes.
-    :param monkeypatch: Mock patch environment and attributes.
     :return: Function for using this fixture.
     """
 

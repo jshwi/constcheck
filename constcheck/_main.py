@@ -41,7 +41,7 @@ def main(
     :key count: Minimum number of repeat strings (default: 3).
     :key len: Minimum length of repeat strings (default: 3).
     :key string: Parse a str instead of a path.
-    :key ignore_files: List of str objects for strings to exclude.
+    :key ignore_strings: List of str objects for strings to exclude.
     :key ignore_files: List of str objects for paths to exclude.
     :key ignore_from: Dict with list of str objects for strings to
         exclude from a particular path.

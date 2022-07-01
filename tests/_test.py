@@ -547,6 +547,7 @@ def test_invalid_types(
     :param key: Keyword passed to ``main``.
     :param value: Incorrect value.
     :param expected: Expected error output.
+    :param exception: Expected exception.
     """
     write_file(Path.cwd() / "file.py", templates.registered[0][1])
     with pytest.raises(exception) as err:
@@ -888,8 +889,13 @@ def test_file_args_non_relative(
 
     Ensure path is resolved properly when path is not in CWD.
 
+    :param tmp_path: Create and return temporary directory.
+    :param monkeypatch: Mock patch environment and attributes.
     :param main: Patch package entry point.
     :param write_file: Create and write file.
+    :param name: Name of template object.
+    :param template: Content to write to file.
+    :param expected: Expected result.
     """
     cwd = tmp_path / "project"
     files = tmp_path / "files"
