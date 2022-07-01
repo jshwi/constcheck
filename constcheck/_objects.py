@@ -306,6 +306,8 @@ class TokenText(_UserString):
     def isdoc(self, prev_ttext: TokenText, prev_ttype: TokenType) -> bool:
         """Check that this is a docstring.
 
+        :param prev_ttext: Previous text token in iteration.
+        :param prev_ttype: Previous type token in iteration.
         :return: This is a docstring, True or False.
         """
         return self.istriplequoted() and (

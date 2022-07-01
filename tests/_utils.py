@@ -77,6 +77,7 @@ class TemplateNoneExpected(_BaseTemplate):
 
     @property
     def expected(self) -> str:
+        """Expected result."""
         return "\n"
 
 
@@ -149,6 +150,7 @@ class Argify:
     def get_flags(self, *args: str) -> _t.List[str]:
         """Get a list of boolean switches, added if their value is True.
 
+        :param args: Args to pass to ``_argify``.
         :return: List of flags for switching an option to True.
         """
         return [
