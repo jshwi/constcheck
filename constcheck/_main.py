@@ -4,6 +4,8 @@ constcheck._main
 
 Contains package entry point.
 """
+from __future__ import annotations
+
 import typing as _t
 
 from ._core import display as _display
@@ -16,14 +18,12 @@ from ._typing import PathLike as _PathLike
 
 
 def main(
-    **kwargs: _t.Union[
-        bool,
-        int,
-        str,
-        _t.List[str],
-        _t.List[_PathLike],
-        _t.Dict[str, _t.List[str]],
-    ]
+    **kwargs: bool
+    | int
+    | str
+    | _t.List[str]
+    | _t.List[_PathLike]
+    | _t.Dict[str, _t.List[str]]
 ) -> int:
     """Entry point for commandline and API use.
 

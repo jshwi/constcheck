@@ -36,8 +36,8 @@ class _DictAction(_Action):  # pylint: disable=too-few-public-methods
         self,
         parser: _ArgumentParser,
         namespace: _Namespace,
-        values: _t.Optional[_t.Union[str, _t.Sequence[_t.Any]]],
-        _: _t.Optional[str] = None,
+        values: str | _t.Sequence[_t.Any],
+        _: str | None = None,
     ) -> None:
         if values is not None:
             try:
@@ -199,7 +199,7 @@ class TokenText(_UserString):
     TRIPLE_DOUBLE_QUOTE = 3 * DOUBLE_QUOTE
     TRIPLE_QUOTES = TRIPLE_SINGLE_QUOTE, TRIPLE_DOUBLE_QUOTE
 
-    def exact_type(self) -> _t.Optional[int]:
+    def exact_type(self) -> str | None:
         """Get the exact type of the token.
 
         :return: Exact type of token, or None if token not available.
