@@ -77,6 +77,7 @@ modules = [
     "unused",
     "lint",
     "const",
+    "params",
     "test",
     "docs",
 ]
