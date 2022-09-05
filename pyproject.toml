@@ -17,6 +17,12 @@ exclude = '''
 line-length = 79
 skip-magic-trailing-comma = true
 
+[tool.constcheck.ignore_from]
+"tests/_test.py" = [
+    "kwargs,expected",
+    "name,template,expected",
+]
+
 [tool.coverage.report]
 fail_under = 100
 
