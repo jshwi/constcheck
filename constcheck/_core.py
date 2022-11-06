@@ -4,6 +4,8 @@ constcheck._core
 
 Functions for implementing package logic.
 """
+from __future__ import annotations
+
 import os as _os
 import tokenize as _tokenize
 import typing as _t
@@ -206,7 +208,7 @@ def _get_common_path(paths: _t.List[_Path]) -> _Path:
         return _Path("/")
 
 
-def display(obj: _FileStringRep, no_color: bool) -> int:
+def _display(obj: _FileStringRep, no_color: bool) -> int:
     """Format and display object containing string and occurrence.
 
     :param obj: Object containing repeated string and occurrence.
@@ -225,7 +227,7 @@ def display(obj: _FileStringRep, no_color: bool) -> int:
     return returncode
 
 
-def display_path(
+def _display_path(
     contents: _PathFileStringRep, filter_empty: bool, no_color: bool
 ) -> int:
     """Display the end result of string repetition of provided files.
@@ -241,7 +243,7 @@ def display_path(
         if obj or not filter_empty:
             print(_color_display(path, _color.magenta, no_color))
             print(len(str(path)) * "-")
-            returncodes.append(display(obj, no_color))
+            returncodes.append(_display(obj, no_color))
 
     return int(any(returncodes))
 
@@ -290,7 +292,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     )
 
 
-def parse_files(
+def _parse_files(
     dirnames: _t.List[_PathLike],
     values: _ValueTuple,
     ignore_strings: _t.List[str],
@@ -326,7 +328,7 @@ def parse_files(
     return contents
 
 
-def parse_string(
+def _parse_string(
     string: str, values: _ValueTuple, ignore_strings: _t.List[str]
 ) -> _FileStringRep:
     """Parse string for repeats strings.
@@ -341,3 +343,51 @@ def parse_string(
     strings = _get_strings(fin)
     _remove_ignored_strings(strings, ignore_strings)
     return _filter_repeats(strings, values)
+
+
+def constcheck(  # pylint: disable=too-many-arguments
+    path: _t.List[_PathLike] | None = None,
+    values: _t.Tuple[int, int] = (3, 3),
+    filter_empty: bool = False,
+    no_color: bool = False,
+    string: str | None = None,
+    ignore_strings: _t.List[str] | None = None,
+    ignore_files: _t.List[str] | None = None,
+    ignore_from: _t.Dict[str, _t.List[str]] | None = None,
+) -> int:
+    """Entry point for commandline and API use.
+
+    If keyword arguments are passed to this function then the package
+    has been imported and the commandline parser will not read from the
+    argument vector.
+
+    If no arguments are provided then the defaults will be used. As of
+    this version all arguments are optional.
+
+    The below default values are valid so long as they have not been
+    configured in the pyproject.toml file.
+
+    :param path: List of paths to check files for (default: ["."]).
+    :param values: Minimum number of repeat strings and minimum length of
+        repeat strings (default: 3).
+    :param filter_empty: Boolean value to filter out empty results.
+    :param no_color: Boolean value to disable color output.
+    :param string: Parse a str instead of a path.
+    :param ignore_strings: List of str objects for strings to exclude.
+    :param ignore_files: List of str objects for paths to exclude.
+    :param ignore_from: Dict with list of str objects for strings to
+        exclude from a particular path.
+    :return: Exit status.
+    """
+    if string is not None:
+        string_contents = _parse_string(string, values, ignore_strings or [])
+        return _display(string_contents, no_color)
+
+    file_contents = _parse_files(
+        path or [_Path(".")],
+        values,
+        ignore_strings or [],
+        ignore_files or [],
+        ignore_from or {},
+    )
+    return _display_path(file_contents, filter_empty, no_color)

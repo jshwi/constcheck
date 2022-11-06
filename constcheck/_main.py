@@ -6,11 +6,8 @@ Contains package entry point.
 """
 import typing as _t
 
-from ._core import display as _display
-from ._core import display_path as _display_path
+from ._core import constcheck as _constcheck
 from ._core import get_args as _get_args
-from ._core import parse_files as _parse_files
-from ._core import parse_string as _parse_string
 from ._typing import PathLike as _PathLike
 
 
@@ -24,17 +21,7 @@ def main(
         _t.Dict[str, _t.List[str]],
     ]
 ) -> int:
-    """Entry point for commandline and API use.
-
-    If keyword arguments are passed to this function then the package
-    has been imported and the commandline parser will not read from the
-    argument vector.
-
-    If no arguments are provided then the defaults will be used. As of
-    this version all arguments are optional.
-
-    The below default values are valid so long as they have not been
-    configured in the pyproject.toml file.
+    """Main function for package.
 
     :key path: List of paths to check files for (default: ["."]).
     :key count: Minimum number of repeat strings (default: 3).
@@ -58,11 +45,13 @@ def main(
         ignore_files,
         ignore_from,
     ) = _get_args(kwargs)
-    if string is not None:
-        string_contents = _parse_string(string, values, ignore_strings)
-        return _display(string_contents, no_color)
-
-    file_contents = _parse_files(
-        path, values, ignore_strings, ignore_files, ignore_from
+    return _constcheck(
+        path=path,
+        values=values,
+        filter_empty=filter_empty,
+        no_color=no_color,
+        string=string,
+        ignore_strings=ignore_strings,
+        ignore_files=ignore_files,
+        ignore_from=ignore_from,
     )
-    return _display_path(file_contents, filter_empty, no_color)

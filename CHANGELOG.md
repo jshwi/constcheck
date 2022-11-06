@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.4.2...HEAD)
 ------------------------------------------------------------------------
+### Added
+- Adds `constcheck.constcheck`
 
 [0.4.2](https://github.com/jshwi/constcheck/releases/tag/v0.4.2) - 2022-11-09
 ------------------------------------------------------------------------
