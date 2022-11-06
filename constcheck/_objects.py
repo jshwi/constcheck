@@ -25,6 +25,8 @@ color = _Color()
 
 NAME = __name__.split(".", maxsplit=1)[0]
 
+color.populate_colors()
+
 
 # split str by comma, but allow for escaping
 def _split_comma(value: str) -> _t.List[str]:

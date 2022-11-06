@@ -11,7 +11,6 @@ from ._core import display_path as _display_path
 from ._core import get_args as _get_args
 from ._core import parse_files as _parse_files
 from ._core import parse_string as _parse_string
-from ._objects import color as _color
 from ._typing import PathLike as _PathLike
 
 
@@ -49,7 +48,6 @@ def main(
     :key no_color: Boolean value to disable color output.
     :return: Exit status.
     """
-    _color.populate_colors()
     (
         path,
         values,
