@@ -337,7 +337,7 @@ tomli = ["tomli (<2.0.0)"]
 
 [[package]]
 name = "docsig"
-version = "0.23.0"
+version = "0.23.1"
 description = "Check signature params for proper documentation"
 category = "dev"
 optional = false
@@ -1750,8 +1750,8 @@ docformatter = [
     {file = "docformatter-1.5.0.tar.gz", hash = "sha256:9dc71659d3b853c3018cd7b2ec34d5d054370128e12b79ee655498cb339cc711"},
 ]
 docsig = [
-    {file = "docsig-0.23.0-py3-none-any.whl", hash = "sha256:f01b1f1320788629a655d4b6365ebaecb746fd6932ba57e34f692ea2528f2626"},
-    {file = "docsig-0.23.0.tar.gz", hash = "sha256:4b0d64726116b74ae72a20d1da1106013d31ca56ea401616d65db183dc21eb57"},
+    {file = "docsig-0.23.1-py3-none-any.whl", hash = "sha256:f1cc27b79828c0e61ca339ba803a0328cd2447b07ec80de68b8564e9daf3406d"},
+    {file = "docsig-0.23.1.tar.gz", hash = "sha256:30a08e88a4e374a2f8821df08b47a08d7f3aaddbaefc5b138d9227826d1a83da"},
 ]
 docutils = [
     {file = "docutils-0.17.1-py2.py3-none-any.whl", hash = "sha256:cf316c8370a737a022b72b56874f6602acf974a37a9fba42ec2876387549fc61"},
