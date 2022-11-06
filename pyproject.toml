@@ -18,6 +18,10 @@ line-length = 79
 skip-magic-trailing-comma = true
 
 [tool.constcheck.ignore_from]
+"constcheck/_objects.py" = [
+    "store",
+    "store_true",
+]
 "tests/_test.py" = [
     "kwargs,expected",
     "name,template,expected",

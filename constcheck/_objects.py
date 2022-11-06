@@ -57,9 +57,6 @@ class Parser(_ArgumentParser):
     :param kwargs: Configured args to set as default.
     """
 
-    _STORE = "store"
-    _STORE_TRUE = "store_true"
-
     def __init__(self, kwargs: _t.Dict[str, _t.Any]) -> None:
         super().__init__(
             prog=color.cyan.get(NAME),
@@ -81,7 +78,7 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "path",
             nargs="*",
-            action=self._STORE,
+            action="store",
             default=self._kwargs["path"],
             type=_Path,
             help="path(s) to check files for (default: .)",
@@ -89,7 +86,7 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "-c",
             "--count",
-            action=self._STORE,
+            action="store",
             default=self._kwargs["count"],
             metavar="INT",
             type=int,
@@ -98,7 +95,7 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "-l",
             "--len",
-            action=self._STORE,
+            action="store",
             default=self._kwargs["len"],
             metavar="INT",
             type=int,
@@ -107,7 +104,7 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "-s",
             "--string",
-            action=self._STORE,
+            action="store",
             metavar="STR",
             type=str,
             default=self._kwargs["string"],
@@ -116,7 +113,7 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "-i",
             "--ignore-strings",
-            action=self._STORE,
+            action="store",
             metavar="LIST",
             type=_split_comma,
             default=self._kwargs["ignore_strings"],
@@ -125,7 +122,7 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "-I",
             "--ignore-files",
-            action=self._STORE,
+            action="store",
             metavar="LIST",
             type=_split_comma,
             default=self._kwargs["ignore_files"],
@@ -133,7 +130,7 @@ class Parser(_ArgumentParser):
         )
         self.add_argument(
             "--ignore-from",
-            action=_DictAction,
+            action=_DictAction,  # type: ignore
             metavar="FILE=LIST",
             nargs="*",
             default=self._kwargs["ignore_from"],
@@ -142,21 +139,21 @@ class Parser(_ArgumentParser):
         self.add_argument(
             "-f",
             "--filter",
-            action=self._STORE_TRUE,
+            action="store_true",
             default=self._kwargs["filter"],
             help="filter out empty results",
         )
         self.add_argument(
             "-n",
             "--no-color",
-            action=self._STORE_TRUE,
+            action="store_true",
             default=self._kwargs["no_color"],
             help="disable color output",
         )
         self.add_argument(
             "-v",
             "--version",
-            action=self._STORE_TRUE,
+            action="store_true",
             help="show version and exit",
         )
 
