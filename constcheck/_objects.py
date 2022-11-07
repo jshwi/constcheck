@@ -86,6 +86,19 @@ class Parser(_ArgumentParser):
             help="path(s) to check files for (default: .)",
         )
         self.add_argument(
+            "-v",
+            "--version",
+            action="store_true",
+            help="show version and exit",
+        )
+        self.add_argument(
+            "-n",
+            "--no-ansi",
+            action="store_true",
+            default=self._kwargs["no_ansi"],
+            help="disable ansi output",
+        )
+        self.add_argument(
             "-c",
             "--count",
             action="store",
@@ -137,19 +150,6 @@ class Parser(_ArgumentParser):
             nargs="*",
             default=self._kwargs["ignore_from"],
             help="comma separated list of strings to exclude from file",
-        )
-        self.add_argument(
-            "-n",
-            "--no-ansi",
-            action="store_true",
-            default=self._kwargs["no_ansi"],
-            help="disable ansi output",
-        )
-        self.add_argument(
-            "-v",
-            "--version",
-            action="store_true",
-            help="show version and exit",
         )
 
     def _version_request(self) -> None:

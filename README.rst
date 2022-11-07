@@ -47,8 +47,8 @@ Commandline
 
 .. code-block:: console
 
-    usage: constcheck [-h] [-c INT] [-l INT] [-s STR] [-i LIST] [-I LIST]
-                                 [--ignore-from [FILE=LIST [FILE=LIST ...]]] [-n] [-v]
+    usage: constcheck [-h] [-v] [-n] [-c INT] [-l INT] [-s STR] [-i LIST] [-I LIST]
+                                 [--ignore-from [FILE=LIST [FILE=LIST ...]]]
                                  [path [path ...]]
 
     positional arguments:
@@ -56,14 +56,14 @@ Commandline
 
     optional arguments:
       -h, --help                                 show this help message and exit
+      -v, --version                              show version and exit
+      -n, --no-ansi                              disable ansi output
       -c INT, --count INT                        minimum number of repeat strings (default: 3)
       -l INT, --len INT                          minimum length of repeat strings (default: 3)
       -s STR, --string STR                       parse a string instead of a file
       -i LIST, --ignore-strings LIST             comma separated list of strings to exclude
       -I LIST, --ignore-files LIST               comma separated list of files to exclude
       --ignore-from [FILE=LIST [FILE=LIST ...]]  comma separated list of strings to exclude from file
-      -n, --no-ansi                              disable ansi output
-      -v, --version                              show version and exit
 
 API
 ***
