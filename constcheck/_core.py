@@ -26,7 +26,6 @@ from ._typing import FileStringRep as _FileStringRep
 from ._typing import PathFileStringRep as _PathFileStringRep
 from ._typing import PathLike as _PathLike
 from ._typing import TokenList as _TokenList
-from ._typing import ValueTuple as _ValueTuple
 
 
 def _color_display(obj: object, color: _Color, no_ansi: bool) -> str:
@@ -98,11 +97,13 @@ def _remove_ignored_strings(
             contents.remove(string)
 
 
-def _filter_repeats(lines: _TokenList, values: _ValueTuple) -> _FileStringRep:
+def _filter_repeats(
+    lines: _TokenList, count: int, length: int
+) -> _FileStringRep:
     repeats = {
         k: v
         for k, v in _Counter(lines).items()
-        if v >= values[0] and len(k) >= values[1]
+        if v >= count and len(k) >= length
     }
     return repeats
 
@@ -260,10 +261,8 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
         _nested_update(ignore_from, kwargs.get("ignore_from", {}))
         return (
             kwargs.get("path", args["path"]),
-            (
-                kwargs.get("count", args["count"]),
-                kwargs.get("length", args["length"]),
-            ),
+            kwargs.get("count", args["count"]),
+            kwargs.get("length", args["length"]),
             kwargs.get("no_ansi", args["no_ansi"]),
             kwargs.get("string", args["string"]),
             ignore_strings,
@@ -277,7 +276,8 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     _nested_update(ignore_from, parser.args.ignore_from)
     return (
         parser.args.path,
-        (parser.args.count, parser.args.length),
+        parser.args.count,
+        parser.args.length,
         parser.args.no_ansi,
         parser.args.string,
         ignore_strings,
@@ -286,9 +286,10 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     )
 
 
-def _parse_files(
+def _parse_files(  # pylint: disable=too-many-arguments
     dirnames: _t.List[_PathLike],
-    values: _ValueTuple,
+    count: int,
+    length: int,
     ignore_strings: _t.List[str],
     ignore_files: _t.List[str],
     ignore_from: _t.Dict[str, _t.List[str]],
@@ -297,8 +298,8 @@ def _parse_files(
 
     :param dirnames: List of paths for which results are being compiled
         for.
-    :param values: Tuple consisting of the minimum number of repetitions
-        of ``str`` and the minimum length of ``str`` to be valid.
+    :param count: Minimum number of repeat strings (default: 3).
+    :param length: Minimum length of repeat strings (default: 3).
     :param ignore_strings: List of str objects for strings to exclude.
     :param ignore_files: List of str objects for paths to exclude.
     :param ignore_from: Dict with list of str objects for strings to
@@ -316,32 +317,33 @@ def _parse_files(
             strings = _get_strings(fin)
             _remove_ignored_strings(strings, total_ignored)
 
-        repeats = _filter_repeats(strings, values)
+        repeats = _filter_repeats(strings, count, length)
         _populate_totals(path, common_path, repeats, contents)
 
     return contents
 
 
 def _parse_string(
-    string: str, values: _ValueTuple, ignore_strings: _t.List[str]
+    string: str, count: int, length: int, ignore_strings: _t.List[str]
 ) -> _FileStringRep:
     """Parse string for repeats strings.
 
     :param string: String for which results are being compiled for.
-    :param values: Tuple consisting of the minimum number of repetitions
-        of ``str`` and the minimum length of ``str`` to be valid.
+    :param count: Minimum number of repeat strings (default: 3).
+    :param length: Minimum length of repeat strings (default: 3).
     :param ignore_strings: List of str objects for strings to exclude.
     :return: Object containing repeated string and occurrence.
     """
     fin = _StringIO(string)
     strings = _get_strings(fin)
     _remove_ignored_strings(strings, ignore_strings)
-    return _filter_repeats(strings, values)
+    return _filter_repeats(strings, count, length)
 
 
 def constcheck(  # pylint: disable=too-many-arguments
     path: _t.List[_PathLike] | None = None,
-    values: _t.Tuple[int, int] = (3, 3),
+    count: int = 3,
+    length: int = 3,
     no_ansi: bool = False,
     string: str | None = None,
     ignore_strings: _t.List[str] | None = None,
@@ -361,8 +363,8 @@ def constcheck(  # pylint: disable=too-many-arguments
     configured in the pyproject.toml file.
 
     :param path: List of paths to check files for (default: ["."]).
-    :param values: Minimum number of repeat strings and minimum length of
-        repeat strings (default: 3).
+    :param count: Minimum number of repeat strings (default: 3).
+    :param length: Minimum length of repeat strings (default: 3).
     :param no_ansi: Boolean value to disable color output.
     :param string: Parse a str instead of a path.
     :param ignore_strings: List of str objects for strings to exclude.
@@ -372,12 +374,15 @@ def constcheck(  # pylint: disable=too-many-arguments
     :return: Exit status.
     """
     if string is not None:
-        string_contents = _parse_string(string, values, ignore_strings or [])
+        string_contents = _parse_string(
+            string, count, length, ignore_strings or []
+        )
         return _display(string_contents, no_ansi)
 
     file_contents = _parse_files(
         path or [_Path(".")],
-        values,
+        count,
+        length,
         ignore_strings or [],
         ignore_files or [],
         ignore_from or {},

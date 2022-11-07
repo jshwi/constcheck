@@ -36,7 +36,8 @@ def main(
     """
     (
         path,
-        values,
+        count,
+        length,
         no_ansi,
         string,
         ignore_strings,
@@ -45,7 +46,8 @@ def main(
     ) = _get_args(kwargs)
     return _constcheck(
         path=path,
-        values=values,
+        count=count,
+        length=length,
         no_ansi=no_ansi,
         string=string,
         ignore_strings=ignore_strings,
