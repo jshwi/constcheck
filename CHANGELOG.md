@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Adds `constcheck.constcheck`
 
+### Changed
+- Renames `--no-color` to `--no-ansi`
+
 ### Removed
 - Removes `-f/--filter` argument
 

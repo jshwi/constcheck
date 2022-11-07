@@ -140,10 +140,10 @@ class Parser(_ArgumentParser):
         )
         self.add_argument(
             "-n",
-            "--no-color",
+            "--no-ansi",
             action="store_true",
-            default=self._kwargs["no_color"],
-            help="disable color output",
+            default=self._kwargs["no_ansi"],
+            help="disable ansi output",
         )
         self.add_argument(
             "-v",

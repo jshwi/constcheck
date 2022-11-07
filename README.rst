@@ -62,7 +62,7 @@ Commandline
       -i LIST, --ignore-strings LIST             comma separated list of strings to exclude
       -I LIST, --ignore-files LIST               comma separated list of files to exclude
       --ignore-from [FILE=LIST [FILE=LIST ...]]  comma separated list of strings to exclude from file
-      -n, --no-color                             disable color output
+      -n, --no-ansi                              disable ansi output
       -v, --version                              show version and exit
 
 API

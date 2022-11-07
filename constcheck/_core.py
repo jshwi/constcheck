@@ -29,9 +29,9 @@ from ._typing import TokenList as _TokenList
 from ._typing import ValueTuple as _ValueTuple
 
 
-def _color_display(obj: object, color: _Color, no_color: bool) -> str:
+def _color_display(obj: object, color: _Color, no_ansi: bool) -> str:
     string = str(obj)
-    return string if no_color else color.get(string)
+    return string if no_ansi else color.get(string)
 
 
 def _get_strings(textio: _t.TextIO) -> _TokenList:
@@ -126,7 +126,7 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
         path=[_Path.cwd()],
         count=3,
         len=3,
-        no_color=False,
+        no_ansi=False,
         string=None,
         ignore_strings=[],
         ignore_files=[],
@@ -207,17 +207,17 @@ def _get_common_path(paths: _t.List[_Path]) -> _Path:
         return _Path("/")
 
 
-def _display(obj: _FileStringRep, no_color: bool) -> int:
+def _display(obj: _FileStringRep, no_ansi: bool) -> int:
     """Format and display object containing string and occurrence.
 
     :param obj: Object containing repeated string and occurrence.
-    :param no_color: disable color output.
+    :param no_ansi: disable color output.
     :return: Return non-zero exit status if constants were found.
     """
     returncode = 0
     for string, count in sorted(sorted(obj.items()), key=lambda x: x[1]):
-        numbers = _color_display(count, _color.yellow, no_color)
-        pipe = _color_display("|", _color.cyan, no_color)
+        numbers = _color_display(count, _color.yellow, no_ansi)
+        pipe = _color_display("|", _color.cyan, no_ansi)
         tab = (4 - len(str(count))) * " "
         print(f"{numbers}{tab}{pipe} {string}")
         returncode = 1
@@ -226,20 +226,20 @@ def _display(obj: _FileStringRep, no_color: bool) -> int:
     return returncode
 
 
-def _display_path(contents: _PathFileStringRep, no_color: bool) -> int:
+def _display_path(contents: _PathFileStringRep, no_ansi: bool) -> int:
     """Display the end result of string repetition of provided files.
 
     :param contents: Object containing repeated string and occurrence
         grouped by their parent dirs.
-    :param no_color: disable color output.
+    :param no_ansi: disable color output.
     :return: Return non-zero exit status if constants were found.
     """
     returncodes = []
     for path, obj in sorted(contents.items()):
         if obj:
-            print(_color_display(path, _color.magenta, no_color))
+            print(_color_display(path, _color.magenta, no_ansi))
             print(len(str(path)) * "-")
-            returncodes.append(_display(obj, no_color))
+            returncodes.append(_display(obj, no_ansi))
 
     return int(any(returncodes))
 
@@ -264,7 +264,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
                 kwargs.get("count", args["count"]),
                 kwargs.get("len", args["len"]),
             ),
-            kwargs.get("no_color", args["no_color"]),
+            kwargs.get("no_ansi", args["no_ansi"]),
             kwargs.get("string", args["string"]),
             ignore_strings,
             ignore_files,
@@ -278,7 +278,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     return (
         parser.args.path,
         (parser.args.count, parser.args.len),
-        parser.args.no_color,
+        parser.args.no_ansi,
         parser.args.string,
         ignore_strings,
         ignore_files,
@@ -342,7 +342,7 @@ def _parse_string(
 def constcheck(  # pylint: disable=too-many-arguments
     path: _t.List[_PathLike] | None = None,
     values: _t.Tuple[int, int] = (3, 3),
-    no_color: bool = False,
+    no_ansi: bool = False,
     string: str | None = None,
     ignore_strings: _t.List[str] | None = None,
     ignore_files: _t.List[str] | None = None,
@@ -363,7 +363,7 @@ def constcheck(  # pylint: disable=too-many-arguments
     :param path: List of paths to check files for (default: ["."]).
     :param values: Minimum number of repeat strings and minimum length of
         repeat strings (default: 3).
-    :param no_color: Boolean value to disable color output.
+    :param no_ansi: Boolean value to disable color output.
     :param string: Parse a str instead of a path.
     :param ignore_strings: List of str objects for strings to exclude.
     :param ignore_files: List of str objects for paths to exclude.
@@ -373,7 +373,7 @@ def constcheck(  # pylint: disable=too-many-arguments
     """
     if string is not None:
         string_contents = _parse_string(string, values, ignore_strings or [])
-        return _display(string_contents, no_color)
+        return _display(string_contents, no_ansi)
 
     file_contents = _parse_files(
         path or [_Path(".")],
@@ -382,4 +382,4 @@ def constcheck(  # pylint: disable=too-many-arguments
         ignore_files or [],
         ignore_from or {},
     )
-    return _display_path(file_contents, no_color)
+    return _display_path(file_contents, no_ansi)

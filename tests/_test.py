@@ -401,7 +401,7 @@ def test_len_and_count(
     assert expected in main(count=count, len=length)[0]
 
 
-def test_no_color(capsys: pytest.CaptureFixture) -> None:
+def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
     """Test output with color and output when using ``-n/--no-color``.
 
     :param capsys: Capture and return stdout and stderr stream.
@@ -411,7 +411,7 @@ def test_no_color(capsys: pytest.CaptureFixture) -> None:
     assert capsys.readouterr()[0] == (
         f"\x1b[33m3\x1b[0;0m   \x1b[36m|\x1b[0;0m {LEN_5[0]}\n\n"
     )
-    constcheck.main(string=template, no_color=True)
+    constcheck.main(string=template, no_ansi=True)
     assert capsys.readouterr()[0] == expected
 
 
