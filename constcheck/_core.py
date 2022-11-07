@@ -125,7 +125,7 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
     args = dict(
         path=[_Path.cwd()],
         count=3,
-        len=3,
+        length=3,
         no_ansi=False,
         string=None,
         ignore_strings=[],
@@ -262,7 +262,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
             kwargs.get("path", args["path"]),
             (
                 kwargs.get("count", args["count"]),
-                kwargs.get("len", args["len"]),
+                kwargs.get("length", args["length"]),
             ),
             kwargs.get("no_ansi", args["no_ansi"]),
             kwargs.get("string", args["string"]),
@@ -277,7 +277,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     _nested_update(ignore_from, parser.args.ignore_from)
     return (
         parser.args.path,
-        (parser.args.count, parser.args.len),
+        (parser.args.count, parser.args.length),
         parser.args.no_ansi,
         parser.args.string,
         ignore_strings,

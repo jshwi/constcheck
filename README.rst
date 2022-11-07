@@ -59,7 +59,7 @@ Commandline
       -v, --version                              show version and exit
       -n, --no-ansi                              disable ansi output
       -c INT, --count INT                        minimum number of repeat strings (default: 3)
-      -l INT, --len INT                          minimum length of repeat strings (default: 3)
+      -l INT, --length INT                       minimum length of repeat strings (default: 3)
       -s STR, --string STR                       parse a string instead of a file
       -i LIST, --ignore-strings LIST             comma separated list of strings to exclude
       -I LIST, --ignore-files LIST               comma separated list of files to exclude
@@ -108,11 +108,11 @@ With the ``count`` argument
     <BLANKLINE>
     1
 
-With the ``len`` argument
+With the ``length`` argument
 
 .. code-block:: python
 
-    >>> constcheck.main(string=EXAMPLE, len=6)
+    >>> constcheck.main(string=EXAMPLE, length=6)
     5   | Hello, world
     <BLANKLINE>
     1
@@ -136,7 +136,7 @@ All keyword arguments available to ``constcheck.main()`` can be configured in th
     [tool.constcheck]
     path = "."
     count = 3
-    len = 3
+    length = 3
     ignore_strings = ["Hello", "Hello, world"]
     ignore_files = ["tests/__init__.py"]
     filter = false

@@ -398,7 +398,7 @@ def test_len_and_count(
         f'{CONST[17]} = "{LEN_3[3]}"\n'
     )
     write_file(Path.cwd() / f"{count}-{length}.py", template)
-    assert expected in main(count=count, len=length)[0]
+    assert expected in main(count=count, length=length)[0]
 
 
 def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
@@ -426,7 +426,7 @@ def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
             TypeError,
         ),
         (
-            "len",
+            "length",
             ["Hello, world"],
             "'>=' not supported between instances of 'int' and 'list'",
             TypeError,
@@ -449,7 +449,7 @@ def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
     ids=[
         "path",
         "count",
-        "len",
+        "length",
         "string",
         "ignore_strings",
         "ignore_files",

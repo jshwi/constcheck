@@ -124,7 +124,7 @@ def fixture_main(
         return [
             *argify.get_positionals("path", [Path.cwd()]),
             *argify.get_key_single("count", 3),
-            *argify.get_key_single("len", 3),
+            *argify.get_key_single("length", 3),
             *argify.get_key_seq("ignore_strings"),
             *argify.get_key_seq("ignore_files"),
             *argify.get_key_mapping("ignore_from"),

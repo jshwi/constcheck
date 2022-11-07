@@ -109,9 +109,9 @@ class Parser(_ArgumentParser):
         )
         self.add_argument(
             "-l",
-            "--len",
+            "--length",
             action="store",
-            default=self._kwargs["len"],
+            default=self._kwargs["length"],
             metavar="INT",
             type=int,
             help="minimum length of repeat strings (default: %(default)d)",
