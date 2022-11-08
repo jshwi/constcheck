@@ -20,12 +20,12 @@ from ._objects import NAME as _NAME
 from ._objects import Parser as _Parser
 from ._objects import TokenText as _TokenText
 from ._objects import TokenType as _TokenType
-from ._objects import color as _color
 from ._typing import ArgTuple as _ArgTuple
 from ._typing import FileStringRep as _FileStringRep
 from ._typing import PathFileStringRep as _PathFileStringRep
 from ._typing import PathLike as _PathLike
 from ._typing import TokenList as _TokenList
+from ._utils import color as _color
 
 
 def _color_display(obj: object, color: _Color, no_ansi: bool) -> str:

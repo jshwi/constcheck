@@ -17,15 +17,10 @@ from argparse import Namespace as _Namespace
 from collections import UserString as _UserString
 from pathlib import Path as _Path
 
-from object_colors import Color as _Color
-
+from ._utils import color as _color
 from ._version import __version__
 
-color = _Color()
-
 NAME = __name__.split(".", maxsplit=1)[0]
-
-color.populate_colors()
 
 
 # split str by comma, but allow for escaping
@@ -61,7 +56,7 @@ class Parser(_ArgumentParser):
 
     def __init__(self, kwargs: _t.Dict[str, _t.Any]) -> None:
         super().__init__(
-            prog=color.cyan.get(NAME),
+            prog=_color.cyan.get(NAME),
             formatter_class=lambda prog: _HelpFormatter(
                 prog, max_help_position=45
             ),
