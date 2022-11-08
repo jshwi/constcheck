@@ -416,69 +416,6 @@ def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
 
 
 @pytest.mark.parametrize(
-    "key,value,expected,exception",
-    [
-        ("path", 1, "'int' object is not iterable", TypeError),
-        (
-            "count",
-            "Hello",
-            "'>=' not supported between instances of 'int' and 'str'",
-            TypeError,
-        ),
-        (
-            "length",
-            ["Hello, world"],
-            "'>=' not supported between instances of 'int' and 'list'",
-            TypeError,
-        ),
-        (
-            "string",
-            {"check-this"},
-            "initial_value must be str or None, not set",
-            TypeError,
-        ),
-        ("ignore_strings", False, "'bool' object is not iterable", TypeError),
-        ("ignore_files", 10, "'int' object is not iterable", TypeError),
-        (
-            "ignore_from",
-            ["hi"],
-            "'list' object has no attribute 'items'",
-            AttributeError,
-        ),
-    ],
-    ids=[
-        "path",
-        "count",
-        "length",
-        "string",
-        "ignore_strings",
-        "ignore_files",
-        "ignore_from",
-    ],
-)
-def test_invalid_types(
-    write_file: WriteFileType,
-    key: str,
-    value: t.Any,
-    expected: str,
-    exception: t.Type[Exception],
-) -> None:
-    """Test ``TypeError`` when incorrect types passed to ``main``.
-
-    :param write_file: Create and write file.
-    :param key: Keyword passed to ``main``.
-    :param value: Incorrect value.
-    :param expected: Expected error output.
-    :param exception: Expected exception.
-    """
-    write_file(Path.cwd() / "file.py", templates.registered[0][1])
-    with pytest.raises(exception) as err:
-        constcheck.main(**{key: value})
-
-    assert str(err.value) == expected
-
-
-@pytest.mark.parametrize(
     "name,template,expected",
     templates.registered.filtergroup(NONE)
     .filtergroup(MULTI)
