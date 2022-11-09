@@ -55,7 +55,7 @@ keywords = [
 license = "MIT"
 name = "constcheck"
 readme = "README.rst"
-version = "0.4.1"
+version = "0.4.2"
 
 [tool.poetry.dependencies]
 object-colors = "^2.0.1"
