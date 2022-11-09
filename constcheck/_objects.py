@@ -313,3 +313,17 @@ class TokenText(_UserString):
         return self.istriplequoted() and (
             prev_ttype.isindent() or not prev_ttext.isequal()
         )
+
+    def islsqb(self) -> bool:
+        """Check that this is a left square bracket.
+
+        :return: This is a left square bracket, True or False.
+        """
+        return self.exact_type() == _tokenize.LSQB
+
+    def isrsqb(self) -> bool:
+        """Check that this is a right square bracket.
+
+        :return: This is a right square bracket, True or False.
+        """
+        return self.exact_type() == _tokenize.RSQB

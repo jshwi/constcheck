@@ -535,3 +535,202 @@ class _EscapedChars3Reps(_BaseTemplate):
     @property
     def expected(self) -> str:
         return _display((3, self._STRING))
+
+
+@_templates.register
+class _EscapedParametrize(_BaseTemplate):
+    """Test file with 3 repeat strings."""
+
+    @property
+    def template(self) -> str:
+        return """
+@pytest.mark.parametrize(
+    [
+        "arg",
+        "src_tree",
+        "extracted_tree",
+        "expected_out",
+        "expected_err",
+        "expected_returncode",
+        "condition",
+    ],
+    [
+        (
+            flag.remove,
+            {ITEM: "src_and_extracted_contents"},
+            {ITEM: "src_and_extracted_contents"},
+            ["verifying", DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.remove,
+            {ITEM: "src_contents"},
+            {ITEM: "extracted_contents"},
+            ["verifying"],
+            ["failed"],
+            1,
+            lambda x: x,
+        ),
+        (
+            flag.remove,
+            {ITEM: {file[1]: None, file[2]: None}},
+            {ITEM: {file[1]: None, file[2]: None}},
+            ["verifying", DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.remove,
+            {ITEM: {file[1]: None}},
+            {ITEM: {file[1]: None, file[2]: None}},
+            ["verifying"],
+            ["failed"],
+            1,
+            lambda x: x,
+        ),
+        (
+            flag.remove,
+            {ITEM: {file[1]: None, NESTED: {file[1]: None, file[2]: None}}},
+            {ITEM: {file[1]: None, NESTED: {file[1]: None, file[2]: None}}},
+            ["verifying", DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.remove,
+            {ITEM: {file[1]: None, NESTED: {file[1]: None, file[2]: None}}},
+            {ITEM: {file[1]: None, NESTED: {file[1]: None}}},
+            ["verifying"],
+            ["failed"],
+            1,
+            lambda x: x,
+        ),
+        (
+            flag.force_remove,
+            {ITEM: "src_and_extracted_contents"},
+            {ITEM: "src_and_extracted_contents"},
+            [DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.force_remove,
+            {ITEM: "src_contents"},
+            {ITEM: "extracted_contents"},
+            [DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.force_remove,
+            {ITEM: {file[1]: None, file[2]: None}},
+            {ITEM: {file[1]: None, file[2]: None}},
+            [DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.force_remove,
+            {ITEM: {file[1]: None}},
+            {ITEM: {file[1]: None, file[2]: None}},
+            [DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.force_remove,
+            {ITEM: {file[1]: None, NESTED: {file[1]: None, file[2]: None}}},
+            {ITEM: {file[1]: None, NESTED: {file[1]: None, file[2]: None}}},
+            [DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+        (
+            flag.force_remove,
+            {ITEM: {file[1]: None, NESTED: {file[1]: None, file[2]: None}}},
+            {ITEM: {file[1]: None, NESTED: {file[1]: None}}},
+            [DONE],
+            [],
+            0,
+            lambda x: not x,
+        ),
+    ],    ids=[
+        "file-pass",
+        "file-fail",
+        "dir-pass",
+        "dir-fail",
+        "nested-dir-pass",
+        "nested-dir-fail",
+        "file-pass-force",
+        "file-fail-force",
+        "dir-pass-force",
+        "dir-fail-force",
+        "nested-dir-pass-force",
+        "nested-dir-fail-force",
+    ],
+)
+@freeze_time(DATETIME)
+def test_remove(
+    capsys: pytest.CaptureFixture,
+    home_dir: Path,
+    temp_dir: Path,
+    make_tree: FixtureMakeTree,
+    mock_tar_file: FixtureMockTarFile,
+    mock_temporary_directory: FixtureMockTemporaryDirectory,
+    main: FixtureMockMain,
+    arg: str,
+    src_tree: t.Dict[str, t.Any],
+    extracted_tree: t.Dict[str, t.Any],
+    expected_out: t.List[str],
+    expected_err: t.List[str],
+    expected_returncode: int,
+    condition: t.Callable[[bool], bool],
+) -> None:
+    \"\"\"Test process when creating a file archive, and removing src.
+
+    :param capsys: Capture sys out.
+    :param home_dir: Create and return mock /home/user dir for testing.
+    :param temp_dir: Create and return mock /tmp dir for testing.
+    :param make_tree: Create directory tree from dict mapping.
+    :param mock_tar_file: Mock ``tarfile`` module, holding all args and
+        kwarg attrs.
+    :param mock_temporary_directory: Mock
+        ``tempfile.TemporaryDirectory``.
+    :param main: Mock ``main`` function.
+    :param arg: Argument to pass to main.
+    :param src_tree: Src directory tree dict mapping to pass to
+        ``make_tree``.
+    :param extracted_tree: Extracted directory tree dict mapping to pass
+        to ``make_tree``.
+    :param expected_out: List of expected standard output strings.
+    :param expected_err: List of expected standard error strings.
+    :param expected_returncode: Expected exit status.
+    :param condition: Condition for existence of src.
+    \"\"\"
+    src = home_dir / ITEM
+    unique_temp_dir_1 = temp_dir / unique[1]
+    unique_temp_dir_2 = temp_dir / unique[2]
+    tmp_dst = unique_temp_dir_1 / ARCHIVE_NAME
+    mock_temporary_directory(unique_temp_dir_1, unique_temp_dir_2)
+    make_tree(home_dir, src_tree)
+    mock_tar_file(tmp_dst, (make_tree, (unique_temp_dir_2, extracted_tree)))
+    returncode = main(src, arg)
+    std = capsys.readouterr()
+    assert condition(src.exists())
+    assert all(i in std.out for i in expected_out)
+    assert all(i in std.err for i in expected_err)
+    assert returncode == expected_returncode
+"""
+
+    @property
+    def expected(self) -> str:
+        return "6   | verifying"
