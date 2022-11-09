@@ -83,105 +83,54 @@ def test_parse_str(
     assert expected in main(string=template)[0]
 
 
-@pytest.mark.parametrize(
-    "kwargs,expected",
-    [
-        (
-            {},
-            header()
-            + display(
-                (3, LEN_3[0]),
-                (3, LEN_3[4]),
-                (3, MULTILINE),
-                (3, PLUS[1]),
-                (3, LEN_6[3]),
-                (3, LEN_3[1]),
-                (7, LEN_4[0]),
-                (8, QUOTES[2]),
-                (16, LEN_5[0]),
-            )
-            + header(index=17)
-            + display((3, PLUS[1]))
-            + header(index=0)
-            + display((3, LEN_5[0]))
-            + header(index=5)
-            + display((5, QUOTES[2]))
-            + header(index=6)
-            + display((3, QUOTES[2]))
-            + header(index=1)
-            + display((3, LEN_3[1]))
-            + header(index=2)
-            + display((3, LEN_3[4]))
-            + header(index=8)
-            + display((3, MULTILINE))
-            + header(index=3)
-            + display((3, LEN_4[0]), (4, LEN_5[0]))
-            + header(index=4)
-            + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
-            + header(index=19)
-            + display((3, LEN_6[3]))
-            + header(index=7)
-            + display((4, LEN_5[0])),
-        ),
-        (
-            {},
-            (
-                header()
-                + display(
-                    (3, LEN_3[0]),
-                    (3, LEN_3[4]),
-                    (3, MULTILINE),
-                    (3, PLUS[1]),
-                    (3, LEN_6[3]),
-                    (3, LEN_3[1]),
-                    (7, LEN_4[0]),
-                    (8, QUOTES[2]),
-                    (16, LEN_5[0]),
-                )
-                + header(index=17)
-                + display((3, PLUS[1]))
-                + header(index=0)
-                + display((3, LEN_5[0]))
-                + header(index=5)
-                + display((5, QUOTES[2]))
-                + header(index=6)
-                + display((3, QUOTES[2]))
-                + header(index=1)
-                + display((3, LEN_3[1]))
-                + header(index=2)
-                + display((3, LEN_3[4]))
-                + header(index=8)
-                + display((3, MULTILINE))
-                + header(index=3)
-                + display((3, LEN_4[0]), (4, LEN_5[0]))
-                + header(index=4)
-                + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
-                + header(index=19)
-                + display((3, LEN_6[3]))
-                + header(index=7)
-                + display((4, LEN_5[0]))
-            ),
-        ),
-    ],
-    ids=["no-args", "filter"],
-)
 def test_multiple_files_single_packages(
-    main: MockMainType,
-    write_file: WriteFileType,
-    kwargs: t.Dict[str, t.Any],
-    expected: str,
+    main: MockMainType, write_file: WriteFileType
 ) -> None:
     """Test results when multiple files exist.
 
     :param main: Patch package entry point.
     :param write_file: Create and write file.
-    :param kwargs: Parameters for ``constcheck.main``.
-    :param expected: Expected result from test.
     """
+    expected = (
+        header()
+        + display(
+            (3, LEN_3[0]),
+            (3, LEN_3[4]),
+            (3, MULTILINE),
+            (3, PLUS[1]),
+            (3, LEN_6[3]),
+            (3, LEN_3[1]),
+            (7, LEN_4[0]),
+            (8, QUOTES[2]),
+            (16, LEN_5[0]),
+        )
+        + header(index=17)
+        + display((3, PLUS[1]))
+        + header(index=0)
+        + display((3, LEN_5[0]))
+        + header(index=5)
+        + display((5, QUOTES[2]))
+        + header(index=6)
+        + display((3, QUOTES[2]))
+        + header(index=1)
+        + display((3, LEN_3[1]))
+        + header(index=2)
+        + display((3, LEN_3[4]))
+        + header(index=8)
+        + display((3, MULTILINE))
+        + header(index=3)
+        + display((3, LEN_4[0]), (4, LEN_5[0]))
+        + header(index=4)
+        + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
+        + header(index=19)
+        + display((3, LEN_6[3]))
+        + header(index=7)
+        + display((4, LEN_5[0]))
+    )
     for name, template, _ in templates.registered.filtergroup(ESCAPED):
         write_file(Path.cwd() / f"{name}.py", template)
 
-    assert main(**kwargs)[0] == expected
+    assert main()[0] == expected
 
 
 @pytest.mark.parametrize(
