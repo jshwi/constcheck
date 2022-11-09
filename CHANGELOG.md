@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Adds `constcheck.constcheck`
 
 ### Changed
+- Removes `path` keyword argument from `constcheck.constcheck`
 - Renames `len` arg to `length`
 - Updates help
 - Renames `--no-color` to `--no-ansi`

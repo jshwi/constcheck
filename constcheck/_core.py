@@ -161,7 +161,7 @@ def _nested_update(
 # get all paths to python files whilst skipping over any paths that
 # should be ignored
 def _get_paths(
-    pathlikes: _t.List[_PathLike], ignore_files: _t.List[str]
+    *pathlikes: _PathLike, ignore_files: _t.List[str]
 ) -> _t.List[_Path]:
     paths = [_Path(i).resolve() for i in pathlikes]
     for path in paths:
@@ -287,7 +287,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
 
 
 def _parse_files(  # pylint: disable=too-many-arguments
-    dirnames: _t.List[_PathLike],
+    *dirnames: _PathLike,
     count: int,
     length: int,
     ignore_strings: _t.List[str],
@@ -308,7 +308,7 @@ def _parse_files(  # pylint: disable=too-many-arguments
         their parent dirs.
     """
     contents: _t.Dict[_Path, _t.Dict[_TokenText, int]] = {}
-    paths = _get_paths(dirnames, ignore_files)
+    paths = _get_paths(*dirnames, ignore_files=ignore_files)
     common_path = _get_common_path(paths)
     ignore_from_paths = {_Path(k).resolve(): v for k, v in ignore_from.items()}
     for path in paths:
@@ -341,7 +341,7 @@ def _parse_string(
 
 
 def constcheck(  # pylint: disable=too-many-arguments
-    path: _t.List[_PathLike] | None = None,
+    *path: _PathLike,
     count: int = 3,
     length: int = 3,
     no_ansi: bool = False,
@@ -380,11 +380,11 @@ def constcheck(  # pylint: disable=too-many-arguments
         return _display(string_contents, no_ansi)
 
     file_contents = _parse_files(
-        path or [_Path(".")],
-        count,
-        length,
-        ignore_strings or [],
-        ignore_files or [],
-        ignore_from or {},
+        *path,
+        count=count,
+        length=length,
+        ignore_strings=ignore_strings or [],
+        ignore_files=ignore_files or [],
+        ignore_from=ignore_from or {},
     )
     return _display_path(file_contents, no_ansi)

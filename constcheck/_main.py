@@ -45,7 +45,7 @@ def main(
         ignore_from,
     ) = _get_args(kwargs)
     return _constcheck(
-        path=path,
+        *path,
         count=count,
         length=length,
         no_ansi=no_ansi,
