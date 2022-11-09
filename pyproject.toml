@@ -18,7 +18,7 @@ line-length = 79
 skip-magic-trailing-comma = true
 
 [tool.constcheck.ignore_from]
-"constcheck/_objects.py" = [
+"constcheck/_config.py" = [
     "store",
     "store_true",
 ]

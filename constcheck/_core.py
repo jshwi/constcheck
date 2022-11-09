@@ -16,8 +16,8 @@ from pathlib import Path as _Path
 import tomli as _tomli
 from object_colors import Color as _Color
 
-from ._objects import NAME as _NAME
-from ._objects import Parser as _Parser
+from ._config import NAME as _NAME
+from ._config import Parser as _Parser
 from ._objects import TokenText as _TokenText
 from ._objects import TokenType as _TokenType
 from ._typing import ArgTuple as _ArgTuple

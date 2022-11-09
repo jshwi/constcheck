@@ -281,7 +281,7 @@ def test_print_version(
     :param nocolorcapsys: Capture system output while stripping ANSI
         color codes.
     """
-    monkeypatch.setattr("constcheck._objects.__version__", VERSION)
+    monkeypatch.setattr("constcheck._config.__version__", VERSION)
     with pytest.raises(SystemExit):
         sys.argv.append("--version")
         constcheck.main()
