@@ -139,13 +139,6 @@ class Parser(_ArgumentParser):
             help="comma separated list of strings to exclude from file",
         )
         self.add_argument(
-            "-f",
-            "--filter",
-            action="store_true",
-            default=self._kwargs["filter"],
-            help="filter out empty results",
-        )
-        self.add_argument(
             "-n",
             "--no-color",
             action="store_true",

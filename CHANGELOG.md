@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Adds `constcheck.constcheck`
 
+### Removed
+- Removes `-f/--filter` argument
+
 [0.4.2](https://github.com/jshwi/constcheck/releases/tag/v0.4.2) - 2022-11-09
 ------------------------------------------------------------------------
 ### Fixed

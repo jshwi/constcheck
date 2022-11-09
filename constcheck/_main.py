@@ -31,14 +31,12 @@ def main(
     :key ignore_files: List of str objects for paths to exclude.
     :key ignore_from: Dict with list of str objects for strings to
         exclude from a particular path.
-    :key filter: Boolean value to filter out empty results.
     :key no_color: Boolean value to disable color output.
     :return: Exit status.
     """
     (
         path,
         values,
-        filter_empty,
         no_color,
         string,
         ignore_strings,
@@ -48,7 +46,6 @@ def main(
     return _constcheck(
         path=path,
         values=values,
-        filter_empty=filter_empty,
         no_color=no_color,
         string=string,
         ignore_strings=ignore_strings,

@@ -19,7 +19,6 @@ ArgTuple = _t.Tuple[
     _t.List[PathLike],
     ValueTuple,
     bool,
-    bool,
     _t.Optional[str],
     _t.List[str],
     _t.List[str],

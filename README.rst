@@ -48,7 +48,7 @@ Commandline
 .. code-block:: console
 
     usage: constcheck [-h] [-c INT] [-l INT] [-s STR] [-i LIST] [-I LIST]
-                                 [--ignore-from [FILE=LIST [FILE=LIST ...]]] [-f] [-n] [-v]
+                                 [--ignore-from [FILE=LIST [FILE=LIST ...]]] [-n] [-v]
                                  [path [path ...]]
 
     positional arguments:
@@ -62,7 +62,6 @@ Commandline
       -i LIST, --ignore-strings LIST             comma separated list of strings to exclude
       -I LIST, --ignore-files LIST               comma separated list of files to exclude
       --ignore-from [FILE=LIST [FILE=LIST ...]]  comma separated list of strings to exclude from file
-      -f, --filter                               filter out empty results
       -n, --no-color                             disable color output
       -v, --version                              show version and exit
 

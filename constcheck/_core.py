@@ -126,7 +126,6 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
         path=[_Path.cwd()],
         count=3,
         len=3,
-        filter=False,
         no_color=False,
         string=None,
         ignore_strings=[],
@@ -227,20 +226,17 @@ def _display(obj: _FileStringRep, no_color: bool) -> int:
     return returncode
 
 
-def _display_path(
-    contents: _PathFileStringRep, filter_empty: bool, no_color: bool
-) -> int:
+def _display_path(contents: _PathFileStringRep, no_color: bool) -> int:
     """Display the end result of string repetition of provided files.
 
     :param contents: Object containing repeated string and occurrence
         grouped by their parent dirs.
-    :param filter_empty: Do not display empty results.
     :param no_color: disable color output.
     :return: Return non-zero exit status if constants were found.
     """
     returncodes = []
     for path, obj in sorted(contents.items()):
-        if obj or not filter_empty:
+        if obj:
             print(_color_display(path, _color.magenta, no_color))
             print(len(str(path)) * "-")
             returncodes.append(_display(obj, no_color))
@@ -268,7 +264,6 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
                 kwargs.get("count", args["count"]),
                 kwargs.get("len", args["len"]),
             ),
-            kwargs.get("filter", args["filter"]),
             kwargs.get("no_color", args["no_color"]),
             kwargs.get("string", args["string"]),
             ignore_strings,
@@ -283,7 +278,6 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     return (
         parser.args.path,
         (parser.args.count, parser.args.len),
-        parser.args.filter,
         parser.args.no_color,
         parser.args.string,
         ignore_strings,
@@ -348,7 +342,6 @@ def _parse_string(
 def constcheck(  # pylint: disable=too-many-arguments
     path: _t.List[_PathLike] | None = None,
     values: _t.Tuple[int, int] = (3, 3),
-    filter_empty: bool = False,
     no_color: bool = False,
     string: str | None = None,
     ignore_strings: _t.List[str] | None = None,
@@ -370,7 +363,6 @@ def constcheck(  # pylint: disable=too-many-arguments
     :param path: List of paths to check files for (default: ["."]).
     :param values: Minimum number of repeat strings and minimum length of
         repeat strings (default: 3).
-    :param filter_empty: Boolean value to filter out empty results.
     :param no_color: Boolean value to disable color output.
     :param string: Parse a str instead of a path.
     :param ignore_strings: List of str objects for strings to exclude.
@@ -390,4 +382,4 @@ def constcheck(  # pylint: disable=too-many-arguments
         ignore_files or [],
         ignore_from or {},
     )
-    return _display_path(file_contents, filter_empty, no_color)
+    return _display_path(file_contents, no_color)

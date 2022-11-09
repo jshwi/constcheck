@@ -63,7 +63,7 @@ def test_single_file(
     :param expected: Expected result from test.
     """
     write_file(Path.cwd() / f"{name}.py", template)
-    assert expected in main()[0]
+    assert expected.strip() in main()[0]
 
 
 @pytest.mark.parametrize(
@@ -120,20 +120,11 @@ def test_parse_str(
             + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
             + header(index=19)
             + display((3, LEN_6[3]))
-            + header(index=12, newline=True)
-            + header(index=11, newline=True)
-            + header(index=9, newline=True)
-            + header(index=10, newline=True)
-            + header(index=16, newline=True)
-            + header(index=15, newline=True)
-            + header(index=14, newline=True)
-            + header(index=18, newline=True)
-            + header(index=13, newline=True)
             + header(index=7)
             + display((4, LEN_5[0])),
         ),
         (
-            dict(filter=True),
+            {},
             (
                 header()
                 + display(
@@ -218,10 +209,6 @@ def test_multiple_files_single_packages(
             + display((3, QUOTES[2]))
             + header(prefix=PACKAGE[0], index=3)
             + display((3, LEN_4[0]), (4, LEN_5[0]))
-            + header(prefix=PACKAGE[0], index=12, newline=True)
-            + header(prefix=PACKAGE[0], index=9, newline=True)
-            + header(prefix=PACKAGE[0], index=15, newline=True)
-            + header(prefix=PACKAGE[0], index=18, newline=True)
             + header(prefix=PACKAGE[1])
             + display(
                 (3, LEN_3[0]),
@@ -236,9 +223,6 @@ def test_multiple_files_single_packages(
             + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
             + header(prefix=PACKAGE[1], index=19)
             + display((3, LEN_6[3]))
-            + header(prefix=PACKAGE[1], index=10, newline=True)
-            + header(prefix=PACKAGE[1], index=16, newline=True)
-            + header(prefix=PACKAGE[1], index=13, newline=True)
             + header(prefix=PACKAGE[1], index=7)
             + display((4, LEN_5[0]))
             + header(prefix=PACKAGE[2])
@@ -252,9 +236,7 @@ def test_multiple_files_single_packages(
             + header(prefix=PACKAGE[2], index=2)
             + display((3, LEN_3[4]))
             + header(prefix=PACKAGE[2], index=8)
-            + display((3, MULTILINE))
-            + header(prefix=PACKAGE[2], index=11, newline=True)
-            + header(prefix=PACKAGE[2], index=14, newline=True),
+            + display((3, MULTILINE)),
         ),
         (
             dict(path=[PACKAGE[0]]),
@@ -267,11 +249,7 @@ def test_multiple_files_single_packages(
             + header(prefix=PACKAGE[0], index=6)
             + display((3, QUOTES[2]))
             + header(prefix=PACKAGE[0], index=3)
-            + display((3, LEN_4[0]), (4, LEN_5[0]))
-            + header(prefix=PACKAGE[0], index=12, newline=True)
-            + header(prefix=PACKAGE[0], index=9, newline=True)
-            + header(prefix=PACKAGE[0], index=15, newline=True)
-            + header(prefix=PACKAGE[0], index=18, newline=True),
+            + display((3, LEN_4[0]), (4, LEN_5[0])),
         ),
         (
             dict(path=[PACKAGE[1]]),
@@ -297,9 +275,6 @@ def test_multiple_files_single_packages(
             + display((3, LEN_3[0]), (4, LEN_4[0]), (5, LEN_5[0]))
             + header(prefix=PACKAGE[1], index=19)
             + display((3, LEN_6[3]))
-            + header(prefix=PACKAGE[1], index=10, newline=True)
-            + header(prefix=PACKAGE[1], index=16, newline=True)
-            + header(prefix=PACKAGE[1], index=13, newline=True)
             + header(prefix=PACKAGE[1], index=7)
             + display((4, LEN_5[0])),
         ),
@@ -320,9 +295,7 @@ def test_multiple_files_single_packages(
             + header(prefix=PACKAGE[2], index=2)
             + display((3, LEN_3[4]))
             + header(prefix=PACKAGE[2], index=8)
-            + display((3, MULTILINE))
-            + header(prefix=PACKAGE[2], index=11, newline=True)
-            + header(prefix=PACKAGE[2], index=14, newline=True),
+            + display((3, MULTILINE)),
         ),
     ],
     ids=["no-args", PACKAGE[0], PACKAGE[1], PACKAGE[2]],
@@ -696,12 +669,12 @@ def test_ignore_from(
     word = get_word(te1.expected)
 
     # # ignore the word in file 1
-    result = main(ignore_from={f"{te1.name}.py": [word]}, filter=True)[0]
+    result = main(ignore_from={f"{te1.name}.py": [word]})[0]
     assert header(index=templates.registered.getindex(te1.name)) not in result
     assert header(index=templates.registered.getindex(te2.name)) in result
 
     # ignore the word in file 2
-    result = main(ignore_from={f"{te2.name}.py": [word]}, filter=True)[0]
+    result = main(ignore_from={f"{te2.name}.py": [word]})[0]
     assert header(index=templates.registered.getindex(te1.name)) in result
     assert header(index=templates.registered.getindex(te2.name)) not in result
 
@@ -843,8 +816,8 @@ def test_ignore_from_no_override(
     te1, te2 = templates.registered[1:3]
     write_file(Path.cwd() / f"{te1.name}.py", template)
     write_file(Path.cwd() / f"{te2.name}.py", template)
-    result_1 = main_config(filter=True, **kwargs[0])[0]
-    result_2 = main_kwargs(filter=True, **kwargs[1])[0]
+    result_1 = main_config(**kwargs[0])[0]
+    result_2 = main_kwargs(**kwargs[1])[0]
     assert result_1 == expected[0]
     assert result_2 == expected[1]
 
@@ -903,8 +876,4 @@ def test_file_args_non_relative(
     monkeypatch.setattr("os.getcwd", lambda: str(cwd))
     write_file(files / f"{name}.py", template)
     result = main(path=["../files"])[0]
-    assert expected in result
-    assert (
-        header(prefix=files, index=templates.registered.getindex(name))
-        in result
-    )
+    assert expected.strip() in result

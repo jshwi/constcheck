@@ -163,7 +163,6 @@ def header(**kwargs: _t.Any) -> str:
 
     :key prefix: Dir that exists before the file.
     :key index: Index of the path in the ``templates.registered`` object.
-    :key newline: Add an extra newline, True or False.
     :return: str containing header.
     """
     path = _Path()
@@ -177,9 +176,6 @@ def header(**kwargs: _t.Any) -> str:
 
     underline = f"{len(str(path)) * '-'}\n"
     string = f"{path}\n{underline}"
-    if kwargs.get("newline", False):
-        string = f"{string}\n"
-
     return string
 
 
