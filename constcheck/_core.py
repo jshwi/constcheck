@@ -26,6 +26,7 @@ from ._typing import PathFileStringRep as _PathFileStringRep
 from ._typing import PathLike as _PathLike
 from ._typing import TokenList as _TokenList
 from ._utils import color as _color
+from ._utils import find_pyproject_toml as _find_pyproject_toml
 
 
 def _color_display(obj: object, color: _Color, no_ansi: bool) -> str:
@@ -133,8 +134,8 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
         ignore_files=[],
         ignore_from={},
     )
-    pyproject_file = _Path.cwd() / "pyproject.toml"
-    if pyproject_file.is_file():
+    pyproject_file = _find_pyproject_toml()
+    if pyproject_file is not None:
 
         with open(pyproject_file, "rb") as fin:
             pyproject_obj = _tomli.load(fin)
