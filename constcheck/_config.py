@@ -2,8 +2,6 @@
 constcheck._config
 ==================
 """
-from __future__ import annotations
-
 import re as _re
 import sys as _sys
 import typing as _t
@@ -13,15 +11,35 @@ from argparse import HelpFormatter as _HelpFormatter
 from argparse import Namespace as _Namespace
 from pathlib import Path as _Path
 
+import tomli as _tomli
+
 from ._utils import color as _color
+from ._utils import find_pyproject_toml as _find_pyproject_toml
 from ._version import __version__
 
 NAME = __name__.split(".", maxsplit=1)[0]
+
+ConfigType = _t.Dict[str, _t.Any]
 
 
 # split str by comma, but allow for escaping
 def _split_comma(value: str) -> _t.List[str]:
     return [i.replace("\\,", ",") for i in _re.split(r"(?<!\\),", value)]
+
+
+def get_config() -> ConfigType:
+    """Get config dict object from package's tool section in toml file.
+
+    :return: Dict object; containing config if there is one, else return
+        empty.
+    """
+    pyproject_file = _find_pyproject_toml()
+    if pyproject_file is None:
+        return {}
+
+    return (
+        _tomli.loads(pyproject_file.read_text()).get("tool", {}).get(NAME, {})
+    )
 
 
 class _DictAction(_Action):  # pylint: disable=too-few-public-methods
@@ -72,7 +90,7 @@ class Parser(_ArgumentParser):
             "path",
             nargs="*",
             action="store",
-            default=self._kwargs["path"],
+            default=self._kwargs.get("path", [_Path(".")]),
             type=_Path,
             help="path(s) to check files for (default: .)",
         )
@@ -86,14 +104,14 @@ class Parser(_ArgumentParser):
             "-n",
             "--no-ansi",
             action="store_true",
-            default=self._kwargs["no_ansi"],
+            default=self._kwargs.get("no_ansi", False),
             help="disable ansi output",
         )
         self.add_argument(
             "-c",
             "--count",
             action="store",
-            default=self._kwargs["count"],
+            default=self._kwargs.get("count", 3),
             metavar="INT",
             type=int,
             help="minimum number of repeat strings (default: %(default)d)",
@@ -102,7 +120,7 @@ class Parser(_ArgumentParser):
             "-l",
             "--length",
             action="store",
-            default=self._kwargs["length"],
+            default=self._kwargs.get("length", 3),
             metavar="INT",
             type=int,
             help="minimum length of repeat strings (default: %(default)d)",
@@ -113,7 +131,7 @@ class Parser(_ArgumentParser):
             action="store",
             metavar="STR",
             type=str,
-            default=self._kwargs["string"],
+            default=self._kwargs.get("string"),
             help="parse a string instead of a file",
         )
         self.add_argument(
@@ -122,7 +140,7 @@ class Parser(_ArgumentParser):
             action="store",
             metavar="LIST",
             type=_split_comma,
-            default=self._kwargs["ignore_strings"],
+            default=self._kwargs.get("ignore_strings", []),
             help="comma separated list of strings to exclude",
         )
         self.add_argument(
@@ -131,7 +149,7 @@ class Parser(_ArgumentParser):
             action="store",
             metavar="LIST",
             type=_split_comma,
-            default=self._kwargs["ignore_files"],
+            default=self._kwargs.get("ignore_files", []),
             help="comma separated list of files to exclude",
         )
         self.add_argument(
@@ -139,7 +157,7 @@ class Parser(_ArgumentParser):
             action=_DictAction,  # type: ignore
             metavar="FILE=LIST",
             nargs="*",
-            default=self._kwargs["ignore_from"],
+            default=self._kwargs.get("ignore_from", {}),
             help="comma separated list of strings to exclude from file",
         )
 

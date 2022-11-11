@@ -13,11 +13,10 @@ from collections import Counter as _Counter
 from io import StringIO as _StringIO
 from pathlib import Path as _Path
 
-import tomli as _tomli
 from object_colors import Color as _Color
 
-from ._config import NAME as _NAME
 from ._config import Parser as _Parser
+from ._config import get_config as _get_config
 from ._objects import TokenText as _TokenText
 from ._objects import TokenType as _TokenType
 from ._typing import ArgTuple as _ArgTuple
@@ -26,7 +25,6 @@ from ._typing import PathFileStringRep as _PathFileStringRep
 from ._typing import PathLike as _PathLike
 from ._typing import TokenList as _TokenList
 from ._utils import color as _color
-from ._utils import find_pyproject_toml as _find_pyproject_toml
 
 
 def _color_display(obj: object, color: _Color, no_ansi: bool) -> str:
@@ -134,14 +132,7 @@ def _get_default_args() -> _t.Dict[str, _t.Any]:
         ignore_files=[],
         ignore_from={},
     )
-    pyproject_file = _find_pyproject_toml()
-    if pyproject_file is not None:
-
-        with open(pyproject_file, "rb") as fin:
-            pyproject_obj = _tomli.load(fin)
-
-        args.update(pyproject_obj.get("tool", {}).get(_NAME, {}))
-
+    args.update(_get_config())
     return args
 
 
