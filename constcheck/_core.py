@@ -121,21 +121,6 @@ def _populate_totals(
         path = path.parent
 
 
-def _get_default_args() -> _t.Dict[str, _t.Any]:
-    args = dict(
-        path=[_Path.cwd()],
-        count=3,
-        length=3,
-        no_ansi=False,
-        string=None,
-        ignore_strings=[],
-        ignore_files=[],
-        ignore_from={},
-    )
-    args.update(_get_config())
-    return args
-
-
 def _nested_update(
     obj: _t.Dict[_t.Any, _t.Any], update: _t.Dict[_t.Any, _t.Any]
 ) -> _t.Dict[_t.Any, _t.Any]:
@@ -243,7 +228,7 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
     :param kwargs: Kwargs passed to main.
     :return: Tuple of configured values.
     """
-    args = _get_default_args()
+    args = _get_config()
     ignore_strings = args.get("ignore_strings", [])
     ignore_files = args.get("ignore_files", [])
     ignore_from = args.get("ignore_from", {})
@@ -252,11 +237,11 @@ def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
         ignore_files.extend(kwargs.get("ignore_files", []))
         _nested_update(ignore_from, kwargs.get("ignore_from", {}))
         return (
-            kwargs.get("path", args["path"]),
-            kwargs.get("count", args["count"]),
-            kwargs.get("length", args["length"]),
-            kwargs.get("no_ansi", args["no_ansi"]),
-            kwargs.get("string", args["string"]),
+            kwargs.get("path", args.get("path", [_Path.cwd()])),
+            kwargs.get("count", args.get("count", 3)),
+            kwargs.get("length", args.get("length", 3)),
+            kwargs.get("no_ansi", args.get("no_ansi", False)),
+            kwargs.get("string", args.get("string")),
             ignore_strings,
             ignore_files,
             ignore_from,
