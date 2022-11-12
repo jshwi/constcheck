@@ -1,6 +1,6 @@
 {
   "name": "constcheck",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Check Python files for repeat use of strings",
   "private": true,
   "directories": {
