@@ -45,6 +45,7 @@ PLUS = (
     "this is a single string",
 )
 VERSION = "1.0.0"
+SYS_ARGV = "sys.argv"
 
 
 @_templates.register

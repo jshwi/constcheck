@@ -12,6 +12,7 @@ import tomli_w
 
 import constcheck
 
+from ._strings import SYS_ARGV
 from ._utils import (
     Argify,
     KwargsType,
@@ -30,7 +31,7 @@ def fixture_mock_environment(
     :param tmp_path: Create and return temporary directory.
     :param monkeypatch: Mock patch environment and attributes.
     """
-    monkeypatch.setattr("sys.argv", [constcheck.__name__])
+    monkeypatch.setattr(SYS_ARGV, [constcheck.__name__])
     monkeypatch.setattr("os.getcwd", lambda: str(tmp_path))
 
 
@@ -98,7 +99,7 @@ def fixture_main_cmd(
     def _main_cmd(*args: str) -> t.Tuple[str, ...]:
         sys.argv.extend(args)
         constcheck.main()
-        monkeypatch.setattr("sys.argv", [constcheck.__name__])
+        monkeypatch.setattr(SYS_ARGV, [constcheck.__name__])
         return nocolorcapsys.readouterr()
 
     return _main_cmd
