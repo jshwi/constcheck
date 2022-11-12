@@ -70,7 +70,7 @@ API
 
 .. code-block:: python
 
-    >>> import constcheck
+    >>> from constcheck import constcheck
 
 .. code-block:: python
 
@@ -91,7 +91,7 @@ API
 
 .. code-block:: python
 
-    >>> constcheck.main(string=EXAMPLE)
+    >>> constcheck(string=EXAMPLE)
     3   | Hey
     4   | Hello
     5   | Hello, world
@@ -102,7 +102,7 @@ With the ``count`` argument
 
 .. code-block:: python
 
-    >>> constcheck.main(string=EXAMPLE, count=4)
+    >>> constcheck(string=EXAMPLE, count=4)
     4   | Hello
     5   | Hello, world
     <BLANKLINE>
@@ -112,7 +112,7 @@ With the ``length`` argument
 
 .. code-block:: python
 
-    >>> constcheck.main(string=EXAMPLE, length=6)
+    >>> constcheck(string=EXAMPLE, length=6)
     5   | Hello, world
     <BLANKLINE>
     1
@@ -121,7 +121,7 @@ With the ``ignore_strings`` argument which accepts ``list`` of ``str`` objects
 
 .. code-block:: python
 
-    >>> constcheck.main(string=EXAMPLE, ignore_strings=["Hello, world", "Hello"])
+    >>> constcheck(string=EXAMPLE, ignore_strings=["Hello, world", "Hello"])
     3   | Hey
     <BLANKLINE>
     1
@@ -129,7 +129,7 @@ With the ``ignore_strings`` argument which accepts ``list`` of ``str`` objects
 Config
 ******
 
-All keyword arguments available to ``constcheck.main()`` can be configured in the pyproject.toml file
+All keyword arguments available to ``constcheck()`` can be configured in the pyproject.toml file
 
 .. code-block:: toml
 
