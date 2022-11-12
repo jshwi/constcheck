@@ -408,11 +408,11 @@ def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
     :param capsys: Capture and return stdout and stderr stream.
     """
     _, template, expected = templates.registered[0]
-    constcheck.main(string=template)
+    constcheck.constcheck(string=template)
     assert capsys.readouterr()[0] == (
         f"\x1b[33m3\x1b[0;0m   \x1b[36m|\x1b[0;0m {LEN_5[0]}\n\n"
     )
-    constcheck.main(string=template, no_ansi=True)
+    constcheck.constcheck(string=template, no_ansi=True)
     assert capsys.readouterr()[0] == expected
 
 
