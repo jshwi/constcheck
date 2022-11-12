@@ -14,13 +14,3 @@ FileStringRep = _t.Dict[_TokenText, int]
 PathFileStringRep = _t.Dict[_Path, FileStringRep]
 PathLike = _t.Union[str, _os.PathLike]
 TokenList = _t.List[_TokenText]
-ArgTuple = _t.Tuple[
-    _t.List[PathLike],
-    int,
-    int,
-    bool,
-    _t.Optional[str],
-    _t.List[str],
-    _t.List[str],
-    _t.Dict[str, _t.List[str]],
-]

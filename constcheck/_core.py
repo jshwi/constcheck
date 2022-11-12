@@ -15,11 +15,8 @@ from pathlib import Path as _Path
 
 from object_colors import Color as _Color
 
-from ._config import Parser as _Parser
-from ._config import get_config as _get_config
 from ._objects import TokenText as _TokenText
 from ._objects import TokenType as _TokenType
-from ._typing import ArgTuple as _ArgTuple
 from ._typing import FileStringRep as _FileStringRep
 from ._typing import PathFileStringRep as _PathFileStringRep
 from ._typing import PathLike as _PathLike
@@ -220,25 +217,6 @@ def _display_path(contents: _PathFileStringRep, no_ansi: bool) -> int:
             returncodes.append(_display(obj, no_ansi))
 
     return int(any(returncodes))
-
-
-def get_args() -> _ArgTuple:
-    """Parse commandline arguments if args are not passed to main.
-
-    :return: Tuple of configured values.
-    """
-    args = _get_config()
-    parser = _Parser(args)
-    return (
-        parser.args.path,
-        parser.args.count,
-        parser.args.length,
-        parser.args.no_ansi,
-        parser.args.string,
-        parser.args.ignore_strings,
-        parser.args.ignore_files,
-        parser.args.ignore_from,
-    )
 
 
 def _parse_files(  # pylint: disable=too-many-arguments
