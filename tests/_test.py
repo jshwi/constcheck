@@ -495,7 +495,7 @@ def test_escaped_comma(main: MockMainType) -> None:
     )
 
 
-class TestReturncode:
+class TestExit:
     """Test correct exit status returned from main."""
 
     @pytest.mark.parametrize(
@@ -503,7 +503,7 @@ class TestReturncode:
         templates.registered.getgroup(NONE),
         ids=templates.registered.getgroup(NONE).getids(),
     )
-    def test_zero(
+    def test_good(
         self, write_file: WriteFileType, name: str, template: str, _: str
     ) -> None:
         """Test zero when no results produced.
@@ -520,7 +520,7 @@ class TestReturncode:
         templates.registered.filtergroup(NONE),
         ids=templates.registered.filtergroup(NONE).getids(),
     )
-    def test_non_zero(
+    def test_bad(
         self, write_file: WriteFileType, name: str, template: str, _: str
     ) -> None:
         """Test non-zero when constants are detected.
@@ -730,7 +730,7 @@ def test_file_args(main: MockMainType, write_file: WriteFileType) -> None:
     templates.registered,
     ids=templates.registered.getids(),
 )
-def test_file_args_non_relative(
+def test_file_non_rel(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     main: MockMainType,
