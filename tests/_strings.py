@@ -11,6 +11,7 @@ from templatest import BaseTemplate as _BaseTemplate
 from templatest import templates as _templates
 from templatest.utils import ALPHA as _ALPHA
 from templatest.utils import RandStrLenSeq as _RandStrLenSeq
+from templatest.utils import VarPrefix as _VarPrefix
 from templatest.utils import VarSeq as _VarSeq
 
 from ._utils import TemplateNoneExpected as _TemplateNoneExpected
@@ -28,6 +29,9 @@ LEN_3 = _RandStrLenSeq(3)
 LEN_4 = _RandStrLenSeq(4)
 LEN_5 = _RandStrLenSeq(5)
 LEN_6 = _RandStrLenSeq(6)
+
+flag = _VarPrefix("--", slug="-")
+
 
 #: Specific string types
 TUPLE = (LEN_2[0], LEN_3[0])

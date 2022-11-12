@@ -3,7 +3,6 @@ tests.conftest
 ==============
 """
 # pylint: disable=protected-access,no-member,import-outside-toplevel
-import sys
 import typing as t
 from pathlib import Path
 
@@ -13,13 +12,7 @@ import tomli_w
 import constcheck
 
 from ._strings import SYS_ARGV
-from ._utils import (
-    Argify,
-    KwargsType,
-    MockMainType,
-    NoColorCapsys,
-    WriteFileType,
-)
+from ._utils import KwargsType, MockMainType, NoColorCapsys, WriteFileType
 
 
 @pytest.fixture(name="mock_environment", autouse=True)
@@ -84,11 +77,11 @@ def fixture_main_config(nocolorcapsys: NoColorCapsys) -> MockMainType:
     return _main_config
 
 
-@pytest.fixture(name="main_cmd")
-def fixture_main_cmd(
+@pytest.fixture(name="main")
+def fixture_main(
     monkeypatch: pytest.MonkeyPatch, nocolorcapsys: NoColorCapsys
 ) -> MockMainType:
-    """Main for commandline usage.
+    """Pass patched commandline arguments to package's main function.
 
     :param monkeypatch: Mock patch environment and attributes.
     :param nocolorcapsys: Capture system output while stripping ANSI
@@ -96,51 +89,13 @@ def fixture_main_cmd(
     :return: Function for using this fixture.
     """
 
-    def _main_cmd(*args: str) -> t.Tuple[str, ...]:
-        sys.argv.extend(args)
+    def _main(*args: str) -> t.Tuple[str, ...]:
+        """Run main with custom args."""
+        monkeypatch.setattr(
+            SYS_ARGV, [constcheck.__name__, *[str(a) for a in args]]
+        )
         constcheck.main()
-        monkeypatch.setattr(SYS_ARGV, [constcheck.__name__])
         return nocolorcapsys.readouterr()
-
-    return _main_cmd
-
-
-@pytest.fixture(name="main")
-def fixture_main(
-    main_config: MockMainType,
-    main_kwargs: MockMainType,
-    main_cmd: MockMainType,
-) -> MockMainType:
-    """Pass patched commandline arguments to package's main function.
-
-    :param main_config: Main with arguments parsed from pyproject.toml.
-    :param main_kwargs: Main as the function itself, for API usage.
-    :param main_cmd: Main, as used through the commandline, which
-        receives strings as arguments from the argument vector.
-    :return: Function for using this fixture.
-    """
-
-    def _convert_commandline(**kwargs: KwargsType) -> t.List[str]:
-        argify = Argify(kwargs)
-        return [
-            *argify.get_positionals("path", [Path.cwd()]),
-            *argify.get_key_single("count", 3),
-            *argify.get_key_single("length", 3),
-            *argify.get_key_seq("ignore_strings"),
-            *argify.get_key_seq("ignore_files"),
-            *argify.get_key_mapping("ignore_from"),
-            *argify.get_non_default("string"),
-            *argify.get_flags("filter", "no_color"),
-        ]
-
-    def _main(**kwargs: KwargsType) -> t.Tuple[str, ...]:
-        args = _convert_commandline(**kwargs)
-        config_output = main_config(**kwargs)
-        kwargs_output = main_kwargs(**kwargs)
-        commandline_output = main_cmd(*args)
-        assert config_output == kwargs_output
-        assert kwargs_output == commandline_output
-        return commandline_output
 
     return _main
 

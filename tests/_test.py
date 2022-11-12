@@ -31,6 +31,7 @@ from ._strings import (
     QUOTES,
     TUPLE,
     VERSION,
+    flag,
 )
 from ._utils import (
     MockMainType,
@@ -80,7 +81,7 @@ def test_parse_str(
     :param template: Content to write to file.
     :param expected: Expected result from test.
     """
-    assert expected in main(string=template)[0]
+    assert expected in main(flag.string, template)[0]
 
 
 def test_multiple_files_single_packages(
@@ -134,10 +135,10 @@ def test_multiple_files_single_packages(
 
 
 @pytest.mark.parametrize(
-    "kwargs,expected",
+    "args,expected",
     [
         (
-            {},
+            [],
             header()
             + display(
                 (3, LEN_3[0]),
@@ -188,7 +189,7 @@ def test_multiple_files_single_packages(
             + display((3, MULTILINE)),
         ),
         (
-            dict(path=[PACKAGE[0]]),
+            [PACKAGE[0]],
             header()
             + display((3, QUOTES[2]), (3, LEN_4[0]), (7, LEN_5[0]))
             + header(prefix=PACKAGE[0])
@@ -201,7 +202,7 @@ def test_multiple_files_single_packages(
             + display((3, LEN_4[0]), (4, LEN_5[0])),
         ),
         (
-            dict(path=[PACKAGE[1]]),
+            [PACKAGE[1]],
             header()
             + display(
                 (3, LEN_3[0]),
@@ -228,7 +229,7 @@ def test_multiple_files_single_packages(
             + display((4, LEN_5[0])),
         ),
         (
-            dict(path=[PACKAGE[2]]),
+            [PACKAGE[2]],
             header()
             + display(
                 (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
@@ -252,14 +253,14 @@ def test_multiple_files_single_packages(
 def test_multiple_files_multiple_packages(
     main: MockMainType,
     write_file: WriteFileType,
-    kwargs: t.Dict[str, t.Any],
+    args: t.Dict[str, t.Any],
     expected: str,
 ) -> None:
     """Test results when multiple files exist.
 
     :param main: Patch package entry point.
     :param write_file: Create and write file.
-    :param kwargs: Parameters for ``constcheck.main``.
+    :param args: Parameters for ``constcheck.main``.
     :param expected: Expected result from test.
     """
     package_no = 0
@@ -269,7 +270,7 @@ def test_multiple_files_multiple_packages(
         if package_no > 2:
             package_no = 0
 
-    assert main(**kwargs)[0] == expected
+    assert main(*args)[0] == expected
 
 
 def test_print_version(
@@ -398,7 +399,7 @@ def test_len_and_count(
         f'{CONST[17]} = "{LEN_3[3]}"\n'
     )
     write_file(Path.cwd() / f"{count}-{length}.py", template)
-    assert expected in main(count=count, length=length)[0]
+    assert expected in main(flag.count, count, flag.length, length)[0]
 
 
 def test_no_ansi(capsys: pytest.CaptureFixture) -> None:
@@ -442,7 +443,7 @@ def test_file_ignore_str(
     """
     word = get_word(expected)
     write_file(Path.cwd() / f"{name}.py", template)
-    assert expected not in main(ignore_strings=[word])[0]
+    assert expected not in main(flag.ignore_strings, word)[0]
 
 
 @pytest.mark.parametrize(
@@ -463,33 +464,32 @@ def test_ignore_files(
         write_file(Path.cwd() / f"{_name}.py", _template)
 
     expected = header(index=templates.registered.getindex(name))
-    assert expected not in main(ignore_files=[f"{name}.py"])[0]
+    assert expected not in main(flag.ignore_files, f"{name}.py")[0]
 
 
-def test_escaped_comma(main_cmd: MockMainType) -> None:
+def test_escaped_comma(main: MockMainType) -> None:
     """Test escaping of commas for strings that contain commas.
 
-    :param main_cmd: Main, as used through the commandline, which
-        receives strings as arguments from the argument vector.
+    :param main: Mock ``main`` function.
     """
     template: templatest.Template = templates.registered[
         templates.registered.getindex("escaped-chars-3-reps")
     ]
     assert (
         template.expected
-        in main_cmd(
-            "--string",
+        in main(
+            flag.string,
             template.template,
-            "--ignore-strings",
+            flag.ignore_strings,
             f"{TUPLE[0]},{TUPLE[1]}",
         )[0]
     )
     assert (
         template.expected
-        not in main_cmd(
-            "--string",
+        not in main(
+            flag.string,
             template.template,
-            "--ignore-strings",
+            flag.ignore_strings,
             f"{TUPLE[0]}\\,{TUPLE[1]}",
         )[0]
     )
@@ -555,25 +555,24 @@ def test_ignore_from(
     word = get_word(te1.expected)
 
     # # ignore the word in file 1
-    result = main(ignore_from={f"{te1.name}.py": [word]})[0]
+    result = main(flag.ignore_from, f"{te1.name}.py={word}")[0]
     assert header(index=templates.registered.getindex(te1.name)) not in result
     assert header(index=templates.registered.getindex(te2.name)) in result
 
     # ignore the word in file 2
-    result = main(ignore_from={f"{te2.name}.py": [word]})[0]
+    result = main(flag.ignore_from, f"{te2.name}.py={word}")[0]
     assert header(index=templates.registered.getindex(te1.name)) in result
     assert header(index=templates.registered.getindex(te2.name)) not in result
 
 
-def test_ignore_from_no_value_given(main_cmd: MockMainType) -> None:
+def test_ignore_from_no_value_given(main: MockMainType) -> None:
     """Test program continues if value not given to key.
 
     No need to run any assertions, testing no error raised.
 
-    :param main_cmd: Main, as used through the commandline, which
-        receives strings as arguments from the argument vector.
+    :param main: Mock ``main`` function.
     """
-    main_cmd("--ignore-from", "some-file")
+    main(flag.ignore_from, "some-file")
 
 
 @pytest.mark.parametrize(
@@ -723,9 +722,7 @@ def test_file_args(main: MockMainType, write_file: WriteFileType) -> None:
     assert (
         templates.registered[0].expected
         in main(
-            path=[
-                str(Path.cwd() / f"{i.name}.py") for i in templates.registered
-            ]
+            *[str(Path.cwd() / f"{i.name}.py") for i in templates.registered]
         )[0]
     )
 
@@ -761,5 +758,5 @@ def test_file_args_non_relative(
     cwd.mkdir()
     monkeypatch.setattr("os.getcwd", lambda: str(cwd))
     write_file(files / f"{name}.py", template)
-    result = main(path=["../files"])[0]
+    result = main("../files")[0]
     assert expected.strip() in result
