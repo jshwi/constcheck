@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Adds function to find top-level pyproject.toml
 
+### Remove
+- Removes kwargs from `constcheck.main`
+
 [0.5.0](https://github.com/jshwi/constcheck/releases/tag/v0.5.0) - 2022-11-11
 ------------------------------------------------------------------------
 ### Added

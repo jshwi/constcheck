@@ -11,6 +11,7 @@ from argparse import HelpFormatter as _HelpFormatter
 from argparse import Namespace as _Namespace
 from pathlib import Path as _Path
 
+import mergedeep
 import tomli as _tomli
 
 from ._utils import color as _color
@@ -83,6 +84,9 @@ class Parser(_ArgumentParser):
         self._kwargs = kwargs
         self._add_arguments()
         self.args = self.parse_args()
+        mergedeep.merge(
+            self.args.__dict__, kwargs, strategy=mergedeep.Strategy.ADDITIVE
+        )
         self._version_request()
 
     def _add_arguments(self) -> None:

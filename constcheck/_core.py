@@ -222,44 +222,22 @@ def _display_path(contents: _PathFileStringRep, no_ansi: bool) -> int:
     return int(any(returncodes))
 
 
-def get_args(kwargs: _t.Dict[str, _t.Any]) -> _ArgTuple:
+def get_args() -> _ArgTuple:
     """Parse commandline arguments if args are not passed to main.
 
-    :param kwargs: Kwargs passed to main.
     :return: Tuple of configured values.
     """
     args = _get_config()
-    ignore_strings = args.get("ignore_strings", [])
-    ignore_files = args.get("ignore_files", [])
-    ignore_from = args.get("ignore_from", {})
-    if kwargs:
-        ignore_strings.extend(kwargs.get("ignore_strings", []))
-        ignore_files.extend(kwargs.get("ignore_files", []))
-        _nested_update(ignore_from, kwargs.get("ignore_from", {}))
-        return (
-            kwargs.get("path", args.get("path", [_Path.cwd()])),
-            kwargs.get("count", args.get("count", 3)),
-            kwargs.get("length", args.get("length", 3)),
-            kwargs.get("no_ansi", args.get("no_ansi", False)),
-            kwargs.get("string", args.get("string")),
-            ignore_strings,
-            ignore_files,
-            ignore_from,
-        )
-
     parser = _Parser(args)
-    ignore_strings.extend(parser.args.ignore_strings)
-    ignore_files.extend(parser.args.ignore_files)
-    _nested_update(ignore_from, parser.args.ignore_from)
     return (
         parser.args.path,
         parser.args.count,
         parser.args.length,
         parser.args.no_ansi,
         parser.args.string,
-        ignore_strings,
-        ignore_files,
-        ignore_from,
+        parser.args.ignore_strings,
+        parser.args.ignore_files,
+        parser.args.ignore_from,
     )
 
 

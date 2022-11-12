@@ -40,22 +40,6 @@ def fixture_nocolorcapsys(capsys: pytest.CaptureFixture) -> NoColorCapsys:
     return NoColorCapsys(capsys)
 
 
-@pytest.fixture(name="main_kwargs")
-def fixture_main_kwargs(nocolorcapsys: NoColorCapsys) -> MockMainType:
-    """Main for pyproject.toml usage.
-
-    :param nocolorcapsys: Capture system output while stripping ANSI
-        color codes.
-    :return: Function for using this fixture.
-    """
-
-    def _main_kwargs(**kwargs: KwargsType) -> t.Tuple[str, ...]:
-        constcheck.main(**kwargs)
-        return nocolorcapsys.readouterr()
-
-    return _main_kwargs
-
-
 @pytest.fixture(name="main_config")
 def fixture_main_config(nocolorcapsys: NoColorCapsys) -> MockMainType:
     """Main for pyproject.toml usage.
