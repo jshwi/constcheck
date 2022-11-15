@@ -5,7 +5,6 @@ tests._utils
 Utilities for testing.
 """
 # pylint: disable=too-few-public-methods, disable=consider-using-f-string
-import os as _os
 import re as _re
 import typing as _t
 from abc import abstractmethod as _abstractmethod
@@ -17,14 +16,6 @@ from templatest import templates as _templates
 
 MockMainType = _t.Callable[..., _t.Tuple[str, ...]]
 WriteFileType = _t.Callable[[_Path, str], None]
-KwargsType = _t.Union[
-    bool,
-    int,
-    str,
-    _t.List[str],
-    _t.Dict[str, _t.List[str]],
-    _t.List[_t.Union[str, _os.PathLike]],
-]
 
 
 class NoColorCapsys:

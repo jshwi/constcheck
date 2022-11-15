@@ -5,7 +5,6 @@ constcheck._main
 Contains package entry point.
 """
 from ._config import Parser as _Parser
-from ._config import get_config as _get_config
 from ._core import constcheck as _constcheck
 
 
@@ -14,8 +13,7 @@ def main() -> int:
 
     :return: Exit status.
     """
-    args = _get_config()
-    parser = _Parser(args)
+    parser = _Parser()
     return _constcheck(
         *parser.args.path,
         count=parser.args.count,

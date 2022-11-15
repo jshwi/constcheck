@@ -7,12 +7,11 @@ import typing as t
 from pathlib import Path
 
 import pytest
-import tomli_w
 
 import constcheck
 
 from ._strings import SYS_ARGV
-from ._utils import KwargsType, MockMainType, NoColorCapsys, WriteFileType
+from ._utils import MockMainType, NoColorCapsys, WriteFileType
 
 
 @pytest.fixture(name="mock_environment", autouse=True)
@@ -38,27 +37,6 @@ def fixture_nocolorcapsys(capsys: pytest.CaptureFixture) -> NoColorCapsys:
         codes.
     """
     return NoColorCapsys(capsys)
-
-
-@pytest.fixture(name="main_config")
-def fixture_main_config(nocolorcapsys: NoColorCapsys) -> MockMainType:
-    """Main for pyproject.toml usage.
-
-    :param nocolorcapsys: Capture system output while stripping ANSI
-        color codes.
-    :return: Function for using this fixture.
-    """
-
-    def _main_config(**kwargs: KwargsType) -> t.Tuple[str, ...]:
-        pyproject_file = Path.cwd() / "pyproject.toml"
-        pyproject_obj = {"tool": {constcheck.__name__: kwargs}}
-        with open(pyproject_file, "wb") as fout:
-            tomli_w.dump(pyproject_obj, fout)
-
-        constcheck.main()
-        return nocolorcapsys.readouterr()
-
-    return _main_config
 
 
 @pytest.fixture(name="main")

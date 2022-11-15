@@ -8,7 +8,6 @@ import typing as t
 from pathlib import Path
 
 import pytest
-import templatest
 from templatest import templates
 from templatest.utils import ALPHA
 
@@ -29,7 +28,6 @@ from ._strings import (
     PACKAGE,
     PLUS,
     QUOTES,
-    TUPLE,
     VERSION,
     flag,
 )
@@ -467,34 +465,6 @@ def test_ignore_files(
     assert expected not in main(flag.ignore_files, f"{name}.py")[0]
 
 
-def test_escaped_comma(main: MockMainType) -> None:
-    """Test escaping of commas for strings that contain commas.
-
-    :param main: Mock ``main`` function.
-    """
-    template: templatest.Template = templates.registered[
-        templates.registered.getindex("escaped-chars-3-reps")
-    ]
-    assert (
-        template.expected
-        in main(
-            flag.string,
-            template.template,
-            flag.ignore_strings,
-            f"{TUPLE[0]},{TUPLE[1]}",
-        )[0]
-    )
-    assert (
-        template.expected
-        not in main(
-            flag.string,
-            template.template,
-            flag.ignore_strings,
-            f"{TUPLE[0]}\\,{TUPLE[1]}",
-        )[0]
-    )
-
-
 class TestExit:
     """Test correct exit status returned from main."""
 
@@ -573,136 +543,6 @@ def test_ignore_from_no_value_given(main: MockMainType) -> None:
     :param main: Mock ``main`` function.
     """
     main(flag.ignore_from, "some-file")
-
-
-@pytest.mark.parametrize(
-    "kwargs,expected",
-    [
-        (
-            (dict(ignore_strings=[LEN_3[0]]), (flag.ignore_strings, LEN_4[0])),
-            (
-                header()
-                + display((6, LEN_4[0]), (6, LEN_5[0]))
-                + header(index=1)
-                + display((3, LEN_4[0]), (3, LEN_5[0]))
-                + header(index=2)
-                + display((3, LEN_4[0]), (3, LEN_5[0])),
-                header()
-                + display((6, LEN_5[0]))
-                + header(index=1)
-                + display((3, LEN_5[0]))
-                + header(index=2)
-                + display((3, LEN_5[0])),
-            ),
-        ),
-        (
-            (
-                dict(ignore_files=[f"{templates.registered[1].name}.py"]),
-                (flag.ignore_files, f"{templates.registered[2].name}.py"),
-            ),
-            (
-                header()
-                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0]))
-                + header(index=2)
-                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
-                "",
-            ),
-        ),
-        (
-            (
-                dict(
-                    ignore_from={
-                        f"{templates.registered[1].name}.py": [LEN_5[0]]
-                    }
-                ),
-                (
-                    flag.ignore_from,
-                    f"{templates.registered[1].name}.py={LEN_4[0]}",
-                ),
-            ),
-            (
-                header()
-                + display((6, LEN_3[0]), (6, LEN_4[0]), (3, LEN_5[0]))
-                + header(index=1)
-                + display((3, LEN_3[0]), (3, LEN_4[0]))
-                + header(index=2)
-                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
-                header()
-                + display((6, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0]))
-                + header(index=1)
-                + display((3, LEN_3[0]))
-                + header(index=2)
-                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
-            ),
-        ),
-        (
-            (
-                dict(
-                    ignore_from={
-                        f"{templates.registered[1].name}.py": [LEN_5[0]]
-                    }
-                ),
-                (
-                    flag.ignore_from,
-                    f"{templates.registered[2].name}.py={LEN_5[0]}",
-                ),
-            ),
-            (
-                header()
-                + display((6, LEN_3[0]), (6, LEN_4[0]), (3, LEN_5[0]))
-                + header(index=1)
-                + display((3, LEN_3[0]), (3, LEN_4[0]))
-                + header(index=2)
-                + display((3, LEN_3[0]), (3, LEN_4[0]), (3, LEN_5[0])),
-                header()
-                + display((6, LEN_3[0]), (6, LEN_4[0]))
-                + header(index=1)
-                + display((3, LEN_3[0]), (3, LEN_4[0]))
-                + header(index=2)
-                + display((3, LEN_3[0]), (3, LEN_4[0])),
-            ),
-        ),
-    ],
-    ids=[
-        "ignore-strings",
-        "ignore-files",
-        "ignore-from-file",
-        "ignore-from-files",
-    ],
-)
-def test_ignore_from_no_override(
-    main: MockMainType,
-    main_config: MockMainType,
-    write_file: WriteFileType,
-    kwargs: t.Tuple[t.Dict[str, t.Any], t.Tuple[str, ...]],
-    expected: t.Tuple[str, str],
-) -> None:
-    """Test default values aren't overridden through commandline.
-
-    :param main: Patch package entry point.
-    :param main_config: Main for pyproject.toml usage..
-    :param write_file: Create and write file.
-    :param kwargs: Kwargs for main.
-    :param expected: Expected result.
-    """
-    template = (
-        f'{CONST[12]} = "{LEN_3[0]}"\n'
-        f'{CONST[13]} = "{LEN_3[0]}"\n'
-        f'{CONST[14]} = "{LEN_3[0]}"\n'
-        f'{CONST[15]} = "{LEN_4[0]}"\n'
-        f'{CONST[16]} = "{LEN_4[0]}"\n'
-        f'{CONST[17]} = "{LEN_4[0]}"\n'
-        f'{CONST[15]} = "{LEN_5[0]}"\n'
-        f'{CONST[16]} = "{LEN_5[0]}"\n'
-        f'{CONST[17]} = "{LEN_5[0]}"\n'
-    )
-    te1, te2 = templates.registered[1:3]
-    write_file(Path.cwd() / f"{te1.name}.py", template)
-    write_file(Path.cwd() / f"{te2.name}.py", template)
-    result_1 = main_config(**kwargs[0])[0]
-    result_2 = main(*kwargs[1])[0]
-    assert result_1 == expected[0]
-    assert result_2 == expected[1]
 
 
 def test_file_args(main: MockMainType, write_file: WriteFileType) -> None:
