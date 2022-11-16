@@ -5,6 +5,8 @@ tests._utils
 Utilities for testing.
 """
 # pylint: disable=too-few-public-methods, disable=consider-using-f-string
+from __future__ import annotations
+
 import re as _re
 import typing as _t
 from abc import abstractmethod as _abstractmethod
@@ -49,7 +51,7 @@ class NoColorCapsys:
         ansi_escape = _re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
         return ansi_escape.sub("", out)
 
-    def readouterr(self) -> _t.Tuple[str, ...]:
+    def readouterr(self) -> tuple[str, ...]:
         """Call as capsys ``readouterr`` but remove ANSI color-codes.
 
         :return: A tuple (just like the capsys) containing stdout in the
@@ -93,7 +95,7 @@ def header(**kwargs: _t.Any) -> str:
     return string
 
 
-def display(*args: _t.Tuple[int, str]) -> str:
+def display(*args: tuple[int, str]) -> str:
     """Format the display showing numbers and string values.
 
     :param args: A tuple of the amount of a string expected and the

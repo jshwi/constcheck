@@ -33,7 +33,7 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
     parens = False
     split = False
     pop = False
-    contents: _t.List[_TokenText] = []
+    contents: list[_TokenText] = []
     prev_ttext = _TokenText("")
     prev_ttype = _TokenType()
     for token_info in _tokenize.generate_tokens(textio.readline):
@@ -93,7 +93,7 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
 
 
 def _remove_ignored_strings(
-    contents: _t.List[_TokenText], ignored_strings: _t.List[str]
+    contents: list[_TokenText], ignored_strings: list[str]
 ) -> None:
     for string in list(contents):
         if str(string) in ignored_strings:
@@ -115,7 +115,7 @@ def _filter_repeats(
 def _populate_totals(
     path: _Path,
     common_path: _Path,
-    repeats: _t.Dict[_TokenText, int],
+    repeats: dict[_TokenText, int],
     contents: _PathFileStringRep,
 ) -> None:
     while _is_relative_to(path, common_path):
@@ -126,8 +126,8 @@ def _populate_totals(
 
 
 def _nested_update(
-    obj: _t.Dict[_t.Any, _t.Any], update: _t.Dict[_t.Any, _t.Any]
-) -> _t.Dict[_t.Any, _t.Any]:
+    obj: dict[_t.Any, _t.Any], update: dict[_t.Any, _t.Any]
+) -> dict[_t.Any, _t.Any]:
     # ensure that no entire dict keys with missing nested keys overwrite
     # all other values
     for key, value in update.items():
@@ -141,9 +141,7 @@ def _nested_update(
 
 # get all paths to python files whilst skipping over any paths that
 # should be ignored
-def _get_paths(
-    *pathlikes: _PathLike, ignore_files: _t.List[str]
-) -> _t.List[_Path]:
+def _get_paths(*pathlikes: _PathLike, ignore_files: list[str]) -> list[_Path]:
     paths = [_Path(i).resolve() for i in pathlikes]
     for path in paths:
         if path.is_dir():
@@ -178,7 +176,7 @@ def _get_relative_to(path: _Path, other: _Path) -> _Path:
 
 # get common dir to all paths provided
 # if common dir contain the current working dir, return that instead
-def _get_common_path(paths: _t.List[_Path]) -> _Path:
+def _get_common_path(paths: list[_Path]) -> _Path:
     try:
         path = _Path(_os.path.commonpath(paths))
         if _is_relative_to(path, _Path.cwd()):
@@ -230,9 +228,9 @@ def _parse_files(  # pylint: disable=too-many-arguments
     *dirnames: _PathLike,
     count: int,
     length: int,
-    ignore_strings: _t.List[str],
-    ignore_files: _t.List[str],
-    ignore_from: _t.Dict[str, _t.List[str]],
+    ignore_strings: list[str],
+    ignore_files: list[str],
+    ignore_from: dict[str, list[str]],
 ) -> _PathFileStringRep:
     """Parse files for repeats strings.
 
@@ -247,7 +245,7 @@ def _parse_files(  # pylint: disable=too-many-arguments
     :return: Object containing repeated string and occurrence grouped by
         their parent dirs.
     """
-    contents: _t.Dict[_Path, _t.Dict[_TokenText, int]] = {}
+    contents: dict[_Path, dict[_TokenText, int]] = {}
     paths = _get_paths(*dirnames, ignore_files=ignore_files)
     common_path = _get_common_path(paths)
     ignore_from_paths = {_Path(k).resolve(): v for k, v in ignore_from.items()}
@@ -264,7 +262,7 @@ def _parse_files(  # pylint: disable=too-many-arguments
 
 
 def _parse_string(
-    string: str, count: int, length: int, ignore_strings: _t.List[str]
+    string: str, count: int, length: int, ignore_strings: list[str]
 ) -> _FileStringRep:
     """Parse string for repeats strings.
 
@@ -286,9 +284,9 @@ def constcheck(  # pylint: disable=too-many-arguments
     length: int = 3,
     no_ansi: bool = False,
     string: str | None = None,
-    ignore_strings: _t.List[str] | None = None,
-    ignore_files: _t.List[str] | None = None,
-    ignore_from: _t.Dict[str, _t.List[str]] | None = None,
+    ignore_strings: list[str] | None = None,
+    ignore_files: list[str] | None = None,
+    ignore_from: dict[str, list[str]] | None = None,
 ) -> int:
     """Entry point for commandline and API use.
 
