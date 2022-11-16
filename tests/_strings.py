@@ -739,3 +739,71 @@ def test_remove(
     @property
     def expected(self) -> str:
         return "6   | verifying"
+
+
+@_templates.register
+class _EscapedParamDict(_BaseTemplate):
+    """Test file with 3 repeat strings."""
+
+    @property
+    def template(self) -> str:
+        return """
+@pytest.mark.parametrize(
+    "config,args,expected",
+    [
+        (
+            {"tool": {NAME: {"dict": {}}}},
+            [
+                NAME,
+                long.dict,
+                f"{string[0]}={string[1]},{string[2]},{string[3]}",
+            ],
+            {string[0]: [string[1], string[2], string[3]]},
+        ),
+        (
+            {"tool": {NAME: {"dict": {string[0]: [string[4]]}}}},
+            [
+                NAME,
+                long.dict,
+                f"{string[0]}={string[1]},{string[2]},{string[3]}",
+            ],
+            {string[0]: [string[1], string[2], string[3], string[4]]},
+        ),
+        (
+            {"tool": {NAME: {"dict": {string[1]: [string[1]]}}}},
+            [
+                NAME,
+                long.dict,
+                f"{string[0]}={string[1]},{string[2]},{string[3]}",
+            ],
+            {
+                string[0]: [string[1], string[2], string[3], string[4]],
+                string[1]: [string[1]],
+            },
+        ),
+    ],
+)
+def test_dict_parser(
+    patch_argv: FixturePatchArgv,
+    config: dict[str, t.Any],
+    args: tuple[dict[str, t.Any], ...],
+    expected: list[str],
+) -> None:
+    \"\"\"Test ``arcon.ArgumentParser.add_dict_args``.
+
+    :param patch_argv: Patch commandline arguments.
+    :param config: Object to write to pyproject.toml.
+    :param args: Arguments to pass to commandline.
+    :param expected: Expected result.
+    \"\"\"
+    Path(TOML).write_text(tomli_w.dumps(config), encoding="utf-8")
+    patch_argv(*args)
+    parser = ArgumentParser()
+    parser.add_dict_argument(short.dict, long.dict)
+    namespace = parser.parse_args()
+    assert namespace.dict == expected
+"""
+
+    @property
+    def expected(self) -> str:
+        return "3   | dict\n3   | tool"

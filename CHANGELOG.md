@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.6.0...HEAD)
 ------------------------------------------------------------------------
+### Fixed
+- Fixes multiline strings split by curly brackets
 
 [0.6.0](https://github.com/jshwi/constcheck/releases/tag/v0.6.0) - 2022-11-12
 ------------------------------------------------------------------------

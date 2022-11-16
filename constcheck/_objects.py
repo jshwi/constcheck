@@ -174,3 +174,17 @@ class TokenText(_UserString):
         :return: This is a right square bracket, True or False.
         """
         return self.exact_type() == _tokenize.RSQB
+
+    def islbrace(self) -> bool:
+        """Check that this is a left curly bracket.
+
+        :return: This is a left curly bracket, True or False.
+        """
+        return self.exact_type() == _tokenize.LBRACE
+
+    def isrbrace(self) -> bool:
+        """Check that this is a right curly bracket.
+
+        :return: This is a right square curly, True or False.
+        """
+        return self.exact_type() == _tokenize.RBRACE

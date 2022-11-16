@@ -52,7 +52,14 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
             # prevent appending to previous bracketed multiline str
             split = True
 
-        if any([ttext.islsqb(), ttext.isrsqb()]):
+        if any(
+            [
+                ttext.islsqb(),
+                ttext.isrsqb(),
+                ttext.islbrace(),
+                ttext.isrbrace(),
+            ]
+        ):
             split = True
 
         if ttype.isstr() and not ttext.isdoc(prev_ttext, prev_ttype):
