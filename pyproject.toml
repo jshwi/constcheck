@@ -55,7 +55,7 @@ keywords = [
 license = "MIT"
 name = "constcheck"
 readme = "README.rst"
-version = "0.6.0"
+version = "0.6.1"
 
 [tool.poetry.dependencies]
 arcon = "^0.1.0"
