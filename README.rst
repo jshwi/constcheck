@@ -144,3 +144,23 @@ All keyword arguments available to ``constcheck()`` can be configured in the pyp
 
     [tool.constcheck.ignore_from]
     "tests/__init__.py" = ["Hello, world"]
+
+pre-commit
+##########
+
+`constcheck` can be used as a `pre-commit <https://pre-commit.com>`_ hook
+
+It can be added to your .pre-commit-config.yaml as follows:
+
+.. code-block:: yaml
+
+    repos:
+      - repo: https://github.com/jshwi/constcheck
+        rev: v0.7.0
+        hooks:
+          - id: constcheck
+            args:
+              - "--count"
+              - "3"
+              - "--length"
+              - "3"

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.6.1...HEAD)
 ------------------------------------------------------------------------
+### Added
+- Add support for `pre-commit`
 
 [0.6.1](https://github.com/jshwi/constcheck/releases/tag/v0.6.1) - 2022-11-16
 ------------------------------------------------------------------------

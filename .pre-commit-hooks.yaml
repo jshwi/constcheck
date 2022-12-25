@@ -1,0 +1,7 @@
+- id: constcheck
+  name: constcheck
+  description: check python files for repeat use of strings
+  entry: constcheck
+  language: python
+  types: [python]
+  require_serial: true
