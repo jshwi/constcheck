@@ -148,12 +148,12 @@ def _get_paths(*pathlikes: _PathLike, ignore_files: list[str]) -> list[_Path]:
             paths.extend(path.glob("**/*"))
 
     return list(
-        set(
+        {
             p
             for p in paths
             if not any(i in ignore_files for i in (*p.parts, p.stem))
             and p.name.endswith(".py")
-        )
+        }
     )
 
 
