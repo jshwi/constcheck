@@ -37,8 +37,8 @@ omit = [
 ]
 
 [tool.docsig]
-summary = true
 check-class = true
+summary = true
 
 [tool.poetry]
 authors = [
