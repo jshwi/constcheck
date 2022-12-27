@@ -1,14 +1,33 @@
 {
-  "name": "constcheck",
-  "version": "0.7.0",
+  "author": "Stephen Whitlock",
+  "bugs": {
+    "url": "https://github.com/jshwi/constcheck/issues"
+  },
   "description": "Check Python files for repeat use of strings",
-  "private": true,
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1"
+  },
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
+  "homepage": "https://jshwi.github.io/constcheck/",
+  "keywords": [
+    "const",
+    "constant",
+    "str",
+    "check",
+    "dry"
+  ],
+  "license": "MIT",
+  "name": "constcheck",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jshwi/constcheck.git"
+  },
   "scripts": {
-    "toml:sort": "poetry run pyaud sort-pyproject",
     "audit": "npm-run-all audit:*",
     "audit:misc": "npx prettier -c .",
     "audit:py": "poetry run pyaud audit --rcfile .github/pyaud.toml",
@@ -16,6 +35,7 @@
     "bump:minor": "poetry run bump2version minor",
     "bump:patch": "poetry run bump2version patch",
     "clean": "poetry run pyaud clean",
+    "const": "poetry run pyaud const",
     "format": "npm-run-all format:*",
     "format:misc": "prettier -w .",
     "format:py": "npm-run-all format:py:*",
@@ -28,28 +48,8 @@
     "test:doctest:package": "poetry run pyaud doctest-package",
     "test:doctest:readme": "poetry run pyaud doctest-readme",
     "test:unit": "poetry run pyaud tests",
-    "types": "poetry run pyaud typecheck",
-    "const": "poetry run pyaud const"
+    "toml:sort": "poetry run pyaud sort-pyproject",
+    "types": "poetry run pyaud typecheck"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jshwi/constcheck.git"
-  },
-  "keywords": [
-    "const",
-    "constant",
-    "str",
-    "check",
-    "dry"
-  ],
-  "author": "Stephen Whitlock",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jshwi/constcheck/issues"
-  },
-  "homepage": "https://jshwi.github.io/constcheck/",
-  "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.5.1"
-  }
+  "version": "0.7.0"
 }
