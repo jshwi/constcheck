@@ -4,11 +4,14 @@ constcheck
     :target: https://opensource.org/licenses/MIT
     :alt: License
 .. image:: https://img.shields.io/pypi/v/constcheck
-    :target: https://img.shields.io/pypi/v/constcheck
-    :alt: pypi
+    :target: https://pypi.org/project/constcheck/
+    :alt: PyPI
 .. image:: https://github.com/jshwi/constcheck/actions/workflows/ci.yml/badge.svg
     :target: https://github.com/jshwi/constcheck/actions/workflows/ci.yml
     :alt: CI
+.. image:: https://results.pre-commit.ci/badge/github/jshwi/constcheck/master.svg
+   :target: https://results.pre-commit.ci/latest/github/jshwi/constcheck/master
+   :alt: pre-commit.ci status
 .. image:: https://github.com/jshwi/constcheck/actions/workflows/codeql-analysis.yml/badge.svg
     :target: https://github.com/jshwi/constcheck/actions/workflows/codeql-analysis.yml
     :alt: CodeQL
@@ -23,7 +26,10 @@ constcheck
     :alt: python3.8
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
-    :alt: black
+    :alt: Black
+.. image:: https://img.shields.io/badge/linting-pylint-yellowgreen
+    :target: https://github.com/PyCQA/pylint
+    :alt: pylint
 
 Check Python files for repeat use of strings
 --------------------------------------------
