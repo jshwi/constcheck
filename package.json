@@ -30,7 +30,7 @@
   "scripts": {
     "audit": "npm-run-all audit:*",
     "audit:misc": "npx prettier -c .",
-    "audit:py": "poetry run pyaud audit --rcfile .github/pyaud.toml",
+    "audit:py": "poetry run pyaud audit",
     "bump:major": "poetry run bump2version major",
     "bump:minor": "poetry run bump2version minor",
     "bump:patch": "poetry run bump2version patch",
