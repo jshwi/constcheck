@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = [
-    "poetry-core>=1.0.0",
+  "poetry-core>=1.0.0"
 ]
 
 [tool.black]
@@ -19,15 +19,15 @@ skip-magic-trailing-comma = true
 
 [tool.constcheck]
 ignore_strings = [
-    "store",
-    "store_true",
-    "utf-8",
+  "store",
+  "store_true",
+  "utf-8"
 ]
 
 [tool.constcheck.ignore_from]
 "tests/_test.py" = [
-    "kwargs,expected",
-    "name,template,expected",
+  "kwargs,expected",
+  "name,template,expected"
 ]
 
 [tool.coverage.report]
@@ -35,8 +35,8 @@ fail_under = 100
 
 [tool.coverage.run]
 omit = [
-    "whitelist.py",
-    "constcheck/__main__.py",
+  "constcheck/__main__.py",
+  "whitelist.py"
 ]
 
 [tool.docsig]
@@ -54,21 +54,21 @@ use_parentheses = true
 
 [tool.poetry]
 authors = [
-    "jshwi <stephen@jshwisolutions.com>",
+  "jshwi <stephen@jshwisolutions.com>"
 ]
 description = "Check Python files for repeat use of strings"
 documentation = "https://constcheck.readthedocs.io/en/latest"
 homepage = "https://pypi.org/project/constcheck/"
 keywords = [
-    "const",
-    "constant",
-    "str",
-    "check",
-    "dry",
+  "check",
+  "const",
+  "constant",
+  "dry",
+  "str"
 ]
 license = "MIT"
 maintainers = [
-    "jshwi <stephen@jshwisolutions.com>",
+  "jshwi <stephen@jshwisolutions.com>"
 ]
 name = "constcheck"
 readme = "README.rst"
@@ -102,31 +102,31 @@ constcheck = "constcheck.__main__:main"
 
 [tool.pyaud.audit]
 modules = [
-    "files",
-    "format",
-    "format-docs",
-    "format-str",
-    "imports",
-    "typecheck",
-    "unused",
-    "lint",
-    "const",
-    "params",
-    "test",
-    "docs",
+  "const",
+  "docs",
+  "files",
+  "format",
+  "format-docs",
+  "format-str",
+  "imports",
+  "lint",
+  "params",
+  "test",
+  "typecheck",
+  "unused"
 ]
 
 [tool.pyaud.clean]
 exclude = [
-    ".mypy_cache",
-    ".env",
-    "node_modules",
+  ".env",
+  ".mypy_cache",
+  "node_modules"
 ]
 
 [tool.pyaud.indexing]
 exclude = [
-    "whitelist.py",
-    "conf.py",
+  "conf.py",
+  "whitelist.py"
 ]
 
 [tool.pyaud.logging]
@@ -145,24 +145,24 @@ when = "d"
 
 [tool.pyaud.logging.root]
 handlers = [
-    "default",
+  "default"
 ]
 level = "DEBUG"
 propagate = false
 
 [tool.pytest.ini_options]
 addopts = [
-    "--durations=5",
-    "-vv",
-    "--color=yes",
-    "--cov-report",
-    "term-missing",
+  "--color=yes",
+  "--cov-report",
+  "--durations=5",
+  "-vv",
+  "term-missing"
 ]
 filterwarnings = "ignore::DeprecationWarning"
 norecursedirs = [
-    "docs",
-    ".git",
-    ".mypy_cache",
-    ".idea",
-    ".pytest_cache"
+  ".git",
+  ".idea",
+  ".mypy_cache",
+  ".pytest_cache",
+  "docs"
 ]
