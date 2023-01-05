@@ -73,7 +73,7 @@ maintainers = [
 name = "constcheck"
 readme = "README.rst"
 repository = "https://github.com/jshwi/constcheck"
-version = "0.8.0"
+version = "0.8.1"
 
 [tool.poetry.dependencies]
 arcon = "^0"
