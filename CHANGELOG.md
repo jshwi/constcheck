@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.8.0...HEAD)
 ------------------------------------------------------------------------
+### Fix
+- Relax `arcon` version constraint
 
 [0.8.0](https://github.com/jshwi/constcheck/releases/tag/v0.8.0) - 2023-01-04
 ------------------------------------------------------------------------

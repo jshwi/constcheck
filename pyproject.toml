@@ -76,7 +76,7 @@ repository = "https://github.com/jshwi/constcheck"
 version = "0.8.0"
 
 [tool.poetry.dependencies]
-arcon = "^0.1.0"
+arcon = "^0"
 object-colors = "^2.0.1"
 python = "^3.8"
 tomli = "^2.0.1"
