@@ -30,6 +30,9 @@ constcheck
 .. image:: https://img.shields.io/badge/linting-pylint-yellowgreen
     :target: https://github.com/PyCQA/pylint
     :alt: pylint
+.. image:: https://snyk.io/test/github/jshwi/constcheck/badge.svg
+    :target: https://snyk.io/test/github/jshwi/constcheck/badge.svg
+    :alt: Known Vulnerabilities
 
 Check Python files for repeat use of strings
 --------------------------------------------
@@ -166,7 +169,5 @@ It can be added to your .pre-commit-config.yaml as follows:
         hooks:
           - id: constcheck
             args:
-              - "--count"
-              - "3"
-              - "--length"
-              - "3"
+              - "--count=3"
+              - "--length=3"
