@@ -18,10 +18,12 @@ exclude: |
   (?x)^(
     | poetry\.lock
     | package-lock\.json
-    | migrations/.*
+    | migrations\/.*
     | \.bumpversion\.cfg
     | whitelist\.py
+    | \.idea\/.*
     | \.github\/COMMIT_POLICY\.md
+    | docs\/conf\.py
   )$
 repos:
   - repo: local
@@ -76,14 +78,6 @@ repos:
         language: system
         entry: poetry run pyaud toc --fix
         pass_filenames: false
-      # audit commits between HEAD and origin/master
-      - id: audit
-        name: audit repo
-        language: system
-        entry: bash scripts/audit.sh
-        pass_filenames: false
-        stages:
-          - push
       # check imports against dependencies
       - id: deptry
         name: deptry
@@ -119,7 +113,7 @@ repos:
       - id: debug-statements
       - id: destroyed-symlinks
       - id: detect-private-key
-        exclude: ^(.*/test.key)$
+        exclude: ^(.*test\.key)$
       - id: forbid-submodules
       - id: no-commit-to-branch
       - id: end-of-file-fixer
