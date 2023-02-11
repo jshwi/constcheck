@@ -718,6 +718,36 @@ astor = "*"
 tomli = ">=1.1.0"
 
 [[package]]
+name = "gitdb"
+version = "4.0.10"
+description = "Git Object Database"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "gitdb-4.0.10-py3-none-any.whl", hash = "sha256:c286cf298426064079ed96a9e4a9d39e7f3e9bf15ba60701e95f5492f28415c7"},
+    {file = "gitdb-4.0.10.tar.gz", hash = "sha256:6eb990b69df4e15bad899ea868dc46572c3f75339735663b81de79b06f17eb9a"},
+]
+
+[package.dependencies]
+smmap = ">=3.0.1,<6"
+
+[[package]]
+name = "gitpython"
+version = "3.1.30"
+description = "GitPython is a python library used to interact with Git repositories"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "GitPython-3.1.30-py3-none-any.whl", hash = "sha256:cd455b0000615c60e286208ba540271af9fe531fa6a87cc590a7298785ab2882"},
+    {file = "GitPython-3.1.30.tar.gz", hash = "sha256:769c2d83e13f5d938b7688479da374c4e3d49f71549aaf462b646db9602ea6f8"},
+]
+
+[package.dependencies]
+gitdb = ">=4.0.1,<5"
+
+[[package]]
 name = "gitspy"
 version = "0.3.0"
 description = "Intuitive Git for Python"
@@ -747,6 +777,18 @@ files = [
 [package.extras]
 all = ["coincidence (>=0.2.0)", "pytest (>=6.0.0)"]
 testing = ["coincidence (>=0.2.0)", "pytest (>=6.0.0)"]
+
+[[package]]
+name = "html2text"
+version = "2020.1.16"
+description = "Turn HTML into equivalent Markdown-structured text."
+category = "dev"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "html2text-2020.1.16-py3-none-any.whl", hash = "sha256:c7c629882da0cf377d66f073329ccf34a12ed2adf0169b9285ae4e63ef54c82b"},
+    {file = "html2text-2020.1.16.tar.gz", hash = "sha256:e296318e16b059ddb97f7a8a1d6a5c1d7af4544049a01e261731d2d5cc277bbb"},
+]
 
 [[package]]
 name = "html5lib"
@@ -1501,19 +1543,19 @@ tomli-w = ">=1.0.0,<2.0.0"
 
 [[package]]
 name = "pyaud-plugins"
-version = "0.10.0"
+version = "0.12.0"
 description = "Plugin package for Pyaud"
 category = "dev"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pyaud-plugins-0.10.0.tar.gz", hash = "sha256:b196cd83e064a4151738c0a18f94b595564de095985fbcb3133954cffdf61ec8"},
-    {file = "pyaud_plugins-0.10.0-py3-none-any.whl", hash = "sha256:67ef682b5809d9cf7e7a65635fefcaf395ff748916a1e1cf028707719baf65cc"},
+    {file = "pyaud_plugins-0.12.0-py3-none-any.whl", hash = "sha256:c40b2952333021810b2c1d6ddb01118a728fda463d2eddc9544e57960e3a4015"},
+    {file = "pyaud_plugins-0.12.0.tar.gz", hash = "sha256:fc9123c15fd4547ac538823b55822040d67a86c83cd7a997551f2ca1c6feec2f"},
 ]
 
 [package.dependencies]
 appdirs = ">=1.4.4,<2.0.0"
-black = ">=21.12,<23.0"
+black = ">=21.12,<24.0"
 codecov = ">=2.1.12,<3.0.0"
 constcheck = ">=0,<1"
 coverage = ">=6.2,<8.0"
@@ -1521,6 +1563,7 @@ docformatter = ">=1.4,<2.0"
 docsig = ">=0,<1"
 environs = ">=9.4.0,<10.0.0"
 flynt = ">=0.75,<0.77"
+gitpython = ">=3.1.30,<4.0.0"
 gitspy = ">=0,<1"
 isort = ">=5.10.1,<6.0.0"
 mypy = ">=0.930,<0.992"
@@ -1529,14 +1572,31 @@ pipfile-requirements = ">=0.3.0,<0.4.0"
 pylint = ">=2.12.2,<3.0.0"
 pytest = ">=7.2.0,<8.0.0"
 pytest-cov = ">=3,<5"
-python-dotenv = ">=0.19.2,<0.21.0"
+python-dotenv = ">=0.19.2,<0.22.0"
 readmetester = ">=1.0.1,<3.0.0"
-Sphinx = ">=4.3.2,<5.0.0"
+Sphinx = ">=4.3.2,<7.0.0"
+sphinx-markdown-builder = ">=0.5.5,<0.6.0"
 sphinxcontrib-fulltoc = ">=1.2.0,<2.0.0"
 sphinxcontrib-programoutput = ">=0.17,<0.18"
 toml = ">=0.10.2,<0.11.0"
 toml-sort = ">=0.20,<0.23"
+tomli = ">=2.0.1,<3.0.0"
 vulture = ">=2.3,<3.0"
+
+[[package]]
+name = "pydash"
+version = "6.0.0"
+description = "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pydash-6.0.0-py3-none-any.whl", hash = "sha256:fe53216f7517ccac981fbdd04be5142f2ab4a83bd10494f5a106a4ff9e714ccf"},
+    {file = "pydash-6.0.0.tar.gz", hash = "sha256:88fef7abe6122293b7a8509e6d37989f39241971773d8ff30b1714875bae8947"},
+]
+
+[package.extras]
+dev = ["Sphinx", "black", "build", "coverage", "docformatter", "flake8", "flake8-black", "flake8-bugbear", "flake8-isort", "importlib-metadata (<5)", "invoke", "isort", "pylint", "pytest", "pytest-cov", "sphinx-rtd-theme", "tox", "twine", "wheel"]
 
 [[package]]
 name = "Pygments"
@@ -1689,14 +1749,14 @@ termcolor = ">=1.1.0"
 
 [[package]]
 name = "python-dotenv"
-version = "0.20.0"
+version = "0.21.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7"
 files = [
-    {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
-    {file = "python_dotenv-0.20.0-py3-none-any.whl", hash = "sha256:d92a187be61fe482e4fd675b6d52200e7be63a12b724abbf931a40ce4fa92938"},
+    {file = "python-dotenv-0.21.1.tar.gz", hash = "sha256:1c93de8f636cde3ce377292818d0e440b6e45a82f215c3744979151fa8151c49"},
+    {file = "python_dotenv-0.21.1-py3-none-any.whl", hash = "sha256:41e12e0318bebc859fcc4d97d4db8d20ad21721a6aa5047dd59f090391cb549a"},
 ]
 
 [package.extras]
@@ -1969,6 +2029,18 @@ files = [
 ]
 
 [[package]]
+name = "smmap"
+version = "5.0.0"
+description = "A pure Python implementation of a sliding window memory map manager"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "smmap-5.0.0-py3-none-any.whl", hash = "sha256:2aba19d6a040e78d8b09de5c57e96207b09ed71d8e55ce0959eeee6c8e190d94"},
+    {file = "smmap-5.0.0.tar.gz", hash = "sha256:c840e62059cd3be204b0c9c9f74be2c09d5648eddd4580d9314c3ecde0b30936"},
+]
+
+[[package]]
 name = "snowballstemmer"
 version = "2.2.0"
 description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
@@ -2074,6 +2146,25 @@ files = [
 [package.dependencies]
 jinja2 = ">=2.10"
 markupsafe = ">=1"
+
+[[package]]
+name = "sphinx-markdown-builder"
+version = "0.5.5"
+description = "sphinx builder that outputs markdown files"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sphinx-markdown-builder-0.5.5.tar.gz", hash = "sha256:6ead53c08d8835329e32418dcdbac4db710a1c4e5e8db687d23b9e88882d9d16"},
+    {file = "sphinx_markdown_builder-0.5.5-py2.py3-none-any.whl", hash = "sha256:3c8909579dfa83ce5a8fb48e2d01dc257fc0676931170cb92cd528f9fceee76f"},
+]
+
+[package.dependencies]
+html2text = "*"
+pydash = "*"
+sphinx = "*"
+unify = "*"
+yapf = "*"
 
 [[package]]
 name = "sphinx-prompt"
@@ -2422,6 +2513,20 @@ files = [
 ]
 
 [[package]]
+name = "unify"
+version = "0.5"
+description = "Modifies strings to all use the same (single/double) quote where possible."
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "unify-0.5.tar.gz", hash = "sha256:8ddce812b2457212b7598fe574c9e6eb3ad69710f445391338270c7f8a71723c"},
+]
+
+[package.dependencies]
+untokenize = "*"
+
+[[package]]
 name = "untokenize"
 version = "0.1.1"
 description = "Transforms tokens into original source code (while preserving whitespace)."
@@ -2581,6 +2686,18 @@ files = [
     {file = "wrapt-1.14.1-cp39-cp39-win32.whl", hash = "sha256:dee0ce50c6a2dd9056c20db781e9c1cfd33e77d2d569f5d1d9321c641bb903d5"},
     {file = "wrapt-1.14.1-cp39-cp39-win_amd64.whl", hash = "sha256:dee60e1de1898bde3b238f18340eec6148986da0455d8ba7848d50470a7a32fb"},
     {file = "wrapt-1.14.1.tar.gz", hash = "sha256:380a85cf89e0e69b7cfbe2ea9f765f004ff419f34194018a6827ac0e3edfed4d"},
+]
+
+[[package]]
+name = "yapf"
+version = "0.32.0"
+description = "A formatter for Python code."
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "yapf-0.32.0-py2.py3-none-any.whl", hash = "sha256:8fea849025584e486fd06d6ba2bed717f396080fd3cc236ba10cb97c4c51cf32"},
+    {file = "yapf-0.32.0.tar.gz", hash = "sha256:a3f5085d37ef7e3e004c4ba9f9b3e40c54ff1901cd111f05145ae313a7c67d1b"},
 ]
 
 [[package]]
