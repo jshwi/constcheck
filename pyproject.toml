@@ -95,7 +95,6 @@ restview = "^3.0.0"
 sphinx-toolbox = "^3.2.0"
 templatest = "^0.7.0"
 tomli-w = "^1.0.0"
-wrapt = "^1.14.1"
 
 [tool.poetry.scripts]
 constcheck = "constcheck.__main__:main"
