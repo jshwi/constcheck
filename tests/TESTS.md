@@ -12,7 +12,7 @@ Bases: `object`
 Test correct exit status returned from main.
 
 
-#### test_bad(write_file: Callable[[Path, str], None], name: str, template: str, _: str)
+#### test_bad(write_file: , name: , template: , _: )
 Test non-zero when constants are detected.
 
 
