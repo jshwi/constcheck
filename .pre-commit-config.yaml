@@ -19,7 +19,8 @@ exclude: |
     | migrations\/.*
     | \.bumpversion\.cfg
     | whitelist\.py
-    | \.idea
+    | \.idea\/.*
+    | docs\/conf\.py
   )$
 repos:
   - repo: local
