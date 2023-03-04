@@ -176,18 +176,18 @@ Sphinx = ">=2.2,<7.0"
 
 [[package]]
 name = "babel"
-version = "2.11.0"
+version = "2.12.1"
 description = "Internationalization utilities"
 category = "dev"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "Babel-2.11.0-py3-none-any.whl", hash = "sha256:1ad3eca1c885218f6dce2ab67291178944f810a10a9b5f3cb8382a5a232b64fe"},
-    {file = "Babel-2.11.0.tar.gz", hash = "sha256:5ef4b3226b0180dedded4229651c8b0e1a3a6a2837d45a073272f313e4cf97f6"},
+    {file = "Babel-2.12.1-py3-none-any.whl", hash = "sha256:b4246fb7677d3b98f501a39d43396d3cafdc8eadb045f4a31be01863f655c610"},
+    {file = "Babel-2.12.1.tar.gz", hash = "sha256:cc2d99999cd01d44420ae725a21c9e3711b3aadc7976d6147f622d8581963455"},
 ]
 
 [package.dependencies]
-pytz = ">=2015.7"
+pytz = {version = ">=2015.7", markers = "python_version < \"3.9\""}
 
 [[package]]
 name = "backcall"
@@ -347,6 +347,18 @@ files = [
 ]
 
 [[package]]
+name = "chardet"
+version = "5.1.0"
+description = "Universal encoding detector for Python 3"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "chardet-5.1.0-py3-none-any.whl", hash = "sha256:362777fb014af596ad31334fde1e8c327dfdb076e1960d1694662d46a6917ab9"},
+    {file = "chardet-5.1.0.tar.gz", hash = "sha256:0d62712b956bc154f85fb0a266e2a3c5913c2967e00348701b32411d6def31e5"},
+]
+
+[[package]]
 name = "charset-normalizer"
 version = "2.1.1"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
@@ -498,6 +510,24 @@ files = [
     {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
     {file = "decorator-5.1.1.tar.gz", hash = "sha256:637996211036b6385ef91435e4fae22989472f9d571faba8927ba8253acbc330"},
 ]
+
+[[package]]
+name = "deptry"
+version = "0.8.0"
+description = "A command line utility to check for obsolete, missing and transitive dependencies in a Python project."
+category = "dev"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "deptry-0.8.0-py3-none-any.whl", hash = "sha256:12f161748907781a5f6e6931694b40db7af7e0aa4b7888334a677cd4670daf7a"},
+    {file = "deptry-0.8.0.tar.gz", hash = "sha256:b15a31d4bc2c074de834ba4207b2f03e49a4bea8cb73e14e7376a26431b9c606"},
+]
+
+[package.dependencies]
+chardet = ">=4.0.0"
+click = ">=8.0.0,<9.0.0"
+pathspec = ">=0.9.0"
+tomli = {version = ">=2.0.1,<3.0.0", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "dict2css"
@@ -961,14 +991,14 @@ testing = ["Django (<3.1)", "attrs", "colorama", "docopt", "pytest (<7.0.0)"]
 
 [[package]]
 name = "jinja2"
-version = "3.1.2"
+version = "3.0.3"
 description = "A very fast and expressive template engine."
 category = "dev"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.6"
 files = [
-    {file = "Jinja2-3.1.2-py3-none-any.whl", hash = "sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"},
-    {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
+    {file = "Jinja2-3.0.3-py3-none-any.whl", hash = "sha256:077ce6014f7b40d03b47d1f1ca4b0fc8328a692bd284016f806ed0eaca390ad8"},
+    {file = "Jinja2-3.0.3.tar.gz", hash = "sha256:611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7"},
 ]
 
 [package.dependencies]
@@ -1293,14 +1323,14 @@ files = [
 
 [[package]]
 name = "natsort"
-version = "8.3.0"
+version = "8.3.1"
 description = "Simple yet flexible natural sorting in Python."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "natsort-8.3.0-py3-none-any.whl", hash = "sha256:6c15c663d3fc57dd2af52a56ffa06e9fdf2edfcf8d2e129bf115941a7aeec61e"},
-    {file = "natsort-8.3.0.tar.gz", hash = "sha256:5c64ff0743181dfbb4dd5f0b211434e734992b308ec54b6fa24e0f77f4678ed2"},
+    {file = "natsort-8.3.1-py3-none-any.whl", hash = "sha256:d583bc9050dd10538de36297c960b93f873f0cd01671a3c50df5bd86dd391dcb"},
+    {file = "natsort-8.3.1.tar.gz", hash = "sha256:517595492dde570a4fd6b6a76f644440c1ba51e2338c8a671d7f0475fda8f9fd"},
 ]
 
 [package.extras]
@@ -1422,14 +1452,14 @@ toml = "*"
 
 [[package]]
 name = "platformdirs"
-version = "3.0.0"
+version = "3.1.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.0.0-py3-none-any.whl", hash = "sha256:b1d5eb14f221506f50d6604a561f4c5786d9e80355219694a1b244bcd96f4567"},
-    {file = "platformdirs-3.0.0.tar.gz", hash = "sha256:8a1228abb1ef82d788f74139988b137e78692984ec7b08eaa6c65f1723af28f9"},
+    {file = "platformdirs-3.1.0-py3-none-any.whl", hash = "sha256:13b08a53ed71021350c9e300d4ea8668438fb0046ab3937ac9a29913a1a1350a"},
+    {file = "platformdirs-3.1.0.tar.gz", hash = "sha256:accc3665857288317f32c7bebb5a8e482ba717b474f3fc1d18ca7f9214be0cef"},
 ]
 
 [package.extras]
@@ -1720,14 +1750,14 @@ readme = ["docutils (==0.16)", "readme-renderer[md] (>=27.0)"]
 
 [[package]]
 name = "pytest"
-version = "7.2.1"
+version = "7.2.2"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.2.1-py3-none-any.whl", hash = "sha256:c7c6ca206e93355074ae32f7403e8ea12163b1163c976fee7d4d84027c162be5"},
-    {file = "pytest-7.2.1.tar.gz", hash = "sha256:d45e0952f3727241918b8fd0f376f5ff6b301cc0777c6f9a556935c92d8a7d42"},
+    {file = "pytest-7.2.2-py3-none-any.whl", hash = "sha256:130328f552dcfac0b1cec75c12e3f005619dc5f874f0a06e8ff7263f0ee6225e"},
+    {file = "pytest-7.2.2.tar.gz", hash = "sha256:c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4"},
 ]
 
 [package.dependencies]
@@ -1998,8 +2028,6 @@ files = [
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:045e0626baf1c52e5527bd5db361bc83180faaba2ff586e763d3d5982a876a9e"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_12_6_arm64.whl", hash = "sha256:721bc4ba4525f53f6a611ec0967bdcee61b31df5a56801281027a3a6d1c2daf5"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:41d0f1fa4c6830176eef5b276af04c89320ea616655d01327d5ce65e50575c94"},
-    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-win32.whl", hash = "sha256:f6d3d39611ac2e4f62c3128a9eed45f19a6608670c5a2f4f07f24e8de3441d38"},
-    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-win_amd64.whl", hash = "sha256:da538167284de58a52109a9b89b8f6a53ff8437dd6dc26d33b57bf6699153122"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:4b3a93bb9bc662fc1f99c5c3ea8e623d8b23ad22f861eb6fce9377ac07ad6072"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-macosx_12_0_arm64.whl", hash = "sha256:a234a20ae07e8469da311e182e70ef6b199d0fbeb6c6cc2901204dd87fb867e8"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:15910ef4f3e537eea7fe45f8a5d19997479940d9196f357152a09031c5be59f3"},
@@ -2259,24 +2287,25 @@ Sphinx = "*"
 
 [[package]]
 name = "sphinx-tabs"
-version = "3.3.1"
+version = "3.4.0"
 description = "Tabbed views for Sphinx"
 category = "dev"
 optional = false
-python-versions = "~=3.6"
+python-versions = "~=3.7"
 files = [
-    {file = "sphinx-tabs-3.3.1.tar.gz", hash = "sha256:d10dd7fb2700329b8e5948ab9f8e3ef54fff30f79d2e42cfd1b0089ae26e8c5e"},
-    {file = "sphinx_tabs-3.3.1-py3-none-any.whl", hash = "sha256:73209aa769246501f6de9e33051cfd2d54f5900e0cc28a63367d8e4af4c0db5d"},
+    {file = "sphinx-tabs-3.4.0.tar.gz", hash = "sha256:75e97ce10b74700deaf87b662539a293c8afc9dfa9d21f126b860118064cb0c5"},
+    {file = "sphinx_tabs-3.4.0-py3-none-any.whl", hash = "sha256:31dbe7594b5ef4cfa76a7960448d4607dca167ff21467000213920572c302072"},
 ]
 
 [package.dependencies]
 docutils = ">=0.17.0,<0.18.0"
+jinja2 = "<3.1.0"
 pygments = "*"
-sphinx = ">=2,<5"
+sphinx = ">=2,<6"
 
 [package.extras]
 code-style = ["pre-commit (==2.13.0)"]
-testing = ["bs4", "coverage", "pygments", "pytest (>=3.6,<4)", "pytest-cov", "pytest-regressions", "rinohtype", "sphinx-testing"]
+testing = ["bs4", "coverage", "pygments", "pytest (>=7.1,<8)", "pytest-cov", "pytest-regressions", "rinohtype", "sphinx-testing"]
 
 [[package]]
 name = "sphinx-toolbox"
@@ -2631,14 +2660,14 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "virtualenv"
-version = "20.19.0"
+version = "20.20.0"
 description = "Virtual Python Environment builder"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.19.0-py3-none-any.whl", hash = "sha256:54eb59e7352b573aa04d53f80fc9736ed0ad5143af445a1e539aada6eb947dd1"},
-    {file = "virtualenv-20.19.0.tar.gz", hash = "sha256:37a640ba82ed40b226599c522d411e4be5edb339a0c0de030c0dc7b646d61590"},
+    {file = "virtualenv-20.20.0-py3-none-any.whl", hash = "sha256:3c22fa5a7c7aa106ced59934d2c20a2ecb7f49b4130b8bf444178a16b880fa45"},
+    {file = "virtualenv-20.20.0.tar.gz", hash = "sha256:a8a4b8ca1e28f864b7514a253f98c1d62b64e31e77325ba279248c65fb4fcef4"},
 ]
 
 [package.dependencies]
@@ -2805,4 +2834,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "ac98b3373d32d03b0f27371043241a62f892fa5e293477c3407486cb8e7125db"
+content-hash = "b06e791f73f323a10fce8d38353c62908737a981ca4e81c315f9c1cb42abdfbd"

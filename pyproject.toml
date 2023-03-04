@@ -83,9 +83,9 @@ tomli = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 bump2version = "^1.0.1"
+deptry = "^0.8.0"
 ipython = "^8.11.0"
 pre-commit = "^3.1.1"
-prompt-toolkit = "^3.0.38"
 pyaud = "^6.2.1"
 pylint = "2.16.3"
 pytest = "^7.2.0"
