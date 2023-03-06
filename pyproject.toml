@@ -39,6 +39,11 @@ omit = [
   "whitelist.py"
 ]
 
+[tool.deptry]
+ignore_obsolete = [
+  "lsfiles"
+]
+
 [tool.docsig]
 check-class = true
 summary = true
@@ -77,6 +82,7 @@ version = "0.8.1"
 
 [tool.poetry.dependencies]
 arcon = "^0"
+lsfiles = "^0.1.2"
 object-colors = "^2.0.1"
 python = "^3.8"
 tomli = "^2.0.1"
