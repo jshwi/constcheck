@@ -296,6 +296,17 @@ files = [
 ]
 
 [[package]]
+name = "chardet"
+version = "5.2.0"
+description = "Universal encoding detector for Python 3"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "chardet-5.2.0-py3-none-any.whl", hash = "sha256:e1cf59446890a00105fe7b7912492ea04b6e6f06d4b742b2c788469e34c82970"},
+    {file = "chardet-5.2.0.tar.gz", hash = "sha256:1b3b6ff479a8c414bc3fa2c0852995695c4a026dcd6d0633b2dd092ca39c1cf7"},
+]
+
+[[package]]
 name = "charset-normalizer"
 version = "3.2.0"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
@@ -496,6 +507,23 @@ files = [
     {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
     {file = "decorator-5.1.1.tar.gz", hash = "sha256:637996211036b6385ef91435e4fae22989472f9d571faba8927ba8253acbc330"},
 ]
+
+[[package]]
+name = "deptry"
+version = "0.8.0"
+description = "A command line utility to check for obsolete, missing and transitive dependencies in a Python project."
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "deptry-0.8.0-py3-none-any.whl", hash = "sha256:12f161748907781a5f6e6931694b40db7af7e0aa4b7888334a677cd4670daf7a"},
+    {file = "deptry-0.8.0.tar.gz", hash = "sha256:b15a31d4bc2c074de834ba4207b2f03e49a4bea8cb73e14e7376a26431b9c606"},
+]
+
+[package.dependencies]
+chardet = ">=4.0.0"
+click = ">=8.0.0,<9.0.0"
+pathspec = ">=0.9.0"
+tomli = {version = ">=2.0.1,<3.0.0", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "dict2css"
@@ -2525,4 +2553,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "d18b74b6c442a84eec35c841b24b963d37e69838bce923d5a94fac29fdea2074"
+content-hash = "53fab3ad5e4f2474cde698b627e9d5b185661efccc0bcf4a5ff8459ad3d7c354"
