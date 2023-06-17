@@ -18,6 +18,7 @@ jobs:
         node-version:
           - "16.x.x"
         os:
+          - macos-latest
           - ubuntu-latest
     steps:
       - name: Checkout build
