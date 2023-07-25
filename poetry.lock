@@ -2109,13 +2109,13 @@ type-comments = ["typed-ast (>=1.5.2)"]
 
 [[package]]
 name = "sphinx-immaterial"
-version = "0.11.5"
+version = "0.11.6"
 description = "Adaptation of mkdocs-material theme for the Sphinx documentation system"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "sphinx_immaterial-0.11.5-py3-none-any.whl", hash = "sha256:f9fe0a3afca7edd530656afa08303bfb7338d03164da173a0e1bc68d0d1adad6"},
-    {file = "sphinx_immaterial-0.11.5.tar.gz", hash = "sha256:fbd697cba07212a359e42bc24e6effcbbfe97e17411d4e874768028bc7bcd407"},
+    {file = "sphinx_immaterial-0.11.6-py3-none-any.whl", hash = "sha256:93ca4ec055a17f0801be905f083203d434797dab88c283196e949b4e3a081955"},
+    {file = "sphinx_immaterial-0.11.6.tar.gz", hash = "sha256:d488f5627b8e203264fc1bebb744f516c099303e9a2ee4c6f6f9acc35b7c0e02"},
 ]
 
 [package.dependencies]
@@ -2702,4 +2702,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "37884f11684c595567d12c213d18f056d1d6f3371ac3d657460a0e0bfd95b8bc"
+content-hash = "facb1bc31c3d129a139429abf52190888d1e5e52a7bcb0cbcfd570d0b30260fc"
