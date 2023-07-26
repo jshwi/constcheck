@@ -18,9 +18,6 @@ constcheck
 .. image:: https://codecov.io/gh/jshwi/constcheck/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/jshwi/constcheck
     :alt: codecov.io
-.. image:: https://readthedocs.org/projects/constcheck/badge/?version=latest
-    :target: https://constcheck.readthedocs.io/en/latest/?badge=latest
-    :alt: readthedocs.org
 .. image:: https://img.shields.io/badge/python-3.8-blue.svg
     :target: https://www.python.org/downloads/release/python-380
     :alt: python3.8
