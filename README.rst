@@ -69,12 +69,15 @@ Commandline
                                  [--ignore-from [FILE=LIST [FILE=LIST ...]]]
                                  [path [path ...]]
 
+    Check Python files for repeat use of strings. Escape commas with \\. Defaults can be configured in
+    your pyproject.toml file.
+
     positional arguments:
       path                                       path(s) to check files for (default: .)
 
     optional arguments:
       -h, --help                                 show this help message and exit
-      -v, --version                              show version and exit
+      -v, --version                              show program's version number and exit
       -n, --no-ansi                              disable ansi output
       -c INT, --count INT                        minimum number of repeat strings (default: 3)
       -l INT, --length INT                       minimum length of repeat strings (default: 3)
