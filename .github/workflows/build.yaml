@@ -41,7 +41,7 @@ jobs:
         run: poetry run pyaud audit
       - name: Upload coverage
         id: upload-coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
       - name: Deploy docs
         id: deploy-docs
         uses: JamesIves/github-pages-deploy-action@v4
