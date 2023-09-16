@@ -3,4 +3,5 @@
   entry: constcheck
   description: check python files for repeat use of strings
   language: python
-  types: [python]
+  types:
+    - python
