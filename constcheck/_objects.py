@@ -12,7 +12,7 @@ from collections import UserString as _UserString
 
 
 class TokenType(int):
-    """int-like object with methods for working with token types."""
+    """Int-like object with methods for working with token types."""
 
     def isindent(self) -> bool:
         """Check that this is an indent.
@@ -37,7 +37,7 @@ class TokenType(int):
 
 
 class TokenText(_UserString):
-    """str-like object with methods for working with token text."""
+    """Str-like object with methods for working with token text."""
 
     SINGLE_QUOTE = "'"
     DOUBLE_QUOTE = '"'
