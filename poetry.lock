@@ -1504,17 +1504,17 @@ tests = ["pytest"]
 
 [[package]]
 name = "pyaud"
-version = "7.1.0"
+version = "7.2.0"
 description = "Framework for writing Python package audits"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pyaud-7.1.0-py3-none-any.whl", hash = "sha256:4b1e2e7c03e3bd8fe5147d550c2ee21dab958a9fe28608887baf13ff33dbbb41"},
-    {file = "pyaud-7.1.0.tar.gz", hash = "sha256:6dccfb47a18f2582c047b40323f2ecee3f14c4a1bf39c710b37da21f48518132"},
+    {file = "pyaud-7.2.0-py3-none-any.whl", hash = "sha256:8e4cda20359e948df5117252cff2aa76b4aee39b19e2a4603c1f0df76e80dfdb"},
+    {file = "pyaud-7.2.0.tar.gz", hash = "sha256:28962fa6f15329fb15e008c5e4e1c20d92a15295d43cb204cddfb401941bd5a1"},
 ]
 
 [package.dependencies]
-arcon = ">=0.2.1,<0.3.0"
+arcon = ">=0,<1"
 gitpython = ">=3.1.30,<4.0.0"
 lsfiles = ">=0.5"
 object-colors = ">=2.0.1,<3.0.0"
@@ -2781,4 +2781,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "0d95d526200d4592418a8db73fe83eb2426f9d2a32ac68ad5f14b6aa8410f0ec"
+content-hash = "e39827104734e292079174b039b2f16a37f2cd83cd7a35b093e7a80a9175039a"
