@@ -596,3 +596,32 @@ def test_file_non_rel(
     write_file(files / f"{name}.py", template)
     result = main("../files")[0]
     assert expected.strip() in result
+
+
+def test_file_ignore_dict_keys(
+    main: MockMainType, write_file: WriteFileType
+) -> None:
+    """Test results when one file exists.
+
+    :param main: Patch package entry point.
+    :param write_file: Create and write file.
+    """
+    template = """
+d = {"first": 1}
+FIRST1 = d["first"]
+FIRST2 = d["first"]
+FIRST3 = d["first"]
+"""
+    expected1 = """\
+.
+-
+4   | first
+
+file.py
+-------
+4   | first
+
+"""
+    write_file(Path.cwd() / "file.py", template)
+    assert main()[0] == expected1
+    assert main(flag.ignore_dict_keys)[0] == ""

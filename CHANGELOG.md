@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/constcheck/compare/v0.8.1...HEAD)
 ------------------------------------------------------------------------
+### Added
+- option for ignoring dict keys
 
 [0.8.1](https://github.com/jshwi/constcheck/releases/tag/v0.8.1) - 2023-01-05
 ------------------------------------------------------------------------

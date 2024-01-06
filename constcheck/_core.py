@@ -33,12 +33,13 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
     parens = False
     split = False
     pop = False
+    container = False
     contents: list[_TokenText] = []
     prev_ttext = _TokenText("")
     prev_ttype = _TokenType()
     for token_info in _tokenize.generate_tokens(textio.readline):
         ttype = _TokenType(token_info.type)
-        ttext = _TokenText(token_info.string)
+        ttext = _TokenText(token_info.string, isdictkey=container)
 
         # left parenthesis with name could be `print(`
         # without it could hold a multiline str
@@ -51,6 +52,12 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
 
             # prevent appending to previous bracketed multiline str
             split = True
+
+        if ttext.islsqb and prev_ttype.isname:
+            container = True
+
+        if ttext.isrsqb:
+            container = False
 
         if any([ttext.islsqb, ttext.isrsqb, ttext.islbrace, ttext.isrbrace]):
             split = True
@@ -94,11 +101,14 @@ def _remove_ignored_strings(
 
 
 def _filter_repeats(
-    lines: _TokenList, count: int, length: int
+    lines: _TokenList, count: int, length: int, ignore_dict_keys: bool = False
 ) -> _FileStringRep:
+    handled_lines = [
+        i for i in lines if not (ignore_dict_keys and i.isdictkey)
+    ]
     repeats = {
         k: v
-        for k, v in _Counter(lines).items()
+        for k, v in _Counter(handled_lines).items()
         if v >= count and len(k) >= length
     }
     return repeats
@@ -207,13 +217,14 @@ def _display_path(contents: _PathFileStringRep, no_ansi: bool) -> int:
 
 
 # parse files for repeats strings
-def _parse_files(  # pylint: disable=too-many-arguments
+def _parse_files(  # pylint: disable=too-many-arguments,too-many-locals
     *dirnames: _PathLike,
     count: int,
     length: int,
     ignore_strings: list[str],
     ignore_files: list[str],
     ignore_from: dict[str, list[str]],
+    ignore_dict_keys: bool = False,
 ) -> _PathFileStringRep:
     contents: dict[_Path, dict[_TokenText, int]] = {}
     paths = _get_paths(*dirnames, ignore_files=ignore_files)
@@ -225,19 +236,23 @@ def _parse_files(  # pylint: disable=too-many-arguments
             strings = _get_strings(fin)
             _remove_ignored_strings(strings, total_ignored)
 
-        repeats = _filter_repeats(strings, count, length)
+        repeats = _filter_repeats(strings, count, length, ignore_dict_keys)
         _populate_totals(path, common_path, repeats, contents)
 
     return contents
 
 
 def _parse_string(
-    string: str, count: int, length: int, ignore_strings: list[str]
+    string: str,
+    count: int,
+    length: int,
+    ignore_strings: list[str],
+    ignore_dict_keys: bool = False,
 ) -> _FileStringRep:
     fin = _StringIO(string)
     strings = _get_strings(fin)
     _remove_ignored_strings(strings, ignore_strings)
-    return _filter_repeats(strings, count, length)
+    return _filter_repeats(strings, count, length, ignore_dict_keys)
 
 
 def constcheck(  # pylint: disable=too-many-arguments
@@ -245,6 +260,7 @@ def constcheck(  # pylint: disable=too-many-arguments
     count: int = 3,
     length: int = 3,
     no_ansi: bool = False,
+    ignore_dict_keys: bool = False,
     string: str | None = None,
     ignore_strings: list[str] | None = None,
     ignore_files: list[str] | None = None,
@@ -266,6 +282,8 @@ def constcheck(  # pylint: disable=too-many-arguments
     :param count: Minimum number of repeat strings (default: 3).
     :param length: Minimum length of repeat strings (default: 3).
     :param no_ansi: Boolean value to disable color output.
+    :param ignore_dict_keys: Do not consider dict keys as repeat
+        strings.
     :param string: Parse a str instead of a path.
     :param ignore_strings: List of str objects for strings to exclude.
     :param ignore_files: List of str objects for paths to exclude.
@@ -275,7 +293,7 @@ def constcheck(  # pylint: disable=too-many-arguments
     """
     if string is not None:
         string_contents = _parse_string(
-            string, count, length, ignore_strings or []
+            string, count, length, ignore_strings or [], ignore_dict_keys
         )
         return _display(string_contents, no_ansi)
 
@@ -286,5 +304,6 @@ def constcheck(  # pylint: disable=too-many-arguments
         ignore_strings=ignore_strings or [],
         ignore_files=ignore_files or [],
         ignore_from=ignore_from or {},
+        ignore_dict_keys=ignore_dict_keys,
     )
     return _display_path(file_contents, no_ansi)
