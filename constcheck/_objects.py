@@ -14,25 +14,19 @@ from collections import UserString as _UserString
 class TokenType(int):
     """Int-like object with methods for working with token types."""
 
+    @property
     def isindent(self) -> bool:
-        """Check that this is an indent.
-
-        :return: This is an indent, True or False.
-        """
+        """Check that this is an indent."""
         return self == _tokenize.INDENT
 
+    @property
     def isstr(self) -> bool:
-        """Check that this is a str.
-
-        :return: This is a str, True or False.
-        """
+        """Check that this is a str."""
         return self == _tokenize.STRING
 
+    @property
     def isname(self) -> bool:
-        """Check that this is a name.
-
-        :return: This is a name, True or False.
-        """
+        """Check that this is a name."""
         return self == _tokenize.NAME
 
 
@@ -158,7 +152,7 @@ class TokenText(_UserString):
         :return: This is a docstring, True or False.
         """
         return self.istriplequoted() and (
-            prev_ttype.isindent() or not prev_ttext.isequal()
+            prev_ttype.isindent or not prev_ttext.isequal()
         )
 
     def islsqb(self) -> bool:

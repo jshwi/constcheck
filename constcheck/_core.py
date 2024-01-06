@@ -43,7 +43,7 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
         # left parenthesis with name could be `print(`
         # without it could hold a multiline str
         # once the right parenthesis is returned set to closed
-        if ttext.islpar() and not prev_ttype.isname():
+        if ttext.islpar() and not prev_ttype.isname:
             parens = True
 
         if ttext.isrpar():
@@ -62,7 +62,7 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
         ):
             split = True
 
-        if ttype.isstr() and not ttext.isdoc(prev_ttext, prev_ttype):
+        if ttype.isstr and not ttext.isdoc(prev_ttext, prev_ttype):
             ttext = ttext.strip().lstrip()
 
             # add `TokenText` to `TokenText` if it already exists in
