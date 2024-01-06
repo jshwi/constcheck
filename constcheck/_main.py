@@ -19,6 +19,7 @@ def main() -> int:
         count=parser.args.count,
         length=parser.args.length,
         no_ansi=parser.args.no_ansi,
+        ignore_dict_keys=parser.args.ignore_dict_keys,
         string=parser.args.string,
         ignore_strings=parser.args.ignore_strings,
         ignore_files=parser.args.ignore_files,

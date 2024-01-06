@@ -45,6 +45,12 @@ class Parser(_ArgumentParser):
             "-n", "--no-ansi", action="store_true", help="disable ansi output"
         )
         self.add_argument(
+            "-d",
+            "--ignore-dict-keys",
+            action="store_true",
+            help="do not consider dict keys as repeat strings",
+        )
+        self.add_argument(
             "-c",
             "--count",
             action="store",

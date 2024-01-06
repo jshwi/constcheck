@@ -26,6 +26,11 @@ Test removing quotes from str.
 Test passing individual file names to the `path` argument.
 
 
+### File ignore dict keys
+
+Test results when one file exists.
+
+
 ### File ignore str
 
 Test results when one file exists.

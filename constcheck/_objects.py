@@ -10,6 +10,8 @@ import tokenize as _tokenize
 import typing as _t
 from collections import UserString as _UserString
 
+from typing_extensions import Self as _Self
+
 
 class TokenType(int):
     """Int-like object with methods for working with token types."""
@@ -30,8 +32,12 @@ class TokenType(int):
         return self == _tokenize.NAME
 
 
-class TokenText(_UserString):
-    """Str-like object with methods for working with token text."""
+class TokenText(_UserString):  # pylint: disable=too-many-public-methods
+    """Str-like object with methods for working with token text.
+
+    :param seq: Value to instantiate string.
+    :param isdictkey: Whether a dict key or not.
+    """
 
     SINGLE_QUOTE = "'"
     DOUBLE_QUOTE = '"'
@@ -39,6 +45,10 @@ class TokenText(_UserString):
     TRIPLE_SINGLE_QUOTE = 3 * SINGLE_QUOTE
     TRIPLE_DOUBLE_QUOTE = 3 * DOUBLE_QUOTE
     TRIPLE_QUOTES = TRIPLE_SINGLE_QUOTE, TRIPLE_DOUBLE_QUOTE
+
+    def __init__(self, seq: object, isdictkey: bool = False) -> None:
+        super().__init__(seq)
+        self._isdictkey = isdictkey
 
     @property
     def exact_type(self) -> _t.Optional[int]:
@@ -104,10 +114,10 @@ class TokenText(_UserString):
     def dequote(self) -> TokenText:
         """Return an instance without leading and ending quotes."""
         if self.istriplequoted:
-            return self[3:-3:]
+            return self.__class__(self[3:-3:], self._isdictkey)
 
         if self.isquoted:
-            return self[1:-1:]
+            return self.__class__(self[1:-1:], self._isdictkey)
 
         return self
 
@@ -146,3 +156,14 @@ class TokenText(_UserString):
     def isrbrace(self) -> bool:
         """Check that this is a right curly bracket."""
         return self.exact_type == _tokenize.RBRACE
+
+    @property
+    def isdictkey(self) -> bool:
+        """Whether dict key or not."""
+        return self._isdictkey
+
+    def strip(self, chars: str | None = None) -> _Self:
+        return self.__class__(super().strip(chars), self._isdictkey)
+
+    def lstrip(self, chars: str | None = None) -> _Self:
+        return self.__class__(super().lstrip(chars), self._isdictkey)
