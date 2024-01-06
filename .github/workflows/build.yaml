@@ -50,9 +50,3 @@ jobs:
       - name: Audit
         id: audit
         run: npm run audit
-      - name: Upload coverage
-        id: upload-coverage
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          fail_ci_if_error: true
