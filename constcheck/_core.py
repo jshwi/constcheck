@@ -43,23 +43,16 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
         # left parenthesis with name could be `print(`
         # without it could hold a multiline str
         # once the right parenthesis is returned set to closed
-        if ttext.islpar() and not prev_ttype.isname:
+        if ttext.islpar and not prev_ttype.isname:
             parens = True
 
-        if ttext.isrpar():
+        if ttext.isrpar:
             parens = False
 
             # prevent appending to previous bracketed multiline str
             split = True
 
-        if any(
-            [
-                ttext.islsqb(),
-                ttext.isrsqb(),
-                ttext.islbrace(),
-                ttext.isrbrace(),
-            ]
-        ):
+        if any([ttext.islsqb, ttext.isrsqb, ttext.islbrace, ttext.isrbrace]):
             split = True
 
         if ttype.isstr and not ttext.isdoc(prev_ttext, prev_ttype):
@@ -70,18 +63,18 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
             # otherwise append new `TokenText` object
             if (
                 contents
-                and (parens or prev_ttext.isplus())
-                and not (split or prev_ttext.iscomma())
+                and (parens or prev_ttext.isplus)
+                and not (split or prev_ttext.iscomma)
             ):
-                if ttext.isfstring() and pop:
+                if ttext.isfstring and pop:
                     contents.pop()
                     pop = False
                 else:
-                    contents[-1] += ttext.dequote()
+                    contents[-1] += ttext.dequote
                     pop = True
 
-            elif not ttext.isfstring():
-                contents.append(ttext.dequote())
+            elif not ttext.isfstring:
+                contents.append(ttext.dequote)
 
                 # reset parens between close and another open
                 split = False

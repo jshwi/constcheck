@@ -40,108 +40,80 @@ class TokenText(_UserString):
     TRIPLE_DOUBLE_QUOTE = 3 * DOUBLE_QUOTE
     TRIPLE_QUOTES = TRIPLE_SINGLE_QUOTE, TRIPLE_DOUBLE_QUOTE
 
+    @property
     def exact_type(self) -> _t.Optional[int]:
-        """Get the exact type of the token.
-
-        :return: Exact type of token, or None if token not available.
-        """
+        """Get the exact type of the token."""
         return _tokenize.EXACT_TOKEN_TYPES.get(str(self))
 
+    @property
     def islpar(self) -> bool:
-        """Check that this is a left parenthesis.
+        """Check that this is a left parenthesis."""
+        return self.exact_type == _tokenize.LPAR
 
-        :return: This is a left parenthesis, True or False.
-        """
-        return self.exact_type() == _tokenize.LPAR
-
+    @property
     def isrpar(self) -> bool:
-        """Check that this is a right parenthesis.
+        """Check that this is a right parenthesis."""
+        return self.exact_type == _tokenize.RPAR
 
-        :return: This is a right parenthesis, True or False.
-        """
-        return self.exact_type() == _tokenize.RPAR
-
+    @property
     def isplus(self) -> bool:
-        """Check that this is a plus sign.
+        """Check that this is a plus sign."""
+        return self.exact_type == _tokenize.PLUS
 
-        :return: This is a plus sign, True or False.
-        """
-        return self.exact_type() == _tokenize.PLUS
-
+    @property
     def isequal(self) -> bool:
-        """Check that this is a right parenthesis.
+        """Check that this is a right parenthesis."""
+        return self.exact_type == _tokenize.EQUAL
 
-        :return: This is a right parenthesis, True or False.
-        """
-        return self.exact_type() == _tokenize.EQUAL
-
+    @property
     def iscomma(self) -> bool:
-        """Check that this is a comma.
+        """Check that this is a comma."""
+        return self.exact_type == _tokenize.COMMA
 
-        :return: This is a comma, True or False.
-        """
-        return self.exact_type() == _tokenize.COMMA
-
+    @property
     def startswithquote(self) -> bool:
-        """Check that this starts with a quote.
-
-        :return: This starts with a quote, True or False.
-        """
+        """Check that this starts with a quote."""
         return any(self.startswith(i) for i in self.QUOTES)
 
+    @property
     def endswithquote(self) -> bool:
-        """Check that this ends with a quote.
-
-        :return: This ends with a quote, True or False.
-        """
+        """Check that this ends with a quote."""
         return any(self.endswith(i) for i in self.QUOTES)
 
+    @property
     def isquoted(self) -> bool:
-        """Check that this is quoted.
+        """Check that this is quoted."""
+        return self.startswithquote and self.endswithquote
 
-        :return: Quoted, True or False.
-        """
-        return self.startswithquote() and self.endswithquote()
-
+    @property
     def startswithtriplequote(self) -> bool:
-        """Check that this starts with a triple quote.
-
-        :return: This starts with a triple quote, True or False.
-        """
+        """Check that this starts with a triple quote."""
         return any(self.startswith(i) for i in self.TRIPLE_QUOTES)
 
+    @property
     def endswithtriplequote(self) -> bool:
-        """Check that this ends with a triple quote.
-
-        :return: This ends with a triple quote, True or False.
-        """
+        """Check that this ends with a triple quote."""
         return any(self.endswith(i) for i in self.TRIPLE_QUOTES)
 
+    @property
     def istriplequoted(self) -> bool:
-        """Check that this is triple quoted.
+        """Check that this is triple quoted."""
+        return self.startswithtriplequote and self.endswithtriplequote
 
-        :return: This is triple quoted, True or False.
-        """
-        return self.startswithtriplequote() and self.endswithtriplequote()
-
+    @property
     def dequote(self) -> TokenText:
-        """Return an instance without leading and ending quotes.
-
-        :return: Instance of ``TokenText`` without quotes.
-        """
-        if self.istriplequoted():
+        """Return an instance without leading and ending quotes."""
+        if self.istriplequoted:
             return self[3:-3:]
 
-        if self.isquoted():
+        if self.isquoted:
             return self[1:-1:]
 
         return self
 
+    @property
     def isfstring(self) -> bool:
-        """Check that this is an f-string.
-
-        :return: This is an f-string, True or False.
-        """
+        """Check that this is an f-string."""
         return self.startswith("f")
 
     def isdoc(self, prev_ttext: TokenText, prev_ttype: TokenType) -> bool:
@@ -151,34 +123,26 @@ class TokenText(_UserString):
         :param prev_ttype: Previous type token in iteration.
         :return: This is a docstring, True or False.
         """
-        return self.istriplequoted() and (
-            prev_ttype.isindent or not prev_ttext.isequal()
+        return self.istriplequoted and (
+            prev_ttype.isindent or not prev_ttext.isequal
         )
 
+    @property
     def islsqb(self) -> bool:
-        """Check that this is a left square bracket.
+        """Check that this is a left square bracket."""
+        return self.exact_type == _tokenize.LSQB
 
-        :return: This is a left square bracket, True or False.
-        """
-        return self.exact_type() == _tokenize.LSQB
-
+    @property
     def isrsqb(self) -> bool:
-        """Check that this is a right square bracket.
+        """Check that this is a right square bracket."""
+        return self.exact_type == _tokenize.RSQB
 
-        :return: This is a right square bracket, True or False.
-        """
-        return self.exact_type() == _tokenize.RSQB
-
+    @property
     def islbrace(self) -> bool:
-        """Check that this is a left curly bracket.
+        """Check that this is a left curly bracket."""
+        return self.exact_type == _tokenize.LBRACE
 
-        :return: This is a left curly bracket, True or False.
-        """
-        return self.exact_type() == _tokenize.LBRACE
-
+    @property
     def isrbrace(self) -> bool:
-        """Check that this is a right curly bracket.
-
-        :return: This is a right square curly, True or False.
-        """
-        return self.exact_type() == _tokenize.RBRACE
+        """Check that this is a right curly bracket."""
+        return self.exact_type == _tokenize.RBRACE

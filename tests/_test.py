@@ -291,16 +291,14 @@ def test_print_version(
 
 def test_dequote() -> None:
     """Test removing quotes from str."""
-    assert constcheck._objects.TokenText(LEN_3[0]).dequote() == LEN_3[0]
-    assert constcheck._objects.TokenText(f'"{LEN_3[0]}"').dequote() == LEN_3[0]
-    assert constcheck._objects.TokenText(f"'{LEN_3[0]}'").dequote() == LEN_3[0]
+    assert constcheck._objects.TokenText(LEN_3[0]).dequote == LEN_3[0]
+    assert constcheck._objects.TokenText(f'"{LEN_3[0]}"').dequote == LEN_3[0]
+    assert constcheck._objects.TokenText(f"'{LEN_3[0]}'").dequote == LEN_3[0]
     assert (
-        constcheck._objects.TokenText(f'"""{LEN_3[0]}"""').dequote()
-        == LEN_3[0]
+        constcheck._objects.TokenText(f'"""{LEN_3[0]}"""').dequote == LEN_3[0]
     )
     assert (
-        constcheck._objects.TokenText(f"'''{LEN_3[0]}'''").dequote()
-        == LEN_3[0]
+        constcheck._objects.TokenText(f"'''{LEN_3[0]}'''").dequote == LEN_3[0]
     )
 
 
