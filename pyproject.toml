@@ -103,6 +103,7 @@ constcheck = "constcheck.__main__:main"
 [tool.pyaud]
 audit = [
   "about-tests",
+  "commit-policy",
   "const",
   "docs",
   "files",
