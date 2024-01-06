@@ -187,13 +187,8 @@ def _get_common_path(paths: list[_Path]) -> _Path:
         return _Path("/")
 
 
+# format and display object containing string and occurrence
 def _display(obj: _FileStringRep, no_ansi: bool) -> int:
-    """Format and display object containing string and occurrence.
-
-    :param obj: Object containing repeated string and occurrence.
-    :param no_ansi: disable color output.
-    :return: Return non-zero exit status if constants were found.
-    """
     returncode = 0
     for string, count in sorted(sorted(obj.items()), key=lambda x: x[1]):
         numbers = _color_display(count, _color.yellow, no_ansi)
@@ -206,14 +201,8 @@ def _display(obj: _FileStringRep, no_ansi: bool) -> int:
     return returncode
 
 
+# display the end result of string repetition of provided files
 def _display_path(contents: _PathFileStringRep, no_ansi: bool) -> int:
-    """Display the end result of string repetition of provided files.
-
-    :param contents: Object containing repeated string and occurrence
-        grouped by their parent dirs.
-    :param no_ansi: disable color output.
-    :return: Return non-zero exit status if constants were found.
-    """
     returncodes = []
     for path, obj in sorted(contents.items()):
         if obj:
@@ -224,6 +213,7 @@ def _display_path(contents: _PathFileStringRep, no_ansi: bool) -> int:
     return int(any(returncodes))
 
 
+# parse files for repeats strings
 def _parse_files(  # pylint: disable=too-many-arguments
     *dirnames: _PathLike,
     count: int,
@@ -232,19 +222,6 @@ def _parse_files(  # pylint: disable=too-many-arguments
     ignore_files: list[str],
     ignore_from: dict[str, list[str]],
 ) -> _PathFileStringRep:
-    """Parse files for repeats strings.
-
-    :param dirnames: List of paths for which results are being compiled
-        for.
-    :param count: Minimum number of repeat strings (default: 3).
-    :param length: Minimum length of repeat strings (default: 3).
-    :param ignore_strings: List of str objects for strings to exclude.
-    :param ignore_files: List of str objects for paths to exclude.
-    :param ignore_from: Dict with list of str objects for strings to
-        exclude from a particular path.
-    :return: Object containing repeated string and occurrence grouped by
-        their parent dirs.
-    """
     contents: dict[_Path, dict[_TokenText, int]] = {}
     paths = _get_paths(*dirnames, ignore_files=ignore_files)
     common_path = _get_common_path(paths)
@@ -264,14 +241,6 @@ def _parse_files(  # pylint: disable=too-many-arguments
 def _parse_string(
     string: str, count: int, length: int, ignore_strings: list[str]
 ) -> _FileStringRep:
-    """Parse string for repeats strings.
-
-    :param string: String for which results are being compiled for.
-    :param count: Minimum number of repeat strings (default: 3).
-    :param length: Minimum length of repeat strings (default: 3).
-    :param ignore_strings: List of str objects for strings to exclude.
-    :return: Object containing repeated string and occurrence.
-    """
     fin = _StringIO(string)
     strings = _get_strings(fin)
     _remove_ignored_strings(strings, ignore_strings)
