@@ -2,6 +2,7 @@
 tests.conftest
 ==============
 """
+
 # pylint: disable=protected-access,no-member,import-outside-toplevel
 import typing as t
 from pathlib import Path

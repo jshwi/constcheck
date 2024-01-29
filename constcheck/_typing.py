@@ -4,6 +4,7 @@ constcheck._typing
 
 Types specific to this package.
 """
+
 import os as _os
 import typing as _t
 from pathlib import Path as _Path

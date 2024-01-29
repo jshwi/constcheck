@@ -2,6 +2,7 @@
 constcheck._config
 ==================
 """
+
 from argparse import HelpFormatter as _HelpFormatter
 from pathlib import Path as _Path
 

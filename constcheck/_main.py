@@ -4,6 +4,7 @@ constcheck._main
 
 Contains package entry point.
 """
+
 from ._config import Parser as _Parser
 from ._core import constcheck as _constcheck
 

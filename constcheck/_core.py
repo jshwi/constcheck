@@ -4,6 +4,7 @@ constcheck._core
 
 Functions for implementing package logic.
 """
+
 from __future__ import annotations
 
 import os as _os
