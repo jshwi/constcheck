@@ -1465,13 +1465,13 @@ tests = ["pytest"]
 
 [[package]]
 name = "pyaud"
-version = "7.3.1"
+version = "7.4.0"
 description = "Framework for writing Python package audits"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pyaud-7.3.1-py3-none-any.whl", hash = "sha256:483168b2b3392ef8e61783b850118cd7025f8a1588bb5497a2e6c67b01ce3a6c"},
-    {file = "pyaud-7.3.1.tar.gz", hash = "sha256:6aec533b51505c84618a047f77d93e9118ccc17191491c961bfd5551ed58f416"},
+    {file = "pyaud-7.4.0-py3-none-any.whl", hash = "sha256:1676d5a26e039189cf9a948dfdf5b7d6926ca00552ce84382720374fa99d6de1"},
+    {file = "pyaud-7.4.0.tar.gz", hash = "sha256:1a74d883d06b1c7fb582119e5658bd0ae07e54862616aeaf908aaf56f3d351bb"},
 ]
 
 [package.dependencies]
@@ -1479,22 +1479,22 @@ arcon = ">=0.3.1,<0.4.0"
 gitpython = ">=3.1.30,<4.0.0"
 lsfiles = ">=0.5"
 object-colors = ">=2.0.1,<3.0.0"
-pyaud-plugins = ">=0.19.1"
+pyaud-plugins = ">=0.21.0"
 rich = ">=13.5.2,<14.0.0"
 
 [[package]]
 name = "pyaud-plugins"
-version = "0.20.0"
+version = "0.21.0"
 description = "Plugin package for Pyaud"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pyaud_plugins-0.20.0-py3-none-any.whl", hash = "sha256:6ec7822a602d956ff8903529b32c2f57e065a7fd327b9b0ff03cb7701c1d1d63"},
-    {file = "pyaud_plugins-0.20.0.tar.gz", hash = "sha256:41d0f9f4592c736a0859bad3fd379cb88e2bec0459afc0864f1bdaa9b5db9d91"},
+    {file = "pyaud_plugins-0.21.0-py3-none-any.whl", hash = "sha256:fdf77d61eb4971c03de3fd21437e6e4524f75abe7e42a8d2e4027e283d668c77"},
+    {file = "pyaud_plugins-0.21.0.tar.gz", hash = "sha256:37887784063701d7163896fcd453a67393c359dbe2814b2d09769383b22ff606"},
 ]
 
 [package.dependencies]
-black = ">=21.12,<24.0"
+black = ">=21.12,<25.0"
 constcheck = ">=0,<1"
 coverage = ">=6.2,<8.0"
 docformatter = "1.7.5"
@@ -1507,7 +1507,7 @@ mypy = ">=0.930,<1.9"
 pyaud = ">=7.3.1"
 pygments = ">=2.16.1,<3.0.0"
 pylint = ">=2.12.2,<4.0.0"
-pytest = ">=7.2.0,<8.0.0"
+pytest = ">=7.2,<9.0"
 pytest-cov = ">=3,<5"
 pyyaml = ">=6.0,<7.0"
 rich = ">=13.5.2,<14.0.0"
@@ -1859,6 +1859,7 @@ files = [
     {file = "PyYAML-6.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:bf07ee2fef7014951eeb99f56f39c9bb4af143d8aa3c21b1677805985307da34"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:855fb52b0dc35af121542a76b9a84f8d1cd886ea97c84703eaa6d88e37a2ad28"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:40df9b996c2b73138957fe23a16a4f0ba614f4c0efce1e9406a184b6d07fa3a9"},
+    {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a08c6f0fe150303c1c6b71ebcd7213c2858041a7e01975da3a99aed1e7a378ef"},
     {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c22bec3fbe2524cde73d7ada88f6566758a8f7227bfbf93a408a9d86bcc12a0"},
     {file = "PyYAML-6.0.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8d4e9c88387b0f5c7d5f281e55304de64cf7f9c0021a3525bd3b1c542da3b0e4"},
     {file = "PyYAML-6.0.1-cp312-cp312-win32.whl", hash = "sha256:d483d2cdf104e7c9fa60c544d92981f12ad66a457afae824d146093b8c294c54"},
@@ -2674,4 +2675,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "fc374cbf73d9b55b1993cc85fc720be459cbb8e8bdf8992a3f3f2122257c0ac8"
+content-hash = "5700eae78b2879dc366441b47e723ba6b1037f7b693b9c9d069734afb3206bce"
