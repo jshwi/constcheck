@@ -4,6 +4,7 @@ constcheck._objects
 
 Classes used by package's functions.
 """
+
 from __future__ import annotations
 
 import tokenize as _tokenize

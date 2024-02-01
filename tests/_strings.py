@@ -7,6 +7,7 @@ Strings used for testing.
 Contains constants and registered abstract base classes containing file
 templates and expected results.
 """
+
 from templatest import BaseTemplate as _BaseTemplate
 from templatest import templates as _templates
 from templatest.utils import ALPHA as _ALPHA
