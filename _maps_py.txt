@@ -1,0 +1,86 @@
+"""
+example.maps
+==========================
+"""
+import typing as _t
+
+from ._building import BuildingCodeAttributes as _BuildingCodeAttributes
+from ._building import Buildings as _Buildings
+from ._geojson import Feature as _Feature
+from ._geojson import GeoJSON as _GeoJSON
+from ._geometry import Geom as _Geom
+from ._layer import Layer as _Layer
+from ._lref import LabelReference as _LabelReference
+
+
+class PolygonAttributes(dict[str, _t.Any]):
+    """Represents the attributes of a polygon.
+
+    :param layer: The layer that the polygon belongs to.
+    :param geom: The geometry of the polygon.
+    :param lref: The label reference of the polygon.
+    :param binfo: The building information of the polygon.
+    """
+
+    def __init__(
+        self,
+        layer: _Layer,
+        geom: _Geom,
+        lref: _LabelReference,
+        binfo: _Buildings,
+    ) -> None:
+        super().__init__(
+            name="",
+            simpleName="",
+            synonyms="",
+            layerType=layer.name,
+            building_code="",
+            type=geom.type,
+            attributes=[],
+            coordinates=geom.polygon,
+        )
+        if (
+            layer.type == "buildings"
+            and geom.polygon is not None
+            and geom.polygon.valid
+        ):
+            for text_label in lref:
+                if geom.polygon.point_in_polygon(text_label.point):
+                    if text_label.label is not None:
+                        self["name"] = self["building_code"] = text_label.label
+
+                    self["attributes"] = binfo.get(self["name"], [])
+                    if self["attributes"]:
+                        self["attributes"]["label_geom"] = text_label.point
+
+
+class FileOut(dict[str, _t.Any]):
+    """Represents a file output containing various attributes.
+
+    :param features: List of features.
+    :param csv: Building code attributes.
+    :param geojson: GeoJSON attributes.
+    :param lref: Label reference attributes.
+    :param binfo: Building information attributes.
+    """
+
+    def __init__(  # pylint: disable=too-many-arguments
+        self,
+        features: list[_Feature],
+        csv: _BuildingCodeAttributes,
+        geojson: _GeoJSON,
+        lref: _LabelReference,
+        binfo: _Buildings,
+    ) -> None:
+        super().__init__(crs=geojson["crs"], type=geojson["type"])
+        for feat in features:
+            props = feat["properties"]
+            geom = _Geom(feat["geometry"], props["SubClasses"])
+            layer = _Layer(props["Layer"])
+            if layer.type and geom.polygon is not None:
+                self.setdefault(layer.type, []).append(
+                    PolygonAttributes(layer, geom, lref, binfo)
+                )
+
+        if csv:
+            self["campus_features"] = csv
