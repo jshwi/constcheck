@@ -4,6 +4,7 @@ tests._utils
 
 Utilities for testing.
 """
+
 # pylint: disable=too-few-public-methods, disable=consider-using-f-string
 from __future__ import annotations
 
