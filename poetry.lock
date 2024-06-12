@@ -2134,13 +2134,13 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.4.2)", "diff-cover (>=8.0.3)", 
 
 [[package]]
 name = "sphinx-immaterial"
-version = "0.11.11"
+version = "0.11.12"
 description = "Adaptation of mkdocs-material theme for the Sphinx documentation system"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "sphinx_immaterial-0.11.11-py3-none-any.whl", hash = "sha256:174c7ce0f39c87413af0fbff17d0821e2f1fbae0d578b7074c9a6e17f1ef295c"},
-    {file = "sphinx_immaterial-0.11.11.tar.gz", hash = "sha256:f98f3019cbb1d77b259c7ab09dc977ca220dff931dd0f2fabee76e9f9c77b3b4"},
+    {file = "sphinx_immaterial-0.11.12-py3-none-any.whl", hash = "sha256:5c3a3d52e1617f491c8187bcd17d8af0c74cf988aff4d5b2dc5566f0db764350"},
+    {file = "sphinx_immaterial-0.11.12.tar.gz", hash = "sha256:168a47f7bc61f02d2e90663b07e32ee8c47e3938fbf2e826791423e9b3bd5b2d"},
 ]
 
 [package.dependencies]
@@ -2154,7 +2154,7 @@ typing-extensions = "*"
 
 [package.extras]
 clang-format = ["clang-format"]
-cpp = ["libclang"]
+cpp = ["libclang", "libclang (<17)"]
 json = ["pyyaml"]
 jsonschema-validation = ["jsonschema"]
 keys = ["pymdown-extensions"]
@@ -2637,4 +2637,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "86fcab4df54aa2ab8db123975023c5800b317f0c9013f03fdd69b042ebdaf496"
+content-hash = "051568438a270fd2cedfd93ffaa7fb6b7c75672f6b44acbfb45ea7b8a9f2b6bb"
