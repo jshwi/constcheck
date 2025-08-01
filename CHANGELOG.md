@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - drop support for python3.8
 
+### Security
+- update vulnerable dependencies
+
 [0.9.0](https://github.com/jshwi/constcheck/releases/tag/v0.9.0) - 2024-01-07
 ------------------------------------------------------------------------
 ### Added

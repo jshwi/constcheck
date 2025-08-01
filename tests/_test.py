@@ -569,7 +569,7 @@ def test_file_args(main: MockMainType, write_file: WriteFileType) -> None:
     templates.registered,
     ids=templates.registered.getids(),
 )
-def test_file_non_rel(
+def test_file_non_rel(  # pylint: disable=too-many-positional-arguments
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     main: MockMainType,
