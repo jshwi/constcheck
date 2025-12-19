@@ -122,6 +122,12 @@ exclude = '''
 )$
 '''
 
+[tool.pylint.options]
+disable = [
+  "consider-using-f-string"
+]
+min-similarity-lines = 4
+
 [tool.pytest.ini_options]
 addopts = [
   "--color=yes",
