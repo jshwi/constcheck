@@ -3,6 +3,7 @@
 *venv
 .DS_Store
 .env
+.make
 __pycache__/
 bin
 dist/

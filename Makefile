@@ -6,7 +6,7 @@ else
 	VENV := .venv/bin/activate
 endif
 
-all: $(VENV) install-hooks
+all: .make/pre-commit
 remove: remove-poetry remove-hooks remove-deps
 
 #: install poetry
@@ -23,12 +23,9 @@ $(VENV): $(POETRY) poetry.lock
 	@POETRY_VIRTUALENVS_IN_PROJECT=1 $< install
 	@touch $@
 
-install-pre-commit:
-	@poetry run command -v pre-commit > /dev/null 2>&1 \
-		|| poetry run pip --quiet install pre-commit
-
-install-hooks: install-pre-commit
-	@poetry run pre-commit install \
+#: install pre-commit hooks
+.make/pre-commit: $(VENV)
+	@$(POETRY) run pre-commit install \
 		--hook-type pre-commit \
 		--hook-type pre-merge-commit \
 		--hook-type pre-push \
@@ -38,6 +35,8 @@ install-hooks: install-pre-commit
 		--hook-type post-checkout \
 		--hook-type post-merge \
 		--hook-type post-rewrite
+	@mkdir -p $(@D)
+	@touch $@
 
 remove-hooks: install-pre-commit
 	@poetry run pre-commit uninstall \
