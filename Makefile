@@ -1,9 +1,13 @@
-all: install-poetry install-deps install-hooks
+POETRY := bin/poetry/bin/poetry
+
+all: $(POETRY) install-deps install-hooks
 remove: remove-poetry remove-hooks remove-deps
 
-install-poetry:
-	@command -v poetry >/dev/null 2>&1 \
-		|| curl -sSL https://install.python-poetry.org | python3 -
+#: install poetry
+$(POETRY):
+	@curl -sSL https://install.python-poetry.org | \
+		POETRY_HOME="$$(pwd)/bin/poetry" "$$(which python)" - --version 2.2.1
+	@touch $@
 
 install-deps:
 	@POETRY_VIRTUALENVS_IN_PROJECT=1 poetry install
