@@ -25,7 +25,8 @@ build: $(BUILD)
 #: build and check integrity of distribution
 $(BUILD): .make/doctest \
 	coverage.xml \
-	.make/format
+	.make/format \
+	docs/_build/html/index.html
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -38,6 +39,14 @@ publish: $(BUILD)
 .PHONY: test
 #: test source
 test: .make/doctest coverage.xml
+
+#: generate documentation
+docs/_build/html/index.html: $(VENV) \
+	$(PYTHON_FILES) \
+	$(DOCS_FILES) \
+	CHANGELOG.md \
+	.conform.yaml
+	@$(POETRY) run $(MAKE) -C docs html
 
 #: install poetry
 $(POETRY):
