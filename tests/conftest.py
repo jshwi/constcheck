@@ -25,7 +25,7 @@ def fixture_mock_environment(
     :param monkeypatch: Mock patch environment and attributes.
     """
     monkeypatch.setattr(SYS_ARGV, [constcheck.__name__])
-    monkeypatch.setattr("os.getcwd", lambda: str(tmp_path))
+    monkeypatch.chdir(tmp_path)
 
 
 @pytest.fixture(name="nocolorcapsys")

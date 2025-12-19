@@ -175,7 +175,7 @@ def _get_relative_to(path: _Path, other: _Path) -> _Path:
     if _is_relative_to(path, other):
         return path.relative_to(other)
 
-    return path
+    return path  # pragma: no cover
 
 
 # get common dir to all paths provided
@@ -186,7 +186,7 @@ def _get_common_path(paths: list[_Path]) -> _Path:
         if _is_relative_to(path, _Path.cwd()):
             return _Path.cwd()
 
-        return path.parent if path.is_file() else path
+        return path.parent if path.is_file() else path  # pragma: no cover
     except ValueError:
         return _Path("/")
 
