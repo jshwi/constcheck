@@ -36,9 +36,9 @@ jobs:
       - name: Install Python Packages
         id: install-python-packages
         run: poetry install
-      - name: Audit
-        id: audit
-        run: poetry run pyaud audit
+      - name: Build
+        id: build
+        run: make build
       - name: Check Dependencies
         id: check-dependencies
         run: poetry run deptry .
