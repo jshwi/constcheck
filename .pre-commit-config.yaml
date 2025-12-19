@@ -2,12 +2,11 @@ ci:
   skip:
     - pylint
     - deptry
-    - doctest-package
-    - doctest-readme
+    - doctest
     - mypy
     - docsig
     - vulture
-    - tests
+    - coverage
     - toc
     - about-tests
     - commit-policy
@@ -38,17 +37,11 @@ repos:
         types:
           - python
         exclude: ^(docs/conf\.py)$
-      # no hooks found for `doctest`
-      - id: doctest-package
-        name: doctest docstrings
+      # test docs
+      - id: doctest
+        name: doctest
         language: system
-        entry: poetry run pyaud doctest-package
-        pass_filenames: false
-      # no hooks found for `doctest`
-      - id: doctest-readme
-        name: doctest readme
-        language: system
-        entry: poetry run pyaud doctest-readme
+        entry: make .make/doctest
         pass_filenames: false
       # script installs stubs if necessary
       - id: mypy
@@ -69,10 +62,10 @@ repos:
         entry: poetry run pyaud unused
         pass_filenames: false
       # script also handles coverage
-      - id: tests
-        name: test source code
+      - id: coverage
+        name: test source code coverage
         language: system
-        entry: poetry run pyaud test
+        entry: make coverage.xml
         pass_filenames: false
       # script written for specific format
       - id: toc

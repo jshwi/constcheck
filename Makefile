@@ -2,6 +2,10 @@ VERSION := 0.11.0
 
 POETRY := bin/poetry/bin/poetry
 
+PYTHON_FILES := $(shell git ls-files "*.py" ':!:whitelist.py')
+PACKAGE_FILES := $(shell git ls-files "constcheck/*.py")
+DOCS_FILES := $(shell git ls-files "docs/*.rst" "docs/*.md")
+
 BUILD := dist/constcheck-$(VERSION)-py3-none-any.whl
 
 ifeq ($(OS),Windows_NT)
@@ -19,10 +23,15 @@ all: .make/pre-commit
 build: $(BUILD)
 
 #: build and check integrity of distribution
-$(BUILD): $(VENV)
+$(BUILD): .make/doctest \
+	coverage.xml
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
+
+.PHONY: test
+#: test source
+test: .make/doctest coverage.xml
 
 #: install poetry
 $(POETRY):
@@ -67,3 +76,14 @@ clean:
 	@rm -rf coverage.xml
 	@rm -rf dist
 	@rm -rf docs/_build
+
+#: generate coverage report
+coverage.xml: $(VENV) $(PACKAGE_FILES) $(TEST_FILES)
+	@$(POETRY) run pytest --cov=constcheck --cov=tests \
+		&& $(POETRY) run coverage xml
+
+#: test code examples in documentation
+.make/doctest: $(VENV) README.rst $(PYTHON_FILES) $(DOCS_FILES)
+	@$(POETRY) run pytest docs README.rst --doctest-glob='*.rst'
+	@mkdir -p $(@D)
+	@touch $@
