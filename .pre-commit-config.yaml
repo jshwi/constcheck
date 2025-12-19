@@ -19,7 +19,6 @@ default_stages:
 exclude: |
   (?x)^(
     | poetry\.lock
-    | package-lock\.json
     | migrations\/.*
     | \.bumpversion\.cfg
     | whitelist\.py
