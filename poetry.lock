@@ -2731,14 +2731,14 @@ widechars = ["wcwidth"]
 
 [[package]]
 name = "templatest"
-version = "0.10.1"
+version = "0.12.0"
 description = "Templates for testing with strings"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.10"
 groups = ["dev"]
 files = [
-    {file = "templatest-0.10.1-py3-none-any.whl", hash = "sha256:cee4d29d1939ef735a0c9f2c64778f8db6c8559a04096ee435684172e04f48de"},
-    {file = "templatest-0.10.1.tar.gz", hash = "sha256:bbc61ca7fc77127f9f7761af7a9db08ed4b4963887b41a01fe7715543e02991a"},
+    {file = "templatest-0.12.0-py3-none-any.whl", hash = "sha256:dcee45151261eda1a1406f09c969a1d404d749fe3c63cfc62794fc128b38aac3"},
+    {file = "templatest-0.12.0.tar.gz", hash = "sha256:c96b3a488eb5835910f6c8ac23ccb82fe60ab9782958c95f42f9e178cb4febf4"},
 ]
 
 [package.dependencies]
@@ -3031,4 +3031,4 @@ tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "69930e00213c4bf791b5f059650dd0b8b273d9be4e4c1f0f37825e1ea978c76b"
+content-hash = "33ec7ac67160f170646b6e5364dd623a055f1839956f0f1ae0df8b984de5655e"

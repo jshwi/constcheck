@@ -96,7 +96,7 @@ pytest-sugar = "^1.0.0"
 restview = "^3.0.0"
 sphinx-immaterial = ">=0.12.5,<0.14.0"
 sphinx-toolbox = "^4.1.0"
-templatest = "^0.10.1"
+templatest = ">=0.10.1,<0.13.0"
 tomli-w = "^1.0.0"
 
 [tool.poetry.scripts]
