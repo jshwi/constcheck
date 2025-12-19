@@ -30,6 +30,11 @@ $(BUILD): .make/doctest \
 	@$(POETRY) build
 	@touch $@
 
+.PHONY: publish
+#: publish distribution
+publish: $(BUILD)
+	@$(POETRY) publish
+
 .PHONY: test
 #: test source
 test: .make/doctest coverage.xml
