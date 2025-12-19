@@ -17,6 +17,34 @@ exclude = '''
 line-length = 79
 skip-magic-trailing-comma = true
 
+[tool.bumpversion]
+allow_dirty = true
+commit = true
+commit_args = "-sS"
+current_version = "0.11.0"
+message = "bump: version {current_version} → {new_version}"
+sign_tags = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "docs/conf.py"
+
+[[tool.bumpversion.files]]
+filename = "constcheck/_version.py"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+replace = 'version = "{new_version}"'
+search = 'version = "{current_version}"'
+
+[[tool.bumpversion.files]]
+filename = "Makefile"
+replace = "VERSION := {new_version}"
+search = "VERSION := {current_version}"
+
+[[tool.bumpversion.files]]
+filename = "SECURITY.md"
+
 [tool.constcheck]
 ignore_strings = [
   "store",
@@ -91,7 +119,7 @@ typing-extensions = "^4.9.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.12.0"
-bump2version = "^1.0.1"
+bump-my-version = "^1.2.5"
 deptry = ">=0.23.1,<0.25.0"
 docsig = "^0.72.0"
 flynt = "^1.0.6"

@@ -198,4 +198,4 @@ tests/TESTS.md: $(VENV)
 bump: part = patch
 #: bump version
 bump: .make/pre-commit
-	@$(POETRY) run bump2version $(part)
+	@$(POETRY) run bump-my-version bump $(part)

@@ -18,7 +18,6 @@ exclude: |
   (?x)^(
     | poetry\.lock
     | migrations\/.*
-    | \.bumpversion\.cfg
     | whitelist\.py
     | \.idea\/.*
     | docs\/conf\.py
