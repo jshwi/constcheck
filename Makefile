@@ -87,3 +87,8 @@ coverage.xml: $(VENV) $(PACKAGE_FILES) $(TEST_FILES)
 	@$(POETRY) run pytest docs README.rst --doctest-glob='*.rst'
 	@mkdir -p $(@D)
 	@touch $@
+
+.PHONY: update-copyright
+#: update copyright year in files containing it
+update-copyright: $(VENV)
+	@$(POETRY) run python3 scripts/update_copyright.py
