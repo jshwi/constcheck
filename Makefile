@@ -7,7 +7,6 @@ else
 endif
 
 all: .make/pre-commit
-remove: remove-poetry remove-hooks remove-deps
 
 #: install poetry
 $(POETRY):
@@ -38,21 +37,17 @@ $(VENV): $(POETRY) poetry.lock
 	@mkdir -p $(@D)
 	@touch $@
 
-remove-hooks: install-pre-commit
-	@poetry run pre-commit uninstall \
-		--hook-type pre-commit \
-		--hook-type pre-merge-commit \
-		--hook-type pre-push \
-		--hook-type prepare-commit-msg \
-		--hook-type commit-msg \
-		--hook-type post-commit \
-		--hook-type post-checkout \
-		--hook-type post-merge \
-		--hook-type post-rewrite
-
-remove-deps:
-	rm -rf $(shell dirname $(shell dirname $(shell poetry run which python)))
-
-remove-poetry:
-	@command -v poetry >/dev/null 2>&1 \
-		|| curl -sSL https://install.python-poetry.org | python3 - --uninstall
+.PHONY: clean
+#: clean compiled files
+clean:
+	@find . -name '__pycache__' -exec rm -rf {} +
+	@rm -rf .coverage
+	@rm -rf .git/hooks/*
+	@rm -rf .make
+	@rm -rf .mypy_cache
+	@rm -rf .pytest_cache
+	@rm -rf .venv
+	@rm -rf bin
+	@rm -rf coverage.xml
+	@rm -rf dist
+	@rm -rf docs/_build
