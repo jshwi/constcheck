@@ -84,7 +84,7 @@ object-colors = "^2.0.1"
 python = "^3.9"
 typing-extensions = "^4.9.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 bump2version = "^1.0.1"
 deptry = "^0.23.1"
 ipython = "^8.6.0"
