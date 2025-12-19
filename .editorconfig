@@ -6,12 +6,20 @@ end_of_line = lf
 indent_size = 2
 indent_style = space
 insert_final_newline = true
-max_line_length = 79
 tab_width = 4
 trim_trailing_whitespace = true
 
 [*.py]
+max_line_length = 79
 indent_size = 4
 
 [Makefile]
+max_line_length = 88
 indent_style = tab
+
+[{scripts,tests}/*.py]
+max_line_length = unset
+indent_size = unset
+
+[*.rst]
+indent_size = unset
