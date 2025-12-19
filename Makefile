@@ -1,6 +1,12 @@
 POETRY := bin/poetry/bin/poetry
 
-all: $(POETRY) install-deps install-hooks
+ifeq ($(OS),Windows_NT)
+	VENV := .venv/Scripts/activate
+else
+	VENV := .venv/bin/activate
+endif
+
+all: $(VENV) install-hooks
 remove: remove-poetry remove-hooks remove-deps
 
 #: install poetry
@@ -9,8 +15,13 @@ $(POETRY):
 		POETRY_HOME="$$(pwd)/bin/poetry" "$$(which python)" - --version 2.2.1
 	@touch $@
 
-install-deps:
-	@POETRY_VIRTUALENVS_IN_PROJECT=1 poetry install
+#: generate virtual environment
+$(VENV): $(POETRY) poetry.lock
+	@[ ! $$(basename "$$($< env info --path)") = ".venv" ] \
+		&& rm -rf "$$($< env info --path)" \
+		|| exit 0
+	@POETRY_VIRTUALENVS_IN_PROJECT=1 $< install
+	@touch $@
 
 install-pre-commit:
 	@poetry run command -v pre-commit > /dev/null 2>&1 \
