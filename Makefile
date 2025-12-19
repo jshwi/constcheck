@@ -6,6 +6,8 @@ else
 	VENV := .venv/bin/activate
 endif
 
+.PHONY: all
+#: install development environment
 all: .make/pre-commit
 
 #: install poetry
