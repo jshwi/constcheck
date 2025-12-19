@@ -1,5 +1,4 @@
-all: install
-install: install-poetry install-deps install-hooks
+all: install-poetry install-deps install-hooks
 remove: remove-poetry remove-hooks remove-deps
 
 install-poetry:
