@@ -36,7 +36,8 @@ def _audit() -> str:
     with tempfile.TemporaryDirectory() as tmp:
         tempdir = Path(tmp)
         subprocess.run(
-            ["sphinx-apidoc", "-o", tempdir, package, "-f"], check=True
+            ["sphinx-apidoc", "-o", tempdir, package, "-f"],
+            check=True,
         )
         return _read_temp(tempdir)
 

@@ -72,7 +72,10 @@ def test_single_file(
     ids=templates.registered.getids(),
 )
 def test_parse_str(
-    main: MockMainType, _: str, template: str, expected: str
+    main: MockMainType,
+    _: str,
+    template: str,
+    expected: str,
 ) -> None:
     """Test results when one file exists.
 
@@ -84,7 +87,8 @@ def test_parse_str(
 
 
 def test_multiple_files_single_packages(
-    main: MockMainType, write_file: WriteFileType
+    main: MockMainType,
+    write_file: WriteFileType,
 ) -> None:
     """Test results when multiple files exist.
 
@@ -176,7 +180,10 @@ def test_multiple_files_single_packages(
             + display((4, LEN_5[0]))
             + header(prefix=PACKAGE[2])
             + display(
-                (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
+                (3, LEN_3[4]),
+                (3, MULTILINE),
+                (3, PLUS[1]),
+                (5, QUOTES[2]),
             )
             + header(prefix=PACKAGE[2], index=17)
             + display((3, PLUS[1]))
@@ -231,11 +238,17 @@ def test_multiple_files_single_packages(
             [PACKAGE[2]],
             header()
             + display(
-                (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
+                (3, LEN_3[4]),
+                (3, MULTILINE),
+                (3, PLUS[1]),
+                (5, QUOTES[2]),
             )
             + header(prefix=PACKAGE[2])
             + display(
-                (3, LEN_3[4]), (3, MULTILINE), (3, PLUS[1]), (5, QUOTES[2])
+                (3, LEN_3[4]),
+                (3, MULTILINE),
+                (3, PLUS[1]),
+                (5, QUOTES[2]),
             )
             + header(prefix=PACKAGE[2], index=17)
             + display((3, PLUS[1]))
@@ -273,7 +286,8 @@ def test_multiple_files_multiple_packages(
 
 
 def test_print_version(
-    monkeypatch: pytest.MonkeyPatch, nocolorcapsys: NoColorCapsys
+    monkeypatch: pytest.MonkeyPatch,
+    nocolorcapsys: NoColorCapsys,
 ) -> None:
     """Test printing of version on commandline.
 
@@ -314,7 +328,10 @@ def test_dequote() -> None:
             2,
             2,
             display(
-                (2, LEN_2[2]), (2, LEN_3[2]), (3, LEN_2[3]), (3, LEN_3[3])
+                (2, LEN_2[2]),
+                (2, LEN_3[2]),
+                (3, LEN_2[3]),
+                (3, LEN_3[3]),
             ),
         ),
         (
@@ -449,7 +466,11 @@ def test_file_ignore_str(
     ids=templates.registered.getgroup(NONE).getids(),
 )
 def test_ignore_files(
-    main: MockMainType, write_file: WriteFileType, name: str, _: str, __: str
+    main: MockMainType,
+    write_file: WriteFileType,
+    name: str,
+    _: str,
+    __: str,
 ) -> None:
     """Test results when multiple files exist.
 
@@ -473,7 +494,11 @@ class TestExit:
         ids=templates.registered.getgroup(NONE).getids(),
     )
     def test_good(
-        self, write_file: WriteFileType, name: str, template: str, _: str
+        self,
+        write_file: WriteFileType,
+        name: str,
+        template: str,
+        _: str,
     ) -> None:
         """Test zero when no results produced.
 
@@ -490,7 +515,11 @@ class TestExit:
         ids=templates.registered.filtergroup(NONE).getids(),
     )
     def test_bad(
-        self, write_file: WriteFileType, name: str, template: str, _: str
+        self,
+        write_file: WriteFileType,
+        name: str,
+        template: str,
+        _: str,
     ) -> None:
         """Test non-zero when constants are detected.
 
@@ -504,7 +533,9 @@ class TestExit:
 
 @pytest.mark.parametrize("sliced", [(0, 2), (2, 4), (4, 6), (6, 8)])
 def test_ignore_from(
-    main: MockMainType, write_file: WriteFileType, sliced: t.Tuple[int, int]
+    main: MockMainType,
+    write_file: WriteFileType,
+    sliced: t.Tuple[int, int],
 ) -> None:
     """Test file/strings passed to ``ignore_from`` only ignores file.
 
@@ -559,7 +590,7 @@ def test_file_args(main: MockMainType, write_file: WriteFileType) -> None:
     assert (
         templates.registered[0].expected
         in main(
-            *[str(Path.cwd() / f"{i.name}.py") for i in templates.registered]
+            *[str(Path.cwd() / f"{i.name}.py") for i in templates.registered],
         )[0]
     )
 
@@ -600,7 +631,8 @@ def test_file_non_rel(  # pylint: disable=too-many-positional-arguments
 
 
 def test_file_ignore_dict_keys(
-    main: MockMainType, write_file: WriteFileType
+    main: MockMainType,
+    write_file: WriteFileType,
 ) -> None:
     """Test results when one file exists.
 

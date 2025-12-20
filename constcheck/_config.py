@@ -22,7 +22,8 @@ class Parser(_ArgumentParser):
             version=__version__,
             prog=_color.cyan.get(NAME),
             formatter_class=lambda prog: _HelpFormatter(
-                prog, max_help_position=45
+                prog,
+                max_help_position=45,
             ),
             description=(
                 "Check Python files for repeat use of strings."
@@ -43,7 +44,10 @@ class Parser(_ArgumentParser):
             help="path(s) to check files for (default: .)",
         )
         self.add_argument(
-            "-n", "--no-ansi", action="store_true", help="disable ansi output"
+            "-n",
+            "--no-ansi",
+            action="store_true",
+            help="disable ansi output",
         )
         self.add_argument(
             "-d",

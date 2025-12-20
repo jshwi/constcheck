@@ -40,7 +40,8 @@ def _audit() -> str:
                 else:
                     if isinstance(value, list):
                         value = "### {}\n\n- {}".format(
-                            key.capitalize(), "\n- ".join(value)
+                            key.capitalize(),
+                            "\n- ".join(value),
                         )
                 _content += f"{value}\n\n"
 

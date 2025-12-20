@@ -94,7 +94,8 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
 
 
 def _remove_ignored_strings(
-    contents: list[_TokenText], ignored_strings: list[str]
+    contents: list[_TokenText],
+    ignored_strings: list[str],
 ) -> None:
     for string in list(contents):
         if str(string) in ignored_strings:
@@ -102,7 +103,10 @@ def _remove_ignored_strings(
 
 
 def _filter_repeats(
-    lines: _TokenList, count: int, length: int, ignore_dict_keys: bool = False
+    lines: _TokenList,
+    count: int,
+    length: int,
+    ignore_dict_keys: bool = False,
 ) -> _FileStringRep:
     handled_lines = [
         i for i in lines if not (ignore_dict_keys and i.isdictkey)
@@ -130,7 +134,8 @@ def _populate_totals(
 
 
 def _nested_update(
-    obj: dict[_t.Any, _t.Any], update: dict[_t.Any, _t.Any]
+    obj: dict[_t.Any, _t.Any],
+    update: dict[_t.Any, _t.Any],
 ) -> dict[_t.Any, _t.Any]:
     # ensure that no entire dict keys with missing nested keys overwrite
     # all other values
@@ -157,7 +162,7 @@ def _get_paths(*pathlikes: _PathLike, ignore_files: list[str]) -> list[_Path]:
             for p in paths
             if not any(i in ignore_files for i in (*p.parts, p.stem))
             and p.name.endswith(".py")
-        }
+        },
     )
 
 
@@ -294,7 +299,11 @@ def constcheck(  # pylint: disable=too-many-arguments
     """
     if string is not None:
         string_contents = _parse_string(
-            string, count, length, ignore_strings or [], ignore_dict_keys
+            string,
+            count,
+            length,
+            ignore_strings or [],
+            ignore_dict_keys,
         )
         return _display(string_contents, no_ansi)
 

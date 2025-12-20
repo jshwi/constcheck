@@ -17,7 +17,8 @@ from ._utils import MockMainType, NoColorCapsys, WriteFileType
 
 @pytest.fixture(name="mock_environment", autouse=True)
 def fixture_mock_environment(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Set the current working dir to temp test path.
 
@@ -42,7 +43,8 @@ def fixture_nocolorcapsys(capsys: pytest.CaptureFixture) -> NoColorCapsys:
 
 @pytest.fixture(name="main")
 def fixture_main(
-    monkeypatch: pytest.MonkeyPatch, nocolorcapsys: NoColorCapsys
+    monkeypatch: pytest.MonkeyPatch,
+    nocolorcapsys: NoColorCapsys,
 ) -> MockMainType:
     """Pass patched commandline arguments to package's main function.
 
@@ -55,7 +57,8 @@ def fixture_main(
     def _main(*args: str) -> t.Tuple[str, ...]:
         """Run main with custom args."""
         monkeypatch.setattr(
-            SYS_ARGV, [constcheck.__name__, *[str(a) for a in args]]
+            SYS_ARGV,
+            [constcheck.__name__, *[str(a) for a in args]],
         )
         constcheck.main()
         return nocolorcapsys.readouterr()

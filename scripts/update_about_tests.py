@@ -41,7 +41,8 @@ def _audit() -> str:
         tests_rst = tmp_docs / "tests.rst"
         tests_rst.write_text(TEST_RST)
         subprocess.run(
-            [sphinx_build, "-M", "markdown", tmp_docs, builddir], check=True
+            [sphinx_build, "-M", "markdown", tmp_docs, builddir],
+            check=True,
         )
         lines = unformatted_md.read_text(encoding="utf-8").splitlines()
         skip_lines = False
