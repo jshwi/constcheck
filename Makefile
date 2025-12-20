@@ -198,4 +198,16 @@ tests/TESTS.md: $(VENV)
 bump: part = patch
 #: bump version
 bump: .make/pre-commit
-	@$(POETRY) run bump-my-version bump $(part)
+	@$(POETRY) run python scripts/bump_version.py $(part)
+
+#: test check news script
+.make/test-check-news: $(VENV) scripts/check_news.py
+	@$(POETRY) run pytest scripts/check_news.py --cov
+	@mkdir -p $(@D)
+	@touch $@
+
+#: test bumping of version
+.make/test-bump: $(VENV) scripts/bump_version.py
+	@$(POETRY) run pytest scripts/bump_version.py
+	@mkdir -p $(@D)
+	@touch $@

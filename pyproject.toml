@@ -71,6 +71,10 @@ omit = [
 
 [tool.deptry.per_rule_ignores]
 DEP004 = [
+  "git",
+  "pytest",
+  "tomli",
+  "tomli_w",
   "yaml"
 ]
 
@@ -122,11 +126,13 @@ bump-my-version = "^1.2.5"
 deptry = ">=0.23.1,<0.25.0"
 docsig = "^0.72.0"
 flynt = "^1.0.6"
+gitpython = "^3.1.45"
 ipython = "^8.6.0"
 marshmallow = "3.19.0"
 mypy = "^1.19.1"
 pre-commit = ">=3.5,<5.0"
 pylint = "^3.3.7"
+pytest = "^9.0.2"
 pytest-cov = "^7.0.0"
 pytest-randomly = "^3.12.0"
 pytest-sugar = "^1.0.0"
@@ -138,7 +144,9 @@ sphinx-toolbox = "^4.1.0"
 sphinxcontrib-fulltoc = "^1.2.0"
 sphinxcontrib-programoutput = "^0.18"
 templatest = ">=0.10.1,<0.13.0"
+tomli = "^2.3.0"
 tomli-w = "^1.0.0"
+towncrier = "^25.8.0"
 vulture = "^2.14"
 
 [tool.poetry.scripts]
@@ -170,3 +178,32 @@ norecursedirs = [
   ".pytest_cache",
   "docs"
 ]
+
+[tool.towncrier]
+directory = "changelog"
+filename = "CHANGELOG.md"
+issue_format = "[#{issue}](https://github.com/jshwi/constcheck/issues/{issue})"
+package = "constcheck"
+start_string = "<!-- release notes start -->\n"
+template = "changelog/_template.md"
+
+[tool.towncrier.fragment.add]
+name = "Added"
+
+[tool.towncrier.fragment.change]
+name = "Changed"
+
+[tool.towncrier.fragment.deprecate]
+name = "Deprecated"
+
+[tool.towncrier.fragment.fix]
+name = "Fixed"
+
+[tool.towncrier.fragment.hack]
+name = "Hacked"
+
+[tool.towncrier.fragment.remove]
+name = "Removed"
+
+[tool.towncrier.fragment.security]
+name = "Security"
