@@ -29,7 +29,8 @@ $(BUILD): .make/doctest \
 	docs/_build/html/index.html \
 	.make/lint \
 	.mypy_cache/CACHEDIR.TAG \
-	docs/_build/linkcheck/output.json
+	docs/_build/linkcheck/output.json \
+	docs/constcheck.rst
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -169,3 +170,8 @@ poetry.lock: pyproject.toml
 #: update dependencies
 deps-update:
 	@$(POETRY) update
+
+#: make custom toc file
+docs/constcheck.rst: $(VENV)
+	@$(POETRY) run python scripts/update_toc.py
+	@touch $@

@@ -63,7 +63,7 @@ repos:
       - id: toc
         name: update docs toctree
         language: system
-        entry: poetry run pyaud toc --fix
+        entry: make docs/constcheck.rst
         pass_filenames: false
       # check imports against dependencies
       - id: deptry
