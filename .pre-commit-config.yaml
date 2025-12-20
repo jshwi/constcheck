@@ -1,10 +1,9 @@
 ci:
   skip:
-    - pylint
+    - lint
     - deptry
     - doctest
     - mypy
-    - docsig
     - vulture
     - coverage
     - toc
@@ -30,9 +29,9 @@ repos:
   - repo: local
     hooks:
       # local so package can be imported to lint
-      - id: pylint
-        name: pylint
-        entry: poetry run pylint
+      - id: lint
+        name: lint
+        entry: make .make/lint
         language: system
         types:
           - python
@@ -47,12 +46,6 @@ repos:
         name: check types
         language: system
         entry: poetry run pyaud typecheck
-        pass_filenames: false
-      # infer imports for overridden methods
-      - id: docsig
-        name: check signature documentation
-        language: system
-        entry: poetry run pyaud params
         pass_filenames: false
       # analyze all files for reliable result
       - id: vulture

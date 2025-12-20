@@ -26,7 +26,8 @@ build: $(BUILD)
 $(BUILD): .make/doctest \
 	coverage.xml \
 	.make/format \
-	docs/_build/html/index.html
+	docs/_build/html/index.html \
+	.make/lint
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -113,5 +114,12 @@ update-copyright: $(VENV)
 	@$(POETRY) run black $(PYTHON_FILES)
 	@$(POETRY) run flynt $(PYTHON_FILES)
 	@$(POETRY) run isort $(PYTHON_FILES)
+	@mkdir -p $(@D)
+	@touch $@
+
+#: lint code
+.make/lint: $(VENV) $(PYTHON_FILES)
+	@$(POETRY) run pylint --output-format=colorized $(PYTHON_FILES)
+	@$(POETRY) run docsig $(PYTHON_FILES)
 	@mkdir -p $(@D)
 	@touch $@
