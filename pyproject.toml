@@ -90,33 +90,32 @@ python = "^3.10"
 typing-extensions = "^4.9.0"
 
 [tool.poetry.group.dev.dependencies]
+black = "^25.12.0"
 bump2version = "^1.0.1"
 deptry = ">=0.23.1,<0.25.0"
+docsig = "^0.72.0"
+flynt = "^1.0.6"
 ipython = "^8.6.0"
 marshmallow = "3.19.0"
+mypy = "^1.19.1"
 pre-commit = ">=3.5,<5.0"
-pyaud = "^8.0.0"
+pylint = "^3.3.7"
+pytest-cov = "^7.0.0"
 pytest-randomly = "^3.12.0"
 pytest-sugar = "^1.0.0"
 pyyaml = "^6.0.3"
 restview = "^3.0.0"
 sphinx-immaterial = ">=0.12.5,<0.14.0"
+sphinx-markdown-builder = "^0.5.5"
 sphinx-toolbox = "^4.1.0"
+sphinxcontrib-fulltoc = "^1.2.0"
+sphinxcontrib-programoutput = "^0.18"
 templatest = ">=0.10.1,<0.13.0"
 tomli-w = "^1.0.0"
+vulture = "^2.14"
 
 [tool.poetry.scripts]
 constcheck = "constcheck.__main__:main"
-
-[tool.pyaud]
-audit = [
-]
-exclude = '''
-(?x)^(
-  | docs\/conf\.py
-  | whitelist\.py
-)$
-'''
 
 [tool.pylint.options]
 disable = [
