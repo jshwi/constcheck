@@ -108,17 +108,20 @@ audit = [
   "commit-policy",
   "const",
   "copyright-year",
+  "coverage",
   "docs",
-  "files",
+  "docstest-package",
+  "doctest-readme",
   "format",
   "format-docs",
   "format-str",
   "imports",
   "lint",
   "params",
-  "test",
+  "toc",
   "typecheck",
-  "unused"
+  "unused",
+  "whitelist"
 ]
 exclude = '''
 (?x)^(
