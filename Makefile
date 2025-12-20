@@ -28,7 +28,8 @@ $(BUILD): .make/doctest \
 	.make/format \
 	docs/_build/html/index.html \
 	.make/lint \
-	.mypy_cache/CACHEDIR.TAG
+	.mypy_cache/CACHEDIR.TAG \
+	docs/_build/linkcheck/output.json
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -139,3 +140,16 @@ whitelist.py: $(VENV) $(PACKAGE_FILES) $(TEST_FILES)
 	@$(POETRY) run vulture whitelist.py constcheck tests
 	@mkdir -p $(@D)
 	@touch $@
+
+#: confirm links in documentation are valid
+docs/_build/linkcheck/output.json: $(VENV) \
+	$(PYTHON_FILES) \
+	$(DOCS_FILES) \
+	CHANGELOG.md \
+	.conform.yaml
+	@trap "rm -f $(@); exit 1" ERR; \
+		{ \
+			ping -c 1 constcheck.readthedocs.io >/dev/null 2>&1 \
+			|| { echo "could not establish connection, skipping"; exit 0; }; \
+			$(POETRY) run $(MAKE) -C docs linkcheck; \
+		}
