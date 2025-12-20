@@ -1,6 +1,6 @@
 constcheck
 ==========
-|License| |PyPI| |CI| |CodeQL| |pre-commit.ci status| |codecov.io| |readthedocs.org| |python3.10| |Black| |isort| |docformatter| |pylint| |Security Status| |Known Vulnerabilities| |constcheck|
+|License| |PyPI| |CI| |CodeQL| |pre-commit.ci status| |codecov.io| |readthedocs.org| |python3.10| |Black| |isort| |pylint| |Security Status| |Known Vulnerabilities| |constcheck|
 
 .. |License| image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :target: https://opensource.org/licenses/MIT
@@ -32,9 +32,6 @@ constcheck
 .. |isort| image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
     :target: https://pycqa.github.io/isort/
     :alt: isort
-.. |docformatter| image:: https://img.shields.io/badge/%20formatter-docformatter-fedcba.svg
-    :target: https://github.com/PyCQA/docformatter
-    :alt: docformatter
 .. |pylint| image:: https://img.shields.io/badge/linting-pylint-yellowgreen
     :target: https://github.com/PyCQA/pylint
     :alt: pylint

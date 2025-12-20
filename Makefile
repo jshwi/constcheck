@@ -34,7 +34,6 @@ $(BUILD): .make/doctest \
 	tests/TESTS.md \
 	.github/COMMIT_POLICY.md \
 	.make/const
-	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
 
