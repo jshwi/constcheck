@@ -127,6 +127,10 @@ disable = [
   "consider-using-f-string",
   "fixme"
 ]
+ignore-patterns = [
+  'conf\.py',
+  'whitelist\.py'
+]
 min-similarity-lines = 4
 
 [tool.pytest.ini_options]

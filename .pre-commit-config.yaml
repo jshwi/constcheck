@@ -36,7 +36,6 @@ repos:
         language: system
         types:
           - python
-        exclude: ^(docs/conf\.py)$
       # test docs
       - id: doctest
         name: doctest
