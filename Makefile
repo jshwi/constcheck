@@ -24,7 +24,8 @@ build: $(BUILD)
 
 #: build and check integrity of distribution
 $(BUILD): .make/doctest \
-	coverage.xml
+	coverage.xml \
+	.make/format
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -92,3 +93,11 @@ coverage.xml: $(VENV) $(PACKAGE_FILES) $(TEST_FILES)
 #: update copyright year in files containing it
 update-copyright: $(VENV)
 	@$(POETRY) run python3 scripts/update_copyright.py
+
+#: run checks that format code
+.make/format: $(VENV) $(PYTHON_FILES)
+	@$(POETRY) run black $(PYTHON_FILES)
+	@$(POETRY) run flynt $(PYTHON_FILES)
+	@$(POETRY) run isort $(PYTHON_FILES)
+	@mkdir -p $(@D)
+	@touch $@
