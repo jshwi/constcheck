@@ -110,7 +110,6 @@ constcheck = "constcheck.__main__:main"
 
 [tool.pyaud]
 audit = [
-  "const",
   "format-docs"
 ]
 exclude = '''

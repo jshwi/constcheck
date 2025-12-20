@@ -32,7 +32,8 @@ $(BUILD): .make/doctest \
 	docs/_build/linkcheck/output.json \
 	docs/constcheck.rst \
 	tests/TESTS.md \
-	.github/COMMIT_POLICY.md
+	.github/COMMIT_POLICY.md \
+	.make/const
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -187,4 +188,9 @@ tests/TESTS.md: $(VENV)
 #: make commit policy doc
 .github/COMMIT_POLICY.md: $(VENV)
 	@$(POETRY) run python scripts/update_commit_policy.py
+	@touch $@
+
+#: make commit policy doc
+.make/const: $(VENV)
+	@$(POETRY) run constcheck $(PACKAGE_FILES) $(TEST_FILES)
 	@touch $@
