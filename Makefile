@@ -164,3 +164,8 @@ docs/_build/linkcheck/output.json: $(VENV) \
 poetry.lock: pyproject.toml
 	@$(POETRY) lock
 	@touch $@
+
+.PHONY: deps-update
+#: update dependencies
+deps-update:
+	@$(POETRY) update
