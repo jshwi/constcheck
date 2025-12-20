@@ -124,7 +124,8 @@ exclude = '''
 
 [tool.pylint.options]
 disable = [
-  "consider-using-f-string"
+  "consider-using-f-string",
+  "fixme"
 ]
 min-similarity-lines = 4
 
