@@ -205,3 +205,9 @@ repos:
     rev: v3.2.0
     hooks:
       - id: add-trailing-comma
+  - repo: https://github.com/codespell-project/codespell
+    rev: "v2.4.1"
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli
