@@ -159,3 +159,8 @@ docs/_build/linkcheck/output.json: $(VENV) \
 	@$(POETRY) run deptry .
 	@mkdir -p $(@D)
 	@touch $@
+
+#: poetry lock
+poetry.lock: pyproject.toml
+	@$(POETRY) lock
+	@touch $@
