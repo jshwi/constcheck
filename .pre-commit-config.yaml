@@ -85,7 +85,7 @@ repos:
       - id: commit-policy
         name: commit policy
         language: system
-        entry: poetry run pyaud commit-policy
+        entry: make .github/COMMIT_POLICY.md
         pass_filenames: false
       # check copyright year in license
       - id: copyright-year

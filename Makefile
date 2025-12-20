@@ -31,7 +31,8 @@ $(BUILD): .make/doctest \
 	.mypy_cache/CACHEDIR.TAG \
 	docs/_build/linkcheck/output.json \
 	docs/constcheck.rst \
-	tests/TESTS.md
+	tests/TESTS.md \
+	.github/COMMIT_POLICY.md
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -130,6 +131,7 @@ update-copyright: $(VENV)
 
 #: check typing
 .mypy_cache/CACHEDIR.TAG: $(VENV) $(PYTHON_FILES)
+	@$(POETRY) run python -m pip install types-PyYAML
 	@$(POETRY) run mypy $(PYTHON_FILES)
 	@touch $@
 
@@ -180,4 +182,9 @@ docs/constcheck.rst: $(VENV)
 #: make readme for tests
 tests/TESTS.md: $(VENV)
 	@$(POETRY) run python scripts/update_about_tests.py
+	@touch $@
+
+#: make commit policy doc
+.github/COMMIT_POLICY.md: $(VENV)
+	@$(POETRY) run python scripts/update_commit_policy.py
 	@touch $@
