@@ -153,3 +153,9 @@ docs/_build/linkcheck/output.json: $(VENV) \
 			|| { echo "could not establish connection, skipping"; exit 0; }; \
 			$(POETRY) run $(MAKE) -C docs linkcheck; \
 		}
+
+#: check dependencies are properly managed
+.make/check-deps: $(VENV) $(PYTHON_FILES) pyproject.toml
+	@$(POETRY) run deptry .
+	@mkdir -p $(@D)
+	@touch $@
