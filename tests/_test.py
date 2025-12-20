@@ -262,7 +262,7 @@ def test_multiple_files_multiple_packages(
     :param args: Parameters for ``constcheck.main``.
     :param expected: Expected result from test.
     """
-    package_no = 0
+    package_no = 0  # noqa: SIM113
     for name, template, _ in templates.registered.filtergroup(ESCAPED):
         write_file(Path.cwd() / PACKAGE[package_no] / f"{name}.py", template)
         package_no += 1
