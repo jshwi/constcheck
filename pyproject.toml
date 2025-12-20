@@ -109,7 +109,6 @@ audit = [
   "const",
   "format-docs",
   "toc",
-  "typecheck",
   "unused",
   "whitelist"
 ]

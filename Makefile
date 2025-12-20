@@ -27,7 +27,8 @@ $(BUILD): .make/doctest \
 	coverage.xml \
 	.make/format \
 	docs/_build/html/index.html \
-	.make/lint
+	.make/lint \
+	.mypy_cache/CACHEDIR.TAG
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -122,4 +123,9 @@ update-copyright: $(VENV)
 	@$(POETRY) run pylint --output-format=colorized $(PYTHON_FILES)
 	@$(POETRY) run docsig $(PYTHON_FILES)
 	@mkdir -p $(@D)
+	@touch $@
+
+#: check typing
+.mypy_cache/CACHEDIR.TAG: $(VENV) $(PYTHON_FILES)
+	@$(POETRY) run mypy $(PYTHON_FILES)
 	@touch $@
