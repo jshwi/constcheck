@@ -10,6 +10,9 @@ ci:
     - commit-policy
     - copyright-year
     - update-whitelist
+    - check-unstaged-news
+    - check-news
+    - test-check-news
 default_language_version:
   python: "3.10"
 default_stages:
@@ -23,6 +26,7 @@ exclude: |
     | docs\/conf\.py
     | tests\/TESTS\.md
     | \.github\/COMMIT_POLICY\.md
+    | changelog\/.*
   )$
 repos:
   - repo: local
@@ -91,6 +95,25 @@ repos:
         name: copyright year
         language: system
         entry: make update-copyright
+        pass_filenames: false
+      - id: check-unstaged-news
+        name: Check Unstaged News
+        entry: |
+          bash -c
+          'git status --porcelain changelog | grep "??" && exit 1 || exit 0'
+        language: system
+        stages:
+          - pre-commit
+      - id: check-news
+        name: Check News
+        entry: poetry run python scripts/check_news.py
+        language: system
+        stages:
+          - commit-msg
+      - id: test-check-news
+        name: Test Check News
+        entry: make .make/test-check-news
+        language: system
         pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.6.0"
