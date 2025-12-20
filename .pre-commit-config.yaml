@@ -79,7 +79,7 @@ repos:
       - id: about-tests
         name: about tests
         language: system
-        entry: poetry run pyaud about-tests
+        entry: make tests/TESTS.md
         pass_filenames: false
       # check .github/COMMIT_POLICY.md is up-to-date
       - id: commit-policy

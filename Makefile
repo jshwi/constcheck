@@ -30,7 +30,8 @@ $(BUILD): .make/doctest \
 	.make/lint \
 	.mypy_cache/CACHEDIR.TAG \
 	docs/_build/linkcheck/output.json \
-	docs/constcheck.rst
+	docs/constcheck.rst \
+	tests/TESTS.md
 	@$(POETRY) run pyaud audit
 	@$(POETRY) build
 	@touch $@
@@ -174,4 +175,9 @@ deps-update:
 #: make custom toc file
 docs/constcheck.rst: $(VENV)
 	@$(POETRY) run python scripts/update_toc.py
+	@touch $@
+
+#: make readme for tests
+tests/TESTS.md: $(VENV)
+	@$(POETRY) run python scripts/update_about_tests.py
 	@touch $@
