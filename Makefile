@@ -129,3 +129,13 @@ update-copyright: $(VENV)
 .mypy_cache/CACHEDIR.TAG: $(VENV) $(PYTHON_FILES)
 	@$(POETRY) run mypy $(PYTHON_FILES)
 	@touch $@
+
+#: generate whitelist of allowed unused code
+whitelist.py: $(VENV) $(PACKAGE_FILES) $(TEST_FILES)
+	@$(POETRY) run vulture --make-whitelist constcheck tests > $@ || exit 0
+
+#: check for unused code
+.make/unused: whitelist.py
+	@$(POETRY) run vulture whitelist.py constcheck tests
+	@mkdir -p $(@D)
+	@touch $@

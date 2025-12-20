@@ -108,9 +108,7 @@ audit = [
   "commit-policy",
   "const",
   "format-docs",
-  "toc",
-  "unused",
-  "whitelist"
+  "toc"
 ]
 exclude = '''
 (?x)^(

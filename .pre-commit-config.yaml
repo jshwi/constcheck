@@ -9,6 +9,7 @@ ci:
     - about-tests
     - commit-policy
     - copyright-year
+    - update-whitelist
 default_language_version:
   python: python3.10
 default_stages:
@@ -40,11 +41,17 @@ repos:
         language: system
         entry: make .make/doctest
         pass_filenames: false
+      # update whitelist
+      - id: update-whitelist
+        name: update whitelist
+        language: system
+        entry: make whitelist.py
+        pass_filenames: false
       # analyze all files for reliable result
       - id: vulture
         name: check for unused code
         language: system
-        entry: poetry run pyaud unused
+        entry: make .make/unused
         pass_filenames: false
       # script also handles coverage
       - id: coverage
