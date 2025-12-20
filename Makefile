@@ -193,3 +193,9 @@ tests/TESTS.md: $(VENV)
 .make/const: $(VENV)
 	@$(POETRY) run constcheck $(PACKAGE_FILES) $(TEST_FILES)
 	@touch $@
+
+.PHONY: bump
+bump: part = patch
+#: bump version
+bump: .make/pre-commit
+	@$(POETRY) run bump2version $(part)
