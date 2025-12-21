@@ -41,7 +41,7 @@ constcheck
 .. |Known Vulnerabilities| image:: https://snyk.io/test/github/jshwi/constcheck/badge.svg
     :target: https://snyk.io/test/github/jshwi/constcheck/badge.svg
     :alt: Known Vulnerabilities
-.. |constcheck| image:: https://snyk.io/advisor/python/docsig/badge.svg
+.. |constcheck| image:: https://snyk.io/advisor/python/constcheck/badge.svg
     :target: https://snyk.io/advisor/python/constcheck
     :alt: constcheck
 
