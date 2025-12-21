@@ -3,7 +3,6 @@ ci:
     - lint
     - deptry
     - doctest
-    - mypy
     - vulture
     - coverage
     - toc
@@ -40,12 +39,6 @@ repos:
         name: doctest
         language: system
         entry: make .make/doctest
-        pass_filenames: false
-      # script installs stubs if necessary
-      - id: mypy
-        name: check types
-        language: system
-        entry: poetry run pyaud typecheck
         pass_filenames: false
       # analyze all files for reliable result
       - id: vulture
@@ -199,3 +192,8 @@ repos:
     rev: "5.13.2"
     hooks:
       - id: isort
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.16.1"
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-pyyaml==6.0.12]
