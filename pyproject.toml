@@ -20,7 +20,7 @@ line-length = 79
 allow_dirty = true
 commit = true
 commit_args = "-sS"
-current_version = "0.11.0"
+current_version = "0.12.0"
 message = "bump: version {current_version} → {new_version}"
 sign_tags = true
 tag = true
@@ -112,7 +112,7 @@ maintainers = [
 name = "constcheck"
 readme = "README.rst"
 repository = "https://github.com/jshwi/constcheck"
-version = "0.11.0"
+version = "0.12.0"
 
 [tool.poetry.dependencies]
 arcon = "^0"
