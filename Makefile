@@ -1,4 +1,8 @@
+VERSION := 0.11.0
+
 POETRY := bin/poetry/bin/poetry
+
+BUILD := dist/constcheck-$(VERSION)-py3-none-any.whl
 
 ifeq ($(OS),Windows_NT)
 	VENV := .venv/Scripts/activate
@@ -9,6 +13,16 @@ endif
 .PHONY: all
 #: install development environment
 all: .make/pre-commit
+
+.PHONY: build
+#: phony target for build
+build: $(BUILD)
+
+#: build and check integrity of distribution
+$(BUILD): $(VENV)
+	@$(POETRY) run pyaud audit
+	@$(POETRY) build
+	@touch $@
 
 #: install poetry
 $(POETRY):
