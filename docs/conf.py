@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "constcheck"
-copyright = "2023, Stephen Whitlock"
+copyright = "2025, Stephen Whitlock"
 author = "Stephen Whitlock"
 
 # The full version, including alpha/beta/rc tags
