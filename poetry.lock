@@ -875,18 +875,6 @@ files = [
 ]
 
 [[package]]
-name = "html2text"
-version = "2025.4.15"
-description = "Turn HTML into equivalent Markdown-structured text."
-optional = false
-python-versions = ">=3.9"
-groups = ["dev"]
-files = [
-    {file = "html2text-2025.4.15-py3-none-any.whl", hash = "sha256:00569167ffdab3d7767a4cdf589b7f57e777a5ed28d12907d8c58769ec734acc"},
-    {file = "html2text-2025.4.15.tar.gz", hash = "sha256:948a645f8f0bc3abe7fd587019a2197a12436cd73d0d4908af95bfc8da337588"},
-]
-
-[[package]]
 name = "html5lib"
 version = "1.1"
 description = "HTML parser based on the WHATWG HTML specification"
@@ -1924,24 +1912,6 @@ toml = ["tomli (>=2.0.1)"]
 yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
-name = "pydash"
-version = "8.0.5"
-description = "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library."
-optional = false
-python-versions = ">=3.8"
-groups = ["dev"]
-files = [
-    {file = "pydash-8.0.5-py3-none-any.whl", hash = "sha256:b2625f8981862e19911daa07f80ed47b315ce20d9b5eb57aaf97aaf570c3892f"},
-    {file = "pydash-8.0.5.tar.gz", hash = "sha256:7cc44ebfe5d362f4f5f06c74c8684143c5ac481376b059ff02570705523f9e2e"},
-]
-
-[package.dependencies]
-typing-extensions = ">3.10,<4.6.0 || >4.6.0"
-
-[package.extras]
-dev = ["build", "coverage", "furo", "invoke", "mypy", "pytest", "pytest-cov", "pytest-mypy-testing", "ruff", "sphinx", "sphinx-autodoc-typehints", "tox", "twine", "wheel"]
-
-[[package]]
 name = "pygments"
 version = "2.19.2"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -2648,22 +2618,23 @@ standard-imghdr = {version = "3.10.14", markers = "python_version >= \"3.13\""}
 
 [[package]]
 name = "sphinx-markdown-builder"
-version = "0.5.5"
-description = "sphinx builder that outputs markdown files"
+version = "0.6.9"
+description = "A Sphinx extension to add markdown generation support."
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 groups = ["dev"]
 files = [
-    {file = "sphinx-markdown-builder-0.5.5.tar.gz", hash = "sha256:6ead53c08d8835329e32418dcdbac4db710a1c4e5e8db687d23b9e88882d9d16"},
-    {file = "sphinx_markdown_builder-0.5.5-py2.py3-none-any.whl", hash = "sha256:3c8909579dfa83ce5a8fb48e2d01dc257fc0676931170cb92cd528f9fceee76f"},
+    {file = "sphinx_markdown_builder-0.6.9-py3-none-any.whl", hash = "sha256:35b555760c48d4a38fe4b27813cb5ca636bbd22d8ef0742ac6959043f8000840"},
+    {file = "sphinx_markdown_builder-0.6.9.tar.gz", hash = "sha256:e89dc1b9eb837da430c2c230011fad95a3dfab0345ad503a32e35a31d284a722"},
 ]
 
 [package.dependencies]
-html2text = "*"
-pydash = "*"
-sphinx = "*"
-unify = "*"
-yapf = "*"
+docutils = "*"
+sphinx = ">=5.1.0"
+tabulate = "*"
+
+[package.extras]
+dev = ["black", "bumpver", "coveralls", "flake8", "isort", "pip-tools", "pylint", "pytest", "pytest-cov", "sphinx (>=9.0.4)", "sphinxcontrib-plantuml", "sphinxcontrib.httpdomain"]
 
 [[package]]
 name = "sphinx-prompt"
@@ -3113,31 +3084,6 @@ files = [
 typing-extensions = ">=4.12.0"
 
 [[package]]
-name = "unify"
-version = "0.5"
-description = "Modifies strings to all use the same (single/double) quote where possible."
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "unify-0.5.tar.gz", hash = "sha256:8ddce812b2457212b7598fe574c9e6eb3ad69710f445391338270c7f8a71723c"},
-]
-
-[package.dependencies]
-untokenize = "*"
-
-[[package]]
-name = "untokenize"
-version = "0.1.1"
-description = "Transforms tokens into original source code (while preserving whitespace)."
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "untokenize-0.1.1.tar.gz", hash = "sha256:3865dbbbb8efb4bb5eaa72f1be7f3e0be00ea8b7f125c69cbd1f5fda926f37a2"},
-]
-
-[[package]]
 name = "urllib3"
 version = "2.6.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -3231,23 +3177,7 @@ files = [
     {file = "webencodings-0.5.1.tar.gz", hash = "sha256:b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"},
 ]
 
-[[package]]
-name = "yapf"
-version = "0.43.0"
-description = "A formatter for Python code"
-optional = false
-python-versions = ">=3.7"
-groups = ["dev"]
-files = [
-    {file = "yapf-0.43.0-py3-none-any.whl", hash = "sha256:224faffbc39c428cb095818cf6ef5511fdab6f7430a10783fdfb292ccf2852ca"},
-    {file = "yapf-0.43.0.tar.gz", hash = "sha256:00d3aa24bfedff9420b2e0d5d9f5ab6d9d4268e72afbf59bb3fa542781d5218e"},
-]
-
-[package.dependencies]
-platformdirs = ">=3.5.1"
-tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
-
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "de7fbd59bb687ef449c71d88b3efbec4c02ecf63d0e0f98b37e9ba1312d4bcf6"
+content-hash = "381784ae9594599783a0097ab1ef87790339bebba74370aa540cca5bd0bf3505"
