@@ -31,8 +31,6 @@ $(BUILD): .make/doctest \
 	.mypy_cache/CACHEDIR.TAG \
 	docs/_build/linkcheck/output.json \
 	docs/constcheck.rst \
-	tests/TESTS.md \
-	.github/COMMIT_POLICY.md \
 	.make/const
 	@$(POETRY) build
 	@touch $@
@@ -173,21 +171,6 @@ poetry.lock: pyproject.toml
 #: update dependencies
 deps-update:
 	@$(POETRY) update
-
-#: make custom toc file
-docs/constcheck.rst: $(VENV)
-	@$(POETRY) run python scripts/update_toc.py
-	@touch $@
-
-#: make readme for tests
-tests/TESTS.md: $(VENV)
-	@$(POETRY) run python scripts/update_about_tests.py
-	@touch $@
-
-#: make commit policy doc
-.github/COMMIT_POLICY.md: $(VENV)
-	@$(POETRY) run python scripts/update_commit_policy.py
-	@touch $@
 
 #: make commit policy doc
 .make/const: $(VENV)

@@ -6,8 +6,6 @@ ci:
     - vulture
     - coverage
     - toc
-    - about-tests
-    - commit-policy
     - copyright-year
     - update-whitelist
     - check-unstaged-news
@@ -24,8 +22,6 @@ exclude: |
     | whitelist\.py
     | \.idea\/.*
     | docs\/conf\.py
-    | tests\/TESTS\.md
-    | \.github\/COMMIT_POLICY\.md
     | changelog\/.*
   )$
 repos:
@@ -77,18 +73,6 @@ repos:
         entry: make .make/check-deps
         language: system
         always_run: true
-        pass_filenames: false
-      # check tests/TESTS.md is up-to-date
-      - id: about-tests
-        name: about tests
-        language: system
-        entry: make tests/TESTS.md
-        pass_filenames: false
-      # check .github/COMMIT_POLICY.md is up-to-date
-      - id: commit-policy
-        name: commit policy
-        language: system
-        entry: make .github/COMMIT_POLICY.md
         pass_filenames: false
       # check copyright year in license
       - id: copyright-year
@@ -177,6 +161,7 @@ repos:
         exclude: |
           (?x)^(
             | scripts\/.*
+            | docs\/extensions\/.*
           )$
   - repo: https://github.com/pre-commit/pre-commit
     rev: "v4.5.1"

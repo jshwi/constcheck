@@ -1,11 +1,18 @@
-constcheck docs
-===============
+.. include:: constcheck.rst
 
 .. toctree::
-   :maxdepth: 2
-   :name: mastertoc
+   :caption: Usage
+   :titlesonly:
+   :hidden:
 
-   constcheck
-   readme
+   usage/api
+   usage/configuration
 
-This documentation was last updated on |today|
+.. toctree::
+   :caption: Development
+   :titlesonly:
+   :hidden:
+
+   development/contributing
+   development/tests
+   development/changelog
