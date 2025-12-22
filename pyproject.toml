@@ -137,16 +137,18 @@ pytest-randomly = "^3.12.0"
 pytest-sugar = "^1.0.0"
 pyyaml = "^6.0.3"
 restview = "^3.0.0"
-sphinx-immaterial = ">=0.12.5,<0.14.0"
-sphinx-markdown-builder = "^0.5.5"
-sphinx-toolbox = "^4.1.0"
-sphinxcontrib-fulltoc = "^1.2.0"
-sphinxcontrib-programoutput = "^0.18"
 templatest = ">=0.10.1,<0.13.0"
 tomli = "^2.3.0"
 tomli-w = "^1.0.0"
 towncrier = "^25.8.0"
 vulture = "^2.14"
+
+[tool.poetry.group.docs.dependencies]
+sphinx-immaterial = ">=0.12.5,<0.14.0"
+sphinx-markdown-builder = "^0.5.5"
+sphinx-toolbox = "^4.1.0"
+sphinxcontrib-fulltoc = "^1.2.0"
+sphinxcontrib-programoutput = "^0.18"
 
 [tool.poetry.scripts]
 constcheck = "constcheck.__main__:main"
