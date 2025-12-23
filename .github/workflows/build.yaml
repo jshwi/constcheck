@@ -6,6 +6,11 @@ on:
   pull_request:
     branches:
       - master
+
+env:
+  PYTHONIOENCODING: utf-8
+  POETRY: bin/poetry/bin/poetry
+
 jobs:
   build:
     name: ${{ matrix.os }}-python${{ matrix.python-version }}
@@ -43,3 +48,7 @@ jobs:
       - name: Check Dependencies
         id: check-dependencies
         run: make .make/check-deps
+      - name: Test Scripts
+        id: test-scripts
+        run: |
+          make .make/test-check-news
