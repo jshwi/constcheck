@@ -114,7 +114,7 @@ API
 
 .. code-block:: python
 
-    >>> constcheck(string=EXAMPLE)
+    >>> constcheck(string=EXAMPLE, no_ansi=True)
     3   | Hey
     4   | Hello
     5   | Hello, world
@@ -125,7 +125,7 @@ With the ``count`` argument
 
 .. code-block:: python
 
-    >>> constcheck(string=EXAMPLE, count=4)
+    >>> constcheck(string=EXAMPLE, count=4, no_ansi=True)
     4   | Hello
     5   | Hello, world
     <BLANKLINE>
@@ -135,7 +135,7 @@ With the ``length`` argument
 
 .. code-block:: python
 
-    >>> constcheck(string=EXAMPLE, length=6)
+    >>> constcheck(string=EXAMPLE, length=6, no_ansi=True)
     5   | Hello, world
     <BLANKLINE>
     1
@@ -144,7 +144,7 @@ With the ``ignore_strings`` argument which accepts ``list`` of ``str`` objects
 
 .. code-block:: python
 
-    >>> constcheck(string=EXAMPLE, ignore_strings=["Hello, world", "Hello"])
+    >>> constcheck(string=EXAMPLE, ignore_strings=["Hello, world", "Hello"], no_ansi=True)
     3   | Hey
     <BLANKLINE>
     1
