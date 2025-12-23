@@ -11,6 +11,16 @@ and the changes for the upcoming release can be found in
 
 <!-- release notes start -->
 
+## [0.13.0](https://github.com/jshwi/constcheck/tree/v0.13.0) - 2025-12-23
+
+### Added
+
+- support for python3.12 ([#312](https://github.com/jshwi/constcheck/issues/312))
+
+### Fixed
+
+- handle f-strings for python3.12 and above ([#312](https://github.com/jshwi/constcheck/issues/312))
+
 ## [0.11.0](https://github.com/jshwi/constcheck/tree/v0.11.0) - 2025-12-19
 
 ### Added
