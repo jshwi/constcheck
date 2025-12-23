@@ -63,6 +63,15 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
         if any([ttext.islsqb, ttext.isrsqb, ttext.islbrace, ttext.isrbrace]):
             split = True
 
+        if (
+            contents  # pylint: disable=too-many-boolean-expressions
+            and (parens or prev_ttext.isplus)
+            and not (split or prev_ttext.iscomma)
+            and (prev_ttext.data == 'f"' and pop)
+        ):
+            contents.pop()  # pragma: no cover
+            continue  # pragma: no cover
+
         if ttype.isstr and not ttext.isdoc(prev_ttext, prev_ttype):
             ttext = ttext.strip().lstrip()
 
@@ -75,8 +84,8 @@ def _get_strings(textio: _t.TextIO) -> _TokenList:
                 and not (split or prev_ttext.iscomma)
             ):
                 if ttext.isfstring and pop:
-                    contents.pop()
-                    pop = False
+                    contents.pop()  # pragma: no cover
+                    pop = False  # pragma: no cover
                 else:
                     contents[-1] += ttext.dequote
                     pop = True
