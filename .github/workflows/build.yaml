@@ -52,3 +52,8 @@ jobs:
         id: test-scripts
         run: |
           make .make/test-check-news
+      - name: Upload Coverage
+        id: upload-coverage
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
