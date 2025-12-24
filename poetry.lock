@@ -612,14 +612,14 @@ files = [
 
 [[package]]
 name = "docsig"
-version = "0.72.0"
+version = "0.72.1"
 description = "Check signature params for proper documentation"
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["dev"]
 files = [
-    {file = "docsig-0.72.0-py3-none-any.whl", hash = "sha256:661b3189f1ced8938c25a7c9f9c95762d7b85edbaa8988a6ca4b95783269d19f"},
-    {file = "docsig-0.72.0.tar.gz", hash = "sha256:7d5d3ee6382d1591b6cb3858f74105521153809929d2b7be3b60a679a8e22731"},
+    {file = "docsig-0.72.1-py3-none-any.whl", hash = "sha256:6172148015a558be94847e960de54d07cd504b4c246994d0e096f30c1e538d39"},
+    {file = "docsig-0.72.1.tar.gz", hash = "sha256:3d57ac3cb0172d7cc95c035b5f9a5fa1af9b63c4b7c2ec5892013832563f1171"},
 ]
 
 [package.dependencies]
